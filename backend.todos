@@ -1,1 +1,5 @@
+✔ Setup a simple server with express @done(25-03-24 13:21)
+✔ Setup a straightforward keyword extractor function @done(25-03-24 13:21)
+✔ Setup reddit API integration for reddit data collection @done(25-03-24 14:28)
 - Develop a basic integration with Google Trends that returns real data 
+- Add More Validation Logic for the keyword extractor
