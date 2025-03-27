@@ -43,18 +43,18 @@ async function classifyBusinessIdea(businessDescription, options = {}) {
       error = err;
     }
     
-    // // Step 2: If OpenAI fails, try Anthropic
-    // if (!result && error) {
-    //   try {
-    //     console.log('Falling back to Anthropic classification');
-    //     result = await classifyWithAnthropic(sanitizedDescription, { includeReasoning });
-    //     console.log('Successfully classified with Anthropic');
-    //     error = null;
-    //   } catch (err) {
-    //     console.error('Anthropic classification failed:', err.message);
-    //     error = err;
-    //   }
-    // }
+    // Step 2: If OpenAI fails, try Anthropic
+    if (!result && error) {
+      try {
+        console.log('Falling back to Anthropic classification');
+        result = await classifyWithAnthropic(sanitizedDescription, { includeReasoning });
+        console.log('Successfully classified with Anthropic');
+        error = null;
+      } catch (err) {
+        console.error('Anthropic classification failed:', err.message);
+        error = err;
+      }
+    }
     
     // Step 3: Final fallback to rule-based approach
     if (!result && error) {
