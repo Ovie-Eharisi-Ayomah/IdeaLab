@@ -32,9 +32,34 @@ async function identifySegmentsWithLLM(businessDescription, classification, opti
     // Try OpenAI first
     try {
       console.log('Attempting segmentation with OpenAI...');
-      const result = await identifySegmentsWithOpenAI(businessDescription, classification, options);
+      
+      // First get a text response for better excluded segments extraction
+      const textResult = await getOpenAITextResponse(businessDescription, classification, options);
+      const textBasedSegments = parseSegmentationResponse(textResult);
+      
+      // Then get a more structured JSON response for primary segments
+      let jsonResult = await identifySegmentsWithOpenAI(businessDescription, classification, options);
+      
+      // Post-process the result to filter out empty segments
+      if (jsonResult.primarySegments) {
+        jsonResult.primarySegments = jsonResult.primarySegments.filter(segment => {
+          // Check if the segment has actual content
+          return segment.description && 
+                 segment.description.trim() !== '' && 
+                 segment.percentage !== null;
+        });
+      }
+      
+      // If we found excluded segments in the text but not in the JSON, merge them
+      if ((!jsonResult.excludedSegments || jsonResult.excludedSegments.length === 0) && 
+          textBasedSegments.excludedSegments && 
+          textBasedSegments.excludedSegments.length > 0) {
+        console.log('Using excluded segments from text response');
+        jsonResult.excludedSegments = textBasedSegments.excludedSegments;
+      }
+      
       console.log('Successfully segmented with OpenAI');
-      return result;
+      return jsonResult;
     } catch (err) {
       console.error('OpenAI segmentation failed:', err.message);
       
@@ -51,14 +76,15 @@ async function identifySegmentsWithLLM(businessDescription, classification, opti
 }
 
 /**
- * Identify segments using OpenAI
+ * Get a free-form text response from OpenAI
+ * This is good for extracting excluded segments which sometimes get missed in JSON
  * 
  * @param {string} businessDescription - Business description
  * @param {Object} classification - Business classification
  * @param {Object} options - Segmentation options
- * @returns {Promise<Object>} Segmentation results
+ * @returns {Promise<string>} Raw text response
  */
-async function identifySegmentsWithOpenAI(businessDescription, classification, options) {
+async function getOpenAITextResponse(businessDescription, classification, options) {
   const { numberOfSegments, includeExcludedSegments } = options;
   
   // Create system prompt
@@ -70,28 +96,116 @@ async function identifySegmentsWithOpenAI(businessDescription, classification, o
   // Set timeout to prevent hanging requests
   const timeoutMs = 30000; // 30 seconds
   const timeoutPromise = new Promise((_, reject) => 
-    setTimeout(() => reject(new Error('OpenAI request timed out')), timeoutMs)
+    setTimeout(() => reject(new Error('OpenAI text request timed out')), timeoutMs)
   );
   
-  // Make the OpenAI request with a timeout
-  const openAIPromise = openai.chat.completions.create({
+  // Make the OpenAI request with a timeout - using text format
+  const textPromise = openai.chat.completions.create({
     model: 'gpt-4o',
     messages: [
       { role: 'system', content: systemPrompt },
       { role: 'user', content: userPrompt }
     ],
-    temperature: 0.7, // Slightly higher to encourage creative segment identification
+    temperature: 0.7,
     max_tokens: 2500
   });
   
   // Race between the API call and the timeout
-  const response = await Promise.race([openAIPromise, timeoutPromise]);
+  const response = await Promise.race([textPromise, timeoutPromise]);
   
-  // Parse the response content
-  const content = response.choices[0].message.content;
+  // Return the raw text content
+  return response.choices[0].message.content;
+}
+
+/**
+ * Identify segments using OpenAI with JSON formatting
+ * 
+ * @param {string} businessDescription - Business description
+ * @param {Object} classification - Business classification
+ * @param {Object} options - Segmentation options
+ * @returns {Promise<Object>} Segmentation results
+ */
+async function identifySegmentsWithOpenAI(businessDescription, classification, options) {
+  const { numberOfSegments, includeExcludedSegments } = options;
   
-  // Parse the segmentation from the response
-  return parseSegmentationResponse(content);
+  try {
+    // Create system prompt with explicit JSON schema
+    const jsonSystemPrompt = `You are an expert market research analyst specializing in customer segmentation.
+
+Your task is to identify ${numberOfSegments} realistic and actionable customer segments for a business based on the provided business description and classification.
+
+For each segment, ONLY analyze these FOUR specific factors (no others):
+1. DEMOGRAPHICS: Who they are (age, income, education, occupation, etc.)
+2. PSYCHOGRAPHICS: Values, attitudes, interests, and lifestyle characteristics
+3. PROBLEMS & NEEDS: Specific pain points and needs this segment has
+4. BEHAVIORS: How they would interact with the product/service
+
+${includeExcludedSegments ? 'After describing the target segments, include 1-2 segments that should explicitly not be targeted, with clear reasons why.' : ''}
+
+FORMAT YOUR RESPONSE AS A VALID JSON OBJECT WITH THIS EXACT STRUCTURE:
+{
+  "primarySegments": [
+    {
+      "name": "Segment Name",
+      "description": "Brief overview description",
+      "percentage": 40,
+      "characteristics": {
+        "demographics": ["point 1", "point 2", "point 3"],
+        "psychographics": ["point 1", "point 2", "point 3"],
+        "problemsNeeds": ["point 1", "point 2", "point 3"],
+        "behaviors": ["point 1", "point 2", "point 3"]
+      },
+      "growthPotential": "High"
+    }
+  ],
+  "excludedSegments": [
+    {
+      "name": "Excluded Segment Name",
+      "reason": "Detailed reason why this segment should be avoided"
+    }
+  ]
+}
+
+The JSON must be valid and contain both arrays even if excludedSegments is empty. Do not include any text outside the JSON object.`;
+    
+    // Create user prompt for JSON
+    const jsonUserPrompt = createUserPrompt(businessDescription, classification, []);
+    
+    // Set timeout to prevent hanging requests
+    const timeoutMs = 30000; // 30 seconds
+    const timeoutPromise = new Promise((_, reject) => 
+      setTimeout(() => reject(new Error('OpenAI JSON request timed out')), timeoutMs)
+    );
+    
+    // Make the OpenAI request with a timeout - using JSON format
+    const jsonPromise = openai.chat.completions.create({
+      model: 'gpt-4o',
+      messages: [
+        { role: 'system', content: jsonSystemPrompt },
+        { role: 'user', content: jsonUserPrompt }
+      ],
+      temperature: 0.4, // Lower for more consistent formatting
+      response_format: { type: "json_object" }, // Request JSON output
+      max_tokens: 2500
+    });
+    
+    // Race between the API call and the timeout
+    const response = await Promise.race([jsonPromise, timeoutPromise]);
+    
+    // Parse the JSON response
+    try {
+      return JSON.parse(response.choices[0].message.content);
+    } catch (jsonError) {
+      console.error('Error parsing JSON response:', jsonError);
+      
+      // Fall back to standard text parsing
+      const content = response.choices[0].message.content;
+      return parseSegmentationResponse(content);
+    }
+  } catch (error) {
+    console.error('OpenAI JSON segmentation error:', error);
+    throw new Error(`OpenAI JSON segmentation failed: ${error.message}`);
+  }
 }
 
 /**
@@ -105,37 +219,113 @@ async function identifySegmentsWithOpenAI(businessDescription, classification, o
 async function identifySegmentsWithAnthropic(businessDescription, classification, options) {
   const { numberOfSegments, includeExcludedSegments } = options;
   
-  // Create system prompt
-  const systemPrompt = createSystemPrompt(numberOfSegments, includeExcludedSegments);
-  
-  // Create user prompt with examples
-  const userPrompt = createUserPrompt(businessDescription, classification, getSegmentationExamples());
+  try {
+    // First get a text-based response
+    const systemPrompt = createSystemPrompt(numberOfSegments, includeExcludedSegments);
+    const userPrompt = createUserPrompt(businessDescription, classification, getSegmentationExamples());
 
-  // Set timeout to prevent hanging requests
-  const timeoutMs = 40000; // 40 seconds
-  const timeoutPromise = new Promise((_, reject) => 
-    setTimeout(() => reject(new Error('Anthropic request timed out')), timeoutMs)
-  );
-  
-  // Make the Anthropic request with a timeout
-  const anthropicPromise = anthropic.messages.create({
-    model: 'claude-3-5-sonnet-20240620',
-    system: systemPrompt,
-    messages: [
-      { role: 'user', content: userPrompt }
-    ],
-    max_tokens: 3000,
-    temperature: 0.7
-  });
-  
-  // Race between the API call and the timeout
-  const response = await Promise.race([anthropicPromise, timeoutPromise]);
-  
-  // Parse the response content
-  const content = response.content[0].text;
-  
-  // Parse the segmentation from the response
-  return parseSegmentationResponse(content);
+    // Set timeout to prevent hanging requests
+    const timeoutMs = 40000; // 40 seconds
+    const timeoutPromise = new Promise((_, reject) => 
+      setTimeout(() => reject(new Error('Anthropic request timed out')), timeoutMs)
+    );
+    
+    // Make the Anthropic request with a timeout
+    const anthropicPromise = anthropic.messages.create({
+      model: 'claude-3-5-sonnet-20240620',
+      system: systemPrompt,
+      messages: [
+        { role: 'user', content: userPrompt }
+      ],
+      max_tokens: 3000,
+      temperature: 0.4
+    });
+    
+    // Race between the API call and the timeout
+    const response = await Promise.race([anthropicPromise, timeoutPromise]);
+    
+    // Parse the response content
+    const content = response.content[0].text;
+    const textResult = parseSegmentationResponse(content);
+    
+    // Now try to get a JSON response for better structure
+    const jsonSystemPrompt = `${systemPrompt}
+
+FORMAT YOUR RESPONSE AS A VALID JSON OBJECT WITH THIS EXACT STRUCTURE:
+{
+  "primarySegments": [
+    {
+      "name": "Segment Name",
+      "description": "Brief overview description",
+      "percentage": 40,
+      "characteristics": {
+        "demographics": ["point 1", "point 2", "point 3"],
+        "psychographics": ["point 1", "point 2", "point 3"],
+        "problemsNeeds": ["point 1", "point 2", "point 3"],
+        "behaviors": ["point 1", "point 2", "point 3"]
+      },
+      "growthPotential": "High"
+    }
+  ],
+  "excludedSegments": [
+    {
+      "name": "Excluded Segment Name",
+      "reason": "Detailed reason why this segment should be avoided"
+    }
+  ]
+}
+The JSON must be valid.`;
+
+    const jsonUserPrompt = `${userPrompt}\n\nPlease format your response as valid JSON matching the schema I've provided.`;
+    
+    // Get JSON from Anthropic (or try to)
+    try {
+      const jsonPromise = anthropic.messages.create({
+        model: 'claude-3-5-sonnet-20240620',
+        system: jsonSystemPrompt,
+        messages: [
+          { role: 'user', content: jsonUserPrompt }
+        ],
+        max_tokens: 3000,
+        temperature: 0.5
+      });
+      
+      const jsonResponse = await Promise.race([jsonPromise, timeoutPromise]);
+      const jsonContent = jsonResponse.content[0].text;
+      
+      // Try to extract and parse JSON
+      const jsonMatch = jsonContent.match(/```json\s*([\s\S]*?)\s*```/) || 
+                      jsonContent.match(/\{[\s\S]*\}/);
+      
+      if (jsonMatch) {
+        const jsonString = jsonMatch[0].startsWith('```') ? jsonMatch[1] : jsonMatch[0];
+        try {
+          const jsonResult = JSON.parse(jsonString);
+          
+          // If the JSON is missing excluded segments but the text had them, merge
+          if ((!jsonResult.excludedSegments || jsonResult.excludedSegments.length === 0) && 
+              textResult.excludedSegments && 
+              textResult.excludedSegments.length > 0) {
+            jsonResult.excludedSegments = textResult.excludedSegments;
+          }
+          
+          return jsonResult;
+        } catch (parseError) {
+          // If JSON parsing fails, use the text result
+          return textResult;
+        }
+      } else {
+        // If no JSON found, use the text result
+        return textResult;
+      }
+    } catch (jsonError) {
+      // If JSON request fails, use the text result
+      return textResult;
+    }
+  } catch (error) {
+    console.error('Anthropic segmentation error:', error);
+    throw new Error(`Anthropic segmentation failed: ${error.message}`);
+  }
 }
 
 /**
@@ -148,43 +338,31 @@ async function identifySegmentsWithAnthropic(businessDescription, classification
 function createSystemPrompt(numberOfSegments, includeExcludedSegments) {
   return `You are an expert market research analyst specializing in customer segmentation.
 
-Your task is to identify realistic and actionable customer segments for a business based on the provided business description and classification.
+Your task is to identify ${numberOfSegments} realistic and actionable customer segments for a business based on the provided business description and classification.
 
-For each segmentation analysis, provide:
+For each segment, ONLY analyze these FOUR specific factors (no others):
+1. DEMOGRAPHICS: Who they are (age, income, education, occupation, etc.)
+2. PSYCHOGRAPHICS: Values, attitudes, interests, and lifestyle characteristics
+3. PROBLEMS & NEEDS: Specific pain points and needs this segment has
+4. BEHAVIORS: How they would interact with the product/service
 
-1. ${numberOfSegments} primary customer segments that would be the core target markets
-2. ${numberOfSegments > 1 ? '1-2' : '1'} secondary/niche segments that might be worth exploring
-${includeExcludedSegments ? '3. 1-2 segments that should be explicitly excluded and why' : ''}
-4. Overall market insights regarding the segments
+${includeExcludedSegments ? 'After describing the target segments, include a separate section called "SEGMENTS TO AVOID:" that lists 1-2 segments that should explicitly not be targeted, with clear reasons why.' : ''}
 
-Follow this systematic analysis process:
+Let's think step by step about each segment. For each segment:
+1. First, give the segment a descriptive name and brief 1-2 sentence overview
+2. Estimate what percentage of the target market they represent
+3. Analyze the four factors (demographics, psychographics, problems/needs, behaviors)
+4. Note their growth potential (high, medium, or low)
 
-STEP 1: DEMOGRAPHIC ANALYSIS
-- Identify realistic age ranges, income levels, education levels, geographic locations, etc.
-- Ensure demographics align with the business's industry and product type
-- Consider which demographic factors are most relevant to this specific business
+Keep your analysis concise, specific, and structured exactly as outlined above. Avoid extraneous information.
 
-STEP 2: PSYCHOGRAPHIC ANALYSIS
-- Identify relevant values, beliefs, lifestyle elements, personality traits, etc.
-- Connect psychographics to the business's value proposition
-- Consider which psychographic factors would drive adoption and loyalty
+Your segments should be:
+- Distinct from each other with minimal overlap
+- Specific enough to be actionable
+- Realistic for the business context
+- Commercially viable (not too narrow)
 
-STEP 3: BEHAVIORAL ANALYSIS
-- Determine how each segment would interact with the product/service
-- Identify purchase patterns, usage habits, decision factors, and price sensitivity
-- Consider how early adopters might differ from mainstream customers
-
-STEP 4: NEEDS-BASED ANALYSIS
-- Identify specific problems and pain points for each segment
-- Connect customer needs to the business's solutions
-- Consider unstated needs that might impact adoption
-
-STEP 5: SEGMENT PRIORITIZATION
-- Evaluate segment size, growth potential, and fit with the business model
-- Consider acquisition challenges and costs for each segment
-- Rank segments by potential value and strategic importance
-
-Your analysis should be data-driven, realistic, and actionable. Avoid overly general segments like "everyone who needs X" or segments that are too narrow to be commercially viable.`;
+${includeExcludedSegments ? 'IMPORTANT: For excluded segments, use the exact heading "SEGMENTS TO AVOID:" and clearly label each excluded segment with "Segment:" followed by the name, and "Reason:" followed by the explanation.' : ''}`;
 }
 
 /**
@@ -198,34 +376,60 @@ Your analysis should be data-driven, realistic, and actionable. Avoid overly gen
 function createUserPrompt(businessDescription, classification, examples) {
   const { primaryIndustry, secondaryIndustry, targetAudience, productType } = classification;
 
-  let prompt = `Here are some examples of good customer segmentation analyses for different businesses:\n\n`;
+  let prompt = `Let's analyze customer segments for the following business:
 
-  // Add few-shot examples
-  examples.forEach((example, index) => {
-    prompt += `Example ${index + 1}:\n`;
-    prompt += `Business Description: ${example.businessDescription}\n`;
-    prompt += `Classification: Primary Industry: ${example.classification.primaryIndustry}, `;
-    prompt += `Secondary Industry: ${example.classification.secondaryIndustry || 'None'}, `;
-    prompt += `Target Audience: ${example.classification.targetAudience}, `;
-    prompt += `Product Type: ${example.classification.productType}\n\n`;
-    prompt += `Segmentation Analysis:\n${example.segmentationAnalysis}\n\n`;
-  });
+Business Description: ${businessDescription}
 
-  // Add the current business
-  prompt += `Now, please perform a customer segmentation analysis for the following business:\n\n`;
-  prompt += `Business Description: ${businessDescription}\n\n`;
-  prompt += `Classification: Primary Industry: ${primaryIndustry}, `;
-  prompt += `Secondary Industry: ${secondaryIndustry || 'None'}, `;
-  prompt += `Target Audience: ${targetAudience}, `;
-  prompt += `Product Type: ${productType}\n\n`;
+Classification: 
+- Primary Industry: ${primaryIndustry}
+- Secondary Industry: ${secondaryIndustry || 'None'}
+- Target Audience: ${targetAudience}
+- Product Type: ${productType}
 
-  prompt += `Please provide a detailed segmentation analysis following the format shown in the examples. Ensure your customer segments are realistic, specific, and actionable. Include rich details about demographics, psychographics, behaviors, and needs for each segment.`;
+Let's think step by step to identify distinct customer segments. For each segment, ONLY analyze these four factors:
+
+1. DEMOGRAPHICS: Who they are (age, income, education, occupation, etc.)
+2. PSYCHOGRAPHICS: Values, attitudes, interests, and lifestyle characteristics  
+3. PROBLEMS & NEEDS: Specific pain points and needs this segment has
+4. BEHAVIORS: How they would interact with the product/service
+
+Use exactly this format for each segment:
+
+SEGMENT: [Descriptive Name]
+OVERVIEW: [1-2 sentence description]
+MARKET PERCENTAGE: [Estimated % of target market]
+
+DEMOGRAPHICS:
+- [Key demographic point 1]
+- [Key demographic point 2]
+- [Key demographic point 3]
+
+PSYCHOGRAPHICS:
+- [Key psychographic point 1]
+- [Key psychographic point 2]
+- [Key psychographic point 3]
+
+PROBLEMS & NEEDS:
+- [Key problem/need 1]
+- [Key problem/need 2]
+- [Key problem/need 3]
+
+BEHAVIORS:
+- [Key behavior 1]
+- [Key behavior 2]
+- [Key behavior 3]
+
+GROWTH POTENTIAL: [High/Medium/Low]
+
+Please identify distinct segments and be specific about their characteristics. Make sure they represent realistic and viable market segments.`;
 
   return prompt;
 }
 
+
 module.exports = {
   identifySegmentsWithLLM,
   identifySegmentsWithOpenAI,
-  identifySegmentsWithAnthropic
+  identifySegmentsWithAnthropic,
+  getOpenAITextResponse // Export this function for testing
 };

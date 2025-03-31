@@ -1,0 +1,98 @@
+{
+  "primarySegments": [
+    {
+      "name": "Urban Young Professionals",
+      "description": "Young professionals living in urban areas who rely on convenient transportation for their daily commute and social activities.",
+      "percentage": 40,
+      "characteristics": {
+        "demographics": [
+          "Ages 25-35",
+          "Middle to high income",
+          "College-educated"
+        ],
+        "psychographics": [
+          "Value convenience and time-saving",
+          "Tech-savvy and frequent app users",
+          "Social and outgoing lifestyle"
+        ],
+        "problemsNeeds": [
+          "Need reliable transportation for commuting",
+          "Desire for flexibility and convenience",
+          "Avoidance of car ownership costs"
+        ],
+        "behaviors": [
+          "Frequent app users, especially during peak hours",
+          "Preference for economy or mid-tier service levels",
+          "Engage with app features like ride tracking and payment options"
+        ]
+      },
+      "growthPotential": "High"
+    },
+    {
+      "name": "Suburban Families",
+      "description": "Families living in suburban areas who use the service for family outings and travel to urban centers.",
+      "percentage": 30,
+      "characteristics": {
+        "demographics": [
+          "Ages 30-50",
+          "Middle to upper-middle income",
+          "Parents with school-aged children"
+        ],
+        "psychographics": [
+          "Family-oriented and value safety",
+          "Budget-conscious but willing to pay for quality",
+          "Occasional app users"
+        ],
+        "problemsNeeds": [
+          "Need for safe and reliable transportation for family outings",
+          "Desire to avoid parking hassles in urban areas",
+          "Occasional need for larger vehicles"
+        ],
+        "behaviors": [
+          "Use app mainly on weekends and holidays",
+          "Preference for mid-tier and larger vehicles",
+          "Occasional use of luxury service for special occasions"
+        ]
+      },
+      "growthPotential": "Medium"
+    },
+    {
+      "name": "Business Travelers",
+      "description": "Professionals who travel frequently for work and require reliable transportation to and from airports and meetings.",
+      "percentage": 20,
+      "characteristics": {
+        "demographics": [
+          "Ages 35-55",
+          "High income",
+          "Corporate employees or entrepreneurs"
+        ],
+        "psychographics": [
+          "Value punctuality and professionalism",
+          "Frequent travelers with busy schedules",
+          "Preference for premium services"
+        ],
+        "problemsNeeds": [
+          "Need for reliable and timely airport transfers",
+          "Desire for professional and comfortable rides",
+          "Require easy expense tracking for business trips"
+        ],
+        "behaviors": [
+          "Frequent use of app for airport and business travel",
+          "Preference for luxury or premium service levels",
+          "High engagement with app for scheduling and payment tracking"
+        ]
+      },
+      "growthPotential": "High"
+    }
+  ],
+  "excludedSegments": [
+    {
+      "name": "Rural Residents",
+      "reason": "Rural areas have limited demand for ride-sharing services due to lower population density and greater reliance on personal vehicles for transportation."
+    },
+    {
+      "name": "Low-Income Individuals",
+      "reason": "This segment may find the cost of ride-sharing services prohibitive and may not have access to the necessary technology or payment methods to use the app effectively."
+    }
+  ]
+}

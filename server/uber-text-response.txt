@@ -1,0 +1,85 @@
+SEGMENT: Urban Professionals  
+OVERVIEW: This segment includes individuals living in urban areas who rely on app-based transportation for daily commutes and business travel.  
+MARKET PERCENTAGE: 35%
+
+DEMOGRAPHICS:
+- Age: 25-45
+- Income: Middle to upper-middle class
+- Occupation: Professionals, executives, and managers
+
+PSYCHOGRAPHICS:
+- Value convenience and efficiency
+- Time-conscious with a busy lifestyle
+- Interested in technology and modern solutions
+
+PROBLEMS & NEEDS:
+- Need for reliable transportation to avoid urban traffic and parking issues
+- Desire for punctuality and time-saving solutions
+- Preference for a hassle-free payment process
+
+BEHAVIORS:
+- Frequently use the app for commuting and meetings
+- Opt for economy or premium service levels depending on the occasion
+- Regularly track rides and rely on estimated arrival times
+
+GROWTH POTENTIAL: High
+
+SEGMENT: Social Outgoing Millennials  
+OVERVIEW: Young adults who frequently use ride-sharing for social outings and events, valuing flexibility and spontaneity.  
+MARKET PERCENTAGE: 30%
+
+DEMOGRAPHICS:
+- Age: 18-34
+- Income: Lower to middle class, often with disposable income
+- Education: College students or recent graduates
+
+PSYCHOGRAPHICS:
+- Enjoy social activities and nightlife
+- Embrace the sharing economy and digital platforms
+- Often make spontaneous plans
+
+PROBLEMS & NEEDS:
+- Need safe transportation after social events
+- Want affordable options to fit a budget
+- Appreciate easy coordination with friends through technology
+
+BEHAVIORS:
+- Use the app for evenings and weekends
+- Favor economy service for affordability
+- Share rides with friends to maximize cost-effectiveness
+
+GROWTH POTENTIAL: Medium
+
+SEGMENT: Occasional Travelers  
+OVERVIEW: Infrequent app users who primarily rely on ride-sharing during travel or special occasions, prioritizing comfort and convenience.  
+MARKET PERCENTAGE: 20%
+
+DEMOGRAPHICS:
+- Age: 35-60
+- Income: Middle to upper-middle class
+- Occupation: Varied, includes retirees and infrequent travelers
+
+PSYCHOGRAPHICS:
+- Prefer comfort and reliability over cost
+- Value customer service and safety
+- Less tech-savvy but appreciate user-friendly apps
+
+PROBLEMS & NEEDS:
+- Need transportation during vacations or business trips
+- Seek assurance of safety and quality service
+- Prefer seamless payment integration
+
+BEHAVIORS:
+- Use the app sporadically, mostly for airport transfers or events
+- Opt for luxury service levels for comfort
+- Reluctant to navigate complex app interfaces
+
+GROWTH POTENTIAL: Medium
+
+SEGMENTS TO AVOID:
+
+Segment: Non-Tech Savvy Seniors  
+Reason: This group may struggle with the mobile app interface and prefer traditional transport methods, making them less likely to adopt the service.
+
+Segment: Rural Residents  
+Reason: Lower population density reduces demand and driver availability, making it difficult to provide timely service, limiting viability in these areas.

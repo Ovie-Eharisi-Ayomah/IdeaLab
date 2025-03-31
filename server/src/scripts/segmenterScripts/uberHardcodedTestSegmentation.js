@@ -1,15 +1,17 @@
 /**
- * This script demonstrates how to use pre-existing classification results
- * as input for the customer segmentation module.
+ * Enhanced test script for customer segmentation
  * 
- * This approach is useful when you:
- * 1. Already have classification results from a previous run
- * 2. Want to save API calls/costs by not re-running classification
- * 3. Want to test segmentation with different classification variations
+ * This script specifically tests the two-step segmentation approach
+ * that uses both text and JSON responses to ensure excluded segments
+ * are properly captured.
  */
 
 require('dotenv').config();
-const { identifyCustomerSegments } = require('../../llm/segmenters/customerSegementer');
+const fs = require('fs');
+const { identifySegmentsWithLLM, 
+        getOpenAITextResponse, 
+        identifySegmentsWithOpenAI } = require('../../llm/segmenters/llmSegmenter');
+const { parseSegmentationResponse } = require('../../llm/segmenters/utils');
 
 // Uber business description (same as in previous tests)
 const uberDescription = `
@@ -21,8 +23,7 @@ demand, and we offer different service levels from economy to luxury vehicles. W
 payment processing, driver background checks, and customer support.
 `;
 
-// You can manually define classification results from a previous run
-// or load them from a file/database to avoid re-running the classifier
+// Classification results for Uber (to save API calls)
 const uberClassification = {
   classification: {
     primaryIndustry: "Transportation",
@@ -34,70 +35,172 @@ const uberClassification = {
   confidence: "high"
 };
 
-async function runSegmentationWithExistingClassification() {
-  console.log('TESTING SEGMENTATION WITH EXISTING CLASSIFICATION');
-  console.log('=============================================');
-  console.log('Business Description:');
-  console.log(uberDescription);
-  console.log('=============================================');
-  console.log('Using Existing Classification:');
-  console.log(`Primary Industry: ${uberClassification.classification.primaryIndustry}`);
-  console.log(`Secondary Industry: ${uberClassification.classification.secondaryIndustry || 'None'}`);
-  console.log(`Target Audience: ${uberClassification.classification.targetAudience}`);
-  console.log(`Product Type: ${uberClassification.classification.productType}`);
-  console.log('=============================================');
+// Add the required additional exports if they don't exist
+if (!getOpenAITextResponse) {
+  console.log("Note: This test assumes the updated llmSegmenter.js with new exported functions");
+  console.log("If you haven't updated the file yet, please do so first.");
+  process.exit(1);
+}
+
+async function runEnhancedTest() {
+  console.log('TESTING ENHANCED CUSTOMER SEGMENTATION');
+  console.log('='.repeat(70));
+  console.log('Business: Ridesharing App (similar to Uber)');
+  console.log('-'.repeat(70));
   
   try {
-    // Run segmentation using the existing classification
-    console.log('IDENTIFYING CUSTOMER SEGMENTS...');
-    console.log('---------------------------------------------');
+    // Use the predefined classification
+    console.log('Using existing classification:');
+    console.log(`Primary Industry: ${uberClassification.classification.primaryIndustry}`);
+    console.log(`Secondary Industry: ${uberClassification.classification.secondaryIndustry}`);
+    console.log(`Target Audience: ${uberClassification.classification.targetAudience}`);
+    console.log(`Product Type: ${uberClassification.classification.productType}`);
+    console.log('-'.repeat(70));
     
-    const segmentationOptions = {
-      numberOfSegments: 3,
-      includeExcludedSegments: true
-    };
+    // STEP 1: Get text-based response
+    console.log('\nSTEP 1: GETTING TEXT-BASED RESPONSE');
+    console.log('='.repeat(70));
     
-    const segmentationResult = await identifyCustomerSegments(
+    const textResponse = await getOpenAITextResponse(
       uberDescription,
-      uberClassification,
-      segmentationOptions
+      uberClassification.classification,
+      { numberOfSegments: 3, includeExcludedSegments: true }
     );
     
-    // Print a summary of the segmentation results
-    console.log(`Identified ${segmentationResult.primarySegments.length} primary segments:`);
-    segmentationResult.primarySegments.forEach((segment, index) => {
-      console.log(`${index + 1}. ${segment.name}`);
+    // Save raw text response
+    fs.writeFileSync('./uber-text-response.txt', textResponse);
+    
+    console.log('Raw text response from OpenAI:');
+    console.log('-'.repeat(70));
+    console.log(textResponse);
+    console.log('-'.repeat(70));
+    
+    // Parse the text response
+    console.log('\nParsing text response to extract segments...');
+    const textParsedResult = parseSegmentationResponse(textResponse);
+    
+    console.log(`Found ${textParsedResult.primarySegments.length} primary segments and ${textParsedResult.excludedSegments.length} excluded segments in text.`);
+    
+    console.log('\nExcluded segments from text response:');
+    if (textParsedResult.excludedSegments && textParsedResult.excludedSegments.length > 0) {
+      textParsedResult.excludedSegments.forEach((segment, index) => {
+        console.log(`${index + 1}. ${segment.name}`);
+        console.log(`   Reason: ${segment.reason}`);
+      });
+    } else {
+      console.log('No excluded segments found in text response.');
+    }
+    
+    // STEP 2: Get JSON-based response
+    console.log('\nSTEP 2: GETTING JSON-STRUCTURED RESPONSE');
+    console.log('='.repeat(70));
+    
+    const jsonResult = await identifySegmentsWithOpenAI(
+      uberDescription,
+      uberClassification.classification,
+      { numberOfSegments: 3, includeExcludedSegments: true }
+    );
+    
+    // Save JSON response
+    fs.writeFileSync('./uber-json-response.json', JSON.stringify(jsonResult, null, 2));
+    
+    console.log('JSON response structure:');
+    console.log('-'.repeat(70));
+    console.log(`Primary segments: ${jsonResult.primarySegments.length}`);
+    console.log(`Excluded segments: ${jsonResult.excludedSegments?.length || 0}`);
+    console.log('-'.repeat(70));
+    
+    console.log('\nExcluded segments from JSON response:');
+    if (jsonResult.excludedSegments && jsonResult.excludedSegments.length > 0) {
+      jsonResult.excludedSegments.forEach((segment, index) => {
+        console.log(`${index + 1}. ${segment.name}`);
+        console.log(`   Reason: ${segment.reason}`);
+      });
+    } else {
+      console.log('No excluded segments found in JSON response.');
+    }
+    
+    // STEP 3: Test combined approach with identifySegmentsWithLLM
+    console.log('\nSTEP 3: TESTING COMBINED APPROACH');
+    console.log('='.repeat(70));
+    
+    // This should now use the two-step process internally
+    const combinedResult = await identifySegmentsWithLLM(
+      uberDescription,
+      uberClassification.classification,
+      { numberOfSegments: 3, includeExcludedSegments: true }
+    );
+    
+    // Save combined result
+    fs.writeFileSync('./uber-combined-result.json', JSON.stringify(combinedResult, null, 2));
+    
+    // Display the final segmentation results
+    console.log('FINAL COMBINED SEGMENTATION RESULTS');
+    console.log('='.repeat(70));
+    
+    console.log(`Found ${combinedResult.primarySegments.length} primary segments.`);
+    
+    combinedResult.primarySegments.forEach((segment, index) => {
+      console.log(`\nSEGMENT ${index + 1}: ${segment.name}`);
+      console.log('-'.repeat(50));
+      console.log(`OVERVIEW: ${segment.description}`);
+      console.log(`MARKET PERCENTAGE: ${segment.percentage || 'N/A'}%`);
+      
+      console.log('\nDEMOGRAPHICS:');
+      if (Array.isArray(segment.characteristics.demographics)) {
+        segment.characteristics.demographics.forEach(item => {
+          console.log(`  • ${item}`);
+        });
+      }
+      
+      console.log('\nPSYCHOGRAPHICS:');
+      if (Array.isArray(segment.characteristics.psychographics)) {
+        segment.characteristics.psychographics.forEach(item => {
+          console.log(`  • ${item}`);
+        });
+      }
+      
+      console.log('\nPROBLEMS & NEEDS:');
+      if (Array.isArray(segment.characteristics.problemsNeeds)) {
+        segment.characteristics.problemsNeeds.forEach(item => {
+          console.log(`  • ${item}`);
+        });
+      }
+      
+      console.log('\nBEHAVIORS:');
+      if (Array.isArray(segment.characteristics.behaviors)) {
+        segment.characteristics.behaviors.forEach(item => {
+          console.log(`  • ${item}`);
+        });
+      }
+      
+      console.log(`\nGROWTH POTENTIAL: ${segment.growthPotential || 'N/A'}`);
+      console.log('='.repeat(50));
     });
     
-    console.log(`\nIdentified ${segmentationResult.secondarySegments?.length || 0} secondary segments:`);
-    if (segmentationResult.secondarySegments) {
-      segmentationResult.secondarySegments.forEach((segment, index) => {
-        console.log(`${index + 1}. ${segment.name}`);
+    // Display the excluded segments
+    console.log('\nEXCLUDED SEGMENTS:');
+    if (combinedResult.excludedSegments && combinedResult.excludedSegments.length > 0) {
+      combinedResult.excludedSegments.forEach((segment, index) => {
+        console.log(`\n${index + 1}. ${segment.name}`);
+        console.log(`   Description: ${segment.description || 'N/A'}`);
+        console.log(`   Reason: ${segment.reason || 'N/A'}`);
       });
+    } else {
+      console.log('No excluded segments found in combined response.');
     }
     
-    console.log(`\nIdentified ${segmentationResult.excludedSegments?.length || 0} excluded segments:`);
-    if (segmentationResult.excludedSegments) {
-      segmentationResult.excludedSegments.forEach((segment, index) => {
-        console.log(`${index + 1}. ${segment.name}`);
-      });
-    }
+    console.log('\nTest files saved to:');
+    console.log('- Text response: ./uber-text-response.txt');
+    console.log('- JSON response: ./uber-json-response.json');
+    console.log('- Combined result: ./uber-combined-result.json');
     
-    // Save the full results to a file for inspection
-    const fs = require('fs');
-    fs.writeFileSync(
-      './uber-segmentation-results.json', 
-      JSON.stringify(segmentationResult, null, 2)
-    );
-    
-    console.log('\n=============================================');
-    console.log('Full results saved to uber-segmentation-results.json');
-    console.log('TEST COMPLETED SUCCESSFULLY');
+    console.log('\nTEST COMPLETED SUCCESSFULLY');
     
   } catch (error) {
-    console.error('Test failed with error:', error);
+    console.error('Error running test:', error);
   }
 }
 
 // Run the test
-runSegmentationWithExistingClassification();
+runEnhancedTest();

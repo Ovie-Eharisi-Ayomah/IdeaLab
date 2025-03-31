@@ -1,0 +1,98 @@
+{
+  "primarySegments": [
+    {
+      "name": "Urban Young Professionals",
+      "description": "Tech-savvy individuals living in urban areas who rely on ride-sharing for daily commutes and social outings.",
+      "percentage": 40,
+      "characteristics": {
+        "demographics": [
+          "Aged 25-35",
+          "Middle to high income",
+          "College-educated"
+        ],
+        "psychographics": [
+          "Value convenience and efficiency",
+          "Environmentally conscious",
+          "Enjoy socializing and nightlife"
+        ],
+        "problemsNeeds": [
+          "Need reliable transportation without owning a car",
+          "Desire for quick and easy payment options",
+          "Concerned about safety and driver reliability"
+        ],
+        "behaviors": [
+          "Frequent use of ride-sharing apps",
+          "Prefer app-based payment methods",
+          "Use ride-sharing for both work and leisure"
+        ]
+      },
+      "growthPotential": "High"
+    },
+    {
+      "name": "Suburban Families",
+      "description": "Families living in suburban areas who use ride-sharing for occasional travel and family activities.",
+      "percentage": 30,
+      "characteristics": {
+        "demographics": [
+          "Aged 35-50",
+          "Middle to upper-middle income",
+          "Parents with children"
+        ],
+        "psychographics": [
+          "Family-oriented",
+          "Value safety and reliability",
+          "Budget-conscious"
+        ],
+        "problemsNeeds": [
+          "Need for larger vehicles for family trips",
+          "Desire for safe and vetted drivers",
+          "Occasional need for transportation without having to drive"
+        ],
+        "behaviors": [
+          "Use ride-sharing for family outings",
+          "Prefer scheduling rides in advance",
+          "Value different service levels for different occasions"
+        ]
+      },
+      "growthPotential": "Medium"
+    },
+    {
+      "name": "Frequent Business Travelers",
+      "description": "Professionals who travel frequently for work and require reliable transportation in various cities.",
+      "percentage": 20,
+      "characteristics": {
+        "demographics": [
+          "Aged 30-55",
+          "High income",
+          "Corporate professionals"
+        ],
+        "psychographics": [
+          "Time-sensitive",
+          "Tech-savvy",
+          "Value comfort and productivity"
+        ],
+        "problemsNeeds": [
+          "Need for punctual and reliable service",
+          "Desire for luxury or comfort during travel",
+          "Require seamless payment and expense tracking"
+        ],
+        "behaviors": [
+          "Use ride-sharing for airport transfers and meetings",
+          "Prefer premium service options",
+          "Rely on app for scheduling and tracking rides"
+        ]
+      },
+      "growthPotential": "High"
+    }
+  ],
+  "excludedSegments": [
+    {
+      "name": "Rural Residents",
+      "reason": "Rural areas typically have lower demand for ride-sharing services due to longer distances and less frequent travel needs, making it less viable for drivers and the business model."
+    },
+    {
+      "name": "Low-Income Individuals",
+      "reason": "This segment may find ride-sharing services too expensive compared to public transportation, limiting their usage frequency and overall contribution to the business's revenue."
+    }
+  ]
+}

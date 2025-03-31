@@ -10,9 +10,6 @@
  */
 function parseSegmentationResponse(responseText) {
   try {
-    // This is a simplified parser - in production you would want more robust parsing
-    // with error handling for various response formats
-    
     // Try to extract JSON if the LLM happened to output valid JSON
     const jsonMatch = responseText.match(/```json\s*([\s\S]*?)\s*```/);
     if (jsonMatch && jsonMatch[1]) {
@@ -26,98 +23,136 @@ function parseSegmentationResponse(responseText) {
       }
     }
     
-    // Otherwise, parse the text response
+    // Parse the text response using the new format
     const segments = {
       primarySegments: [],
-      secondarySegments: [],
       excludedSegments: [],
       marketInsights: {}
     };
     
-    // Extract primary segments
-    const primarySegmentsMatch = responseText.match(/PRIMARY SEGMENTS?:([\s\S]*?)(?:SECONDARY SEGMENTS?:|EXCLUDED SEGMENTS?:|MARKET INSIGHTS?:|$)/i);
-    if (primarySegmentsMatch) {
-      const primarySegmentsText = primarySegmentsMatch[1].trim();
-      const segmentBlocks = primarySegmentsText.split(/\n\s*\d+\.\s+|\n\s*-\s+/).filter(s => s.trim());
-      
-      segmentBlocks.forEach(block => {
-        if (!block.trim()) return;
-        
-        const nameMatch = block.match(/^([^:]+?)(?::|-)?\s+(.+?)(?:\n|$)/);
-        const name = nameMatch ? nameMatch[1].trim() : 'Unnamed Segment';
-        const description = extractDescriptionFromBlock(block);
-        const percentageMatch = block.match(/(?:percentage|market share|share of market|proportion):\s*(\d+(?:\.\d+)?)\s*%?/i);
-        
-        const demographicsMatch = block.match(/demographics?:([^]*?)(?:psychographics?:|behaviors?:|needs?:|growth potential:|acquisition|$)/i);
-        const psychographicsMatch = block.match(/psychographics?:([^]*?)(?:demographics?:|behaviors?:|needs?:|growth potential:|acquisition|$)/i);
-        const behaviorsMatch = block.match(/behaviors?:([^]*?)(?:demographics?:|psychographics?:|needs?:|growth potential:|acquisition|$)/i);
-        
-        segments.primarySegments.push({
-          name,
-          description,
-          percentage: percentageMatch ? parseFloat(percentageMatch[1]) : null,
-          characteristics: {
-            demographics: demographicsMatch ? extractKeyValuePairs(demographicsMatch[1]) : {},
-            psychographics: psychographicsMatch ? extractKeyValuePairs(psychographicsMatch[1]) : {},
-            behaviors: behaviorsMatch ? extractKeyValuePairs(behaviorsMatch[1]) : {}
-          }
-        });
-      });
-    }
+    // Find all segment blocks
+    const segmentBlocks = responseText.split(/SEGMENT:/).slice(1); // Skip the first empty element
     
-    // Extract secondary segments
-    const secondarySegmentsMatch = responseText.match(/SECONDARY SEGMENTS?:([\s\S]*?)(?:PRIMARY SEGMENTS?:|EXCLUDED SEGMENTS?:|MARKET INSIGHTS?:|$)/i);
-    if (secondarySegmentsMatch) {
-      const secondarySegmentsText = secondarySegmentsMatch[1].trim();
-      const segmentBlocks = secondarySegmentsText.split(/\n\s*\d+\.\s+|\n\s*-\s+/).filter(s => s.trim());
+    // Process each segment block
+    segmentBlocks.forEach(block => {
+      if (!block.trim()) return;
       
-      segmentBlocks.forEach(block => {
-        if (!block.trim()) return;
-        
-        const nameMatch = block.match(/^([^:]+?)(?::|-)?\s*(.+?)(?:\n|$)/);
-        const name = nameMatch ? nameMatch[1].trim() : 'Unnamed Segment';
-        const description = extractDescriptionFromBlock(block);
-        
-        segments.secondarySegments.push({
-          name,
-          description
-        });
-      });
-    }
-    
-    // Extract excluded segments
-    const excludedSegmentsMatch = responseText.match(/EXCLUDED SEGMENTS?:([\s\S]*?)(?:PRIMARY SEGMENTS?:|SECONDARY SEGMENTS?:|MARKET INSIGHTS?:|$)/i);
-    if (excludedSegmentsMatch) {
-      const excludedSegmentsText = excludedSegmentsMatch[1].trim();
-      const segmentBlocks = excludedSegmentsText.split(/\n\s*\d+\.\s+|\n\s*-\s+/).filter(s => s.trim());
+      // Check if this is an excluded segment - much more specific now
+      // Only mark as excluded if EXPLICITLY labeled as excluded or has a clear "should be avoided" statement
+      const isExcluded = 
+        block.toLowerCase().includes('excluded segment:') || 
+        block.toLowerCase().includes('segment to avoid:') ||
+        block.toLowerCase().includes('avoid this segment:') ||
+        block.toLowerCase().includes('do not target:') ||
+        (block.toLowerCase().includes('reason:') && 
+         (block.toLowerCase().includes('should be avoided') || 
+          block.toLowerCase().includes('should not be targeted')));
       
-      segmentBlocks.forEach(block => {
-        if (!block.trim()) return;
-        
-        const nameMatch = block.match(/^([^:]+?)(?::|-)?\s*(.+?)(?:\n|$)/);
-        const name = nameMatch ? nameMatch[1].trim() : 'Unnamed Segment';
-        const description = extractDescriptionFromBlock(block);
-        const reasonMatch = block.match(/reason:([^]*?)(?:$)/i);
-        
+      // Extract segment information
+      const nameMatch = block.match(/^([^\n]+)/);
+      const name = nameMatch ? nameMatch[1].trim() : 'Unnamed Segment';
+      
+      const overviewMatch = block.match(/OVERVIEW:\s*([^\n]+(?:\n[^\n]+)*?)(?:\n\s*MARKET|$)/i);
+      const overview = overviewMatch ? overviewMatch[1].trim() : '';
+      
+      const percentageMatch = block.match(/MARKET PERCENTAGE:\s*(\d+(?:\.\d+)?)\s*%?/i);
+      const percentage = percentageMatch ? parseFloat(percentageMatch[1]) : null;
+      
+      // Extract the four factors
+      const demographicsMatch = block.match(/DEMOGRAPHICS:([\s\S]*?)(?:PSYCHOGRAPHICS:|$)/i);
+      const psychographicsMatch = block.match(/PSYCHOGRAPHICS:([\s\S]*?)(?:PROBLEMS & NEEDS:|PROBLEMS:|NEEDS:|$)/i);
+      const problemsNeedsMatch = block.match(/(?:PROBLEMS & NEEDS:|PROBLEMS:|NEEDS:)([\s\S]*?)(?:BEHAVIORS:|$)/i);
+      const behaviorsMatch = block.match(/BEHAVIORS:([\s\S]*?)(?:GROWTH POTENTIAL:|$)/i);
+      
+      // Extract growth potential
+      const growthMatch = block.match(/GROWTH POTENTIAL:\s*([^\n]+)/i);
+      const growthPotential = growthMatch ? growthMatch[1].trim() : null;
+      
+      // Extract reason for excluded segments
+      const reasonMatch = block.match(/REASON(?:S)?:\s*([^\n]+(?:\n[^\n]+)*?)(?:\n\s*\n|$)/i);
+      const reason = reasonMatch ? reasonMatch[1].trim() : null;
+      
+      // Create segment object
+      const segment = {
+        name,
+        description: overview,
+        percentage,
+        characteristics: {
+          demographics: extractBulletPoints(demographicsMatch ? demographicsMatch[1] : ''),
+          psychographics: extractBulletPoints(psychographicsMatch ? psychographicsMatch[1] : ''),
+          problemsNeeds: extractBulletPoints(problemsNeedsMatch ? problemsNeedsMatch[1] : ''),
+          behaviors: extractBulletPoints(behaviorsMatch ? behaviorsMatch[1] : '')
+        },
+        growthPotential: growthPotential
+      };
+      
+      // Add to appropriate segment list
+      if (isExcluded) {
         segments.excludedSegments.push({
-          name,
-          description,
-          reason: reasonMatch ? reasonMatch[1].trim() : null
+          ...segment,
+          reason: reason || overview // Use reason if available, otherwise use overview
         });
-      });
-    }
+      } else {
+        segments.primarySegments.push(segment);
+      }
+    });
     
-    // Extract market insights
-    const marketInsightsMatch = responseText.match(/MARKET INSIGHTS?:([\s\S]*?)(?:PRIMARY SEGMENTS?:|SECONDARY SEGMENTS?:|EXCLUDED SEGMENTS?:|$)/i);
-    if (marketInsightsMatch) {
-      segments.marketInsights = extractKeyValuePairs(marketInsightsMatch[1]);
+    // Find excluded segments section if it exists separately
+    const excludedSegmentsMatch = responseText.match(/EXCLUDED SEGMENTS?:([\s\S]*?)(?:\n\s*\n|$)/i);
+    if (excludedSegmentsMatch) {
+      const excludedText = excludedSegmentsMatch[1].trim();
+      
+      // Split by numbered or bullet points
+      const excludedBlocks = excludedText.split(/\n\s*\d+\.|\n\s*-/).slice(1); // Skip first empty element
+      
+      excludedBlocks.forEach(block => {
+        if (!block.trim()) return;
+        
+        const nameDescMatch = block.match(/^([^:]*?):\s*([^\n]+)/);
+        if (nameDescMatch) {
+          const name = nameDescMatch[1].trim();
+          const description = nameDescMatch[2].trim();
+          
+          const reasonMatch = block.match(/reason(?:s)?:\s*([^\n]+)/i) || 
+                             block.match(/because:\s*([^\n]+)/i) ||
+                             block.match(/why:\s*([^\n]+)/i);
+          const reason = reasonMatch ? reasonMatch[1].trim() : description;
+          
+          segments.excludedSegments.push({
+            name,
+            description,
+            reason
+          });
+        }
+      });
     }
     
     return segments;
   } catch (error) {
     console.error('Error parsing segmentation response:', error);
+    console.error('Response text:', responseText);
     throw new Error(`Failed to parse segmentation response: ${error.message}`);
   }
+}
+
+/**
+ * Extract bullet points from a text block
+ * 
+ * @param {string} text - Text block with bullet points
+ * @returns {Array<string>} Array of bullet points
+ */
+function extractBulletPoints(text) {
+  if (!text) return [];
+  
+  // Split by bullet points or numbered items
+  const bullets = text.split(/\n\s*-|\n\s*•|\n\s*\*|\n\s*\d+\./).map(b => b.trim()).filter(Boolean);
+  
+  // If no bullet points found, try splitting by new lines
+  if (bullets.length === 0) {
+    return text.split('\n').map(line => line.trim()).filter(Boolean);
+  }
+  
+  return bullets;
 }
 
 /**
