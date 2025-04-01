@@ -2,8 +2,10 @@
 ✔ Setup a straightforward keyword extractor function @done(25-03-24 13:21)
 ✔ Setup reddit API integration for reddit data collection @done(25-03-24 14:28)
 ✔ Develop a basic integration with Google Trends that returns real data @done(25-03-24 14:31)
-- Add More Validation Logic for the keyword extractor
-- Come up with a better prompt for the keyword extractor
-- Come up with a better prompt for the reddit analysis
-- Come up with a better prompt for the google trends analysis
-- Come up with a better way to determine market size 
+- Create pre-compiled market data for TAM calculations 
+- Implement a market data service to get the data from public sources 
+- Implement LLM enhancement market data service 
+- Implment fallback market data service using pre-compiled data 
+- Implement a TAM calculation service 
+- Implement a SAM calculation service 
+- Implement a SOM calculation service 
