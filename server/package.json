@@ -14,10 +14,12 @@
   "dependencies": {
     "@anthropic-ai/sdk": "^0.39.0",
     "axios": "^1.8.4",
+    "cheerio": "^1.0.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "google-trends-api": "^4.9.2",
+    "node-cache": "^5.1.2",
     "openai": "^4.89.0",
     "redis": "^4.7.0"
   },
