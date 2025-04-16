@@ -3,9 +3,15 @@
 import os
 import time
 import random
+from pathlib import Path
+from dotenv import load_dotenv
 from langchain_anthropic import ChatAnthropic
 from langchain_openai import ChatOpenAI
 from typing import Dict, Any, Optional, List, Union
+
+# Load environment variables from .env file
+project_root = Path(__file__).parent.parent
+load_dotenv(project_root / ".env")
 
 class ResilientLLM:
     """Resilient LLM provider with fallback capabilities"""
@@ -16,6 +22,7 @@ class ResilientLLM:
                  max_retries: int = 3,
                  retry_delay: int = 2):
         
+        # First try constructor args, then environment variables
         self.openai_api_key = openai_api_key or os.getenv("OPENAI_API_KEY")
         self.anthropic_api_key = anthropic_api_key or os.getenv("ANTHROPIC_API_KEY")
         self.max_retries = max_retries

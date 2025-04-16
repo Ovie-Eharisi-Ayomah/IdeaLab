@@ -22,7 +22,6 @@ payment processing, driver background checks, and customer support.
 
 /**
  * Expected classification for a ridesharing service like Uber:
- * 
  * Primary Industry: Transportation
  * Secondary Industry: Technology
  * Target Audience: Consumers
