@@ -49,7 +49,7 @@ async def get_market_size(request: BusinessRequest):
         )
         
         # Check if we got an error response
-        if "error" in result and not result.get("market_size", {}).get("value"):
+        if "error" in result and not result.get("market_data", {}).get("sources"):
             raise HTTPException(
                 status_code=500, 
                 detail=result.get("error", "Unknown error in market sizing")
