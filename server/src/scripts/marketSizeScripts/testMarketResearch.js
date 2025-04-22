@@ -7,8 +7,8 @@ async function testMarketResearch() {
     
     // This should use the cache if you've run it before
     const result = await getMarketSize(
-      'An app that helps people find dog walkers',
-      'Pet Services',
+      'An app that helps people optimise workouts for their fitness goals',
+      'Fitness',
       'Mobile Application'
     );
     

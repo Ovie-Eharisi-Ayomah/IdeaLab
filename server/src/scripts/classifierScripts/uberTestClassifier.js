@@ -6,7 +6,7 @@
  */
 
 require('dotenv').config({ path: '../../../.env' });
-const { classifyBusinessIdea } = require('../../llm/classifiers/businessClassifier');
+const { classifyBusinessIdea } = require('../../services/classifiers/businessClassifier');
 
 /**
  * Expected classification for a ridesharing service like Uber:
