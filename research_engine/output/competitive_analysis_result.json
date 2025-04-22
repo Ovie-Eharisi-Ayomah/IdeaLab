@@ -1,0 +1,141 @@
+{
+  "status": "success",
+  "competitors": [
+    {
+      "name": "[Strava]",
+      "website": "Not provided",
+      "products": [
+        "Fitness tracking",
+        "competition features"
+      ],
+      "target_audience": "Fitness enthusiasts",
+      "pricing_model": "Not specified",
+      "unique_selling_points": [
+        "Competition features"
+      ],
+      "market_position": "Not specified",
+      "founded": null,
+      "funding": ""
+    },
+    {
+      "name": "[Apple Fitness]",
+      "website": "Not provided",
+      "products": [
+        "Fitness tracking for Apple users"
+      ],
+      "target_audience": "Apple device users",
+      "pricing_model": "Not specified",
+      "unique_selling_points": [
+        "Integration with Apple devices"
+      ],
+      "market_position": "Not specified",
+      "founded": null,
+      "funding": ""
+    },
+    {
+      "name": "[Fitbit]",
+      "website": "Not provided",
+      "products": [
+        "Entry-level fitness tracking"
+      ],
+      "target_audience": "General fitness users",
+      "pricing_model": "Not specified",
+      "unique_selling_points": [
+        "Entry-level features"
+      ],
+      "market_position": "Not specified",
+      "founded": null,
+      "funding": ""
+    },
+    {
+      "name": "[PUSH]",
+      "website": "Not provided",
+      "products": [
+        "Science-backed fitness tracking"
+      ],
+      "target_audience": "Fitness enthusiasts",
+      "pricing_model": "Not specified",
+      "unique_selling_points": [
+        "Science-backed features"
+      ],
+      "market_position": "Not specified",
+      "founded": null,
+      "funding": ""
+    },
+    {
+      "name": "[Peloton]",
+      "website": "Not provided",
+      "products": [
+        "Fitness classes and equipment"
+      ],
+      "target_audience": "Fitness enthusiasts",
+      "pricing_model": "Not specified",
+      "unique_selling_points": [
+        "High-quality classes"
+      ],
+      "market_position": "Leading in revenue",
+      "founded": null,
+      "funding": ""
+    },
+    {
+      "name": "[MyFitnessPal]",
+      "website": "Not provided",
+      "products": [
+        "Fitness and nutrition tracking"
+      ],
+      "target_audience": "Health-conscious individuals",
+      "pricing_model": "Not specified",
+      "unique_selling_points": [
+        "Comprehensive tracking"
+      ],
+      "market_position": "Leading in revenue",
+      "founded": null,
+      "funding": ""
+    }
+  ],
+  "market_gaps": [
+    "Lack of personalized fitness coaching apps",
+    "Limited integration with wearable devices",
+    "Insufficient focus on holistic wellness"
+  ],
+  "barriers_to_entry": [
+    "High competition from established brands",
+    "Significant investment in technology and development",
+    "Need for strong marketing and brand recognition"
+  ],
+  "market_concentration": "Moderately concentrated with several key players like Peloton and MyFitnessPal leading in revenue.",
+  "emerging_trends": [
+    "Increased use of AI in fitness apps",
+    "Growth in holistic wellness apps",
+    "Rising demand for personalized fitness solutions"
+  ],
+  "sources": [
+    {
+      "url": "https://zapier.com/blog/best-fitness-tracking-apps/",
+      "name": "Zapier",
+      "date": "31 Jan 2025"
+    },
+    {
+      "url": "https://www.fullestop.com/blog/top-fitness-app-development-companies",
+      "name": "Fullestop",
+      "date": "9 Jan 2025"
+    },
+    {
+      "url": "https://www.f6s.com/companies/fitness-apps/mo",
+      "name": "F6S",
+      "date": "1 Apr 2025"
+    },
+    {
+      "url": "https://app.dealroom.co/lists/33766",
+      "name": "Dealroom.co",
+      "date": "11 Jun 2024"
+    },
+    {
+      "url": "https://ripenapps.com/blog/fitness-app-ideas/",
+      "name": "RipenApps Technologies",
+      "date": "10 Feb 2025"
+    }
+  ],
+  "confidence_score": 10,
+  "research_method": "cached"
+}
