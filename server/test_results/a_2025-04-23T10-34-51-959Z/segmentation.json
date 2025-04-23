@@ -1,0 +1,89 @@
+{
+  "primarySegments": [
+    {
+      "name": "Busy Professionals",
+      "description": "Dog owners with demanding jobs who need reliable dog walking services during work hours.",
+      "percentage": 40,
+      "characteristics": {
+        "demographics": [
+          "Ages 25-45",
+          "Middle to high income",
+          "Professionals in urban areas"
+        ],
+        "psychographics": [
+          "Value convenience and time-saving solutions",
+          "Career-focused",
+          "Tech-savvy"
+        ],
+        "problemsNeeds": [
+          "Lack of time to walk their dogs",
+          "Need for trustworthy and reliable service",
+          "Desire for flexible scheduling"
+        ],
+        "behaviors": [
+          "Use the app to schedule regular walks",
+          "Prefer in-app communication and updates",
+          "Likely to use premium features for convenience"
+        ]
+      },
+      "growthPotential": "High"
+    },
+    {
+      "name": "Elderly Dog Owners",
+      "description": "Older adults who own dogs but may have physical limitations that make dog walking challenging.",
+      "percentage": 30,
+      "characteristics": {
+        "demographics": [
+          "Ages 60+",
+          "Fixed income",
+          "Retired or semi-retired"
+        ],
+        "psychographics": [
+          "Value companionship of pets",
+          "Concerned about health and mobility",
+          "Appreciate personal service"
+        ],
+        "problemsNeeds": [
+          "Difficulty walking dogs due to physical limitations",
+          "Need for affordable services",
+          "Desire for trusted and friendly walkers"
+        ],
+        "behaviors": [
+          "Use the app for occasional walks",
+          "Prefer phone support over in-app communication",
+          "Rely on reviews and recommendations for choosing walkers"
+        ]
+      },
+      "growthPotential": "Medium"
+    },
+    {
+      "name": "Young Urban Dwellers",
+      "description": "Young adults living in cities who own dogs and seek convenient ways to manage pet care.",
+      "percentage": 20,
+      "characteristics": {
+        "demographics": [
+          "Ages 18-30",
+          "Lower to middle income",
+          "Students or entry-level professionals"
+        ],
+        "psychographics": [
+          "Value flexibility and spontaneity",
+          "Socially active and outgoing",
+          "Environmentally conscious"
+        ],
+        "problemsNeeds": [
+          "Unpredictable schedules",
+          "Limited access to outdoor spaces",
+          "Need for budget-friendly options"
+        ],
+        "behaviors": [
+          "Use the app for last-minute bookings",
+          "Engage with social features and community events",
+          "Look for discounts and promotions"
+        ]
+      },
+      "growthPotential": "Medium"
+    }
+  ],
+  "excludedSegments": []
+}

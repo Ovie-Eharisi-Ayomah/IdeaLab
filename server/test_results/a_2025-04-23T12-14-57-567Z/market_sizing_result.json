@@ -1,0 +1,99 @@
+{
+  "tam": {
+    "value": 1200000000,
+    "low": 200000000,
+    "high": 7600000000,
+    "formatted": "$1.2B",
+    "range": "$200.0M - $7.6B",
+    "growth_rate": {
+      "value": 8,
+      "formatted": "8.0%"
+    },
+    "sources_count": 3,
+    "outliers_count": 0
+  },
+  "sam": {
+    "value": 367200000,
+    "low": 61200000,
+    "high": 2325600000,
+    "formatted": "$367.2M",
+    "range": "$257.0M - $477.4M",
+    "multipliers": {
+      "geographic": 0.4,
+      "segments": 0.9,
+      "techAdoption": 0.85
+    }
+  },
+  "som": {
+    "value": 202694.4,
+    "low": 101347.2,
+    "high": 405388.8,
+    "formatted": "$202.7K",
+    "range": "$101.3K - $405.4K",
+    "multipliers": {
+      "newEntrant": 0.03,
+      "marketingReach": 0.23,
+      "conversion": 0.08
+    }
+  },
+  "confidence_score": 7,
+  "assumptions": {
+    "geographic_focus": 0.4,
+    "tech_adoption": 0.85,
+    "new_entrant_share": 0.03,
+    "marketing_reach": 0.23,
+    "conversion_rate": 0.08
+  },
+  "sources": [
+    {
+      "publisher": "Business Research Insights",
+      "size": "0.2 billion",
+      "year": 2023,
+      "is_outlier": false
+    },
+    {
+      "publisher": "Valuates Reports",
+      "size": "7.6 billion",
+      "year": 2023,
+      "is_outlier": false
+    },
+    {
+      "publisher": "Verified Market Reports",
+      "size": "1.2 billion",
+      "year": 2024,
+      "is_outlier": false
+    }
+  ],
+  "sensitivity": [
+    {
+      "name": "segment_targeting",
+      "value": 0.9,
+      "impact": 20.000000000000018
+    },
+    {
+      "name": "marketing_reach",
+      "value": 0.23,
+      "impact": 20.000000000000018
+    },
+    {
+      "name": "geographic_focus",
+      "value": 0.4,
+      "impact": 20.000000000000004
+    },
+    {
+      "name": "tech_adoption",
+      "value": 0.85,
+      "impact": 20.000000000000004
+    },
+    {
+      "name": "conversion_rate",
+      "value": 0.08,
+      "impact": 20.000000000000004
+    },
+    {
+      "name": "new_entrant_share",
+      "value": 0.03,
+      "impact": 19.999999999999986
+    }
+  ]
+}

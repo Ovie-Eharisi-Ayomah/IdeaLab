@@ -1,0 +1,89 @@
+{
+  "primarySegments": [
+    {
+      "name": "Busy Professionals",
+      "description": "Dog owners with demanding jobs who need reliable dog walking services during work hours.",
+      "percentage": 40,
+      "characteristics": {
+        "demographics": [
+          "Ages 25-45",
+          "Middle to high income",
+          "College-educated, often in corporate jobs"
+        ],
+        "psychographics": [
+          "Value convenience and efficiency",
+          "Health-conscious and active lifestyle",
+          "Tech-savvy and frequent app users"
+        ],
+        "problemsNeeds": [
+          "Lack of time to walk dogs due to work commitments",
+          "Need for trustworthy and reliable dog walkers",
+          "Desire for real-time updates and tracking of dog walks"
+        ],
+        "behaviors": [
+          "Use the app during work hours to schedule walks",
+          "Prefer automated payments and scheduling",
+          "Engage with customer reviews and ratings for choosing walkers"
+        ]
+      },
+      "growthPotential": "High"
+    },
+    {
+      "name": "Elderly Dog Owners",
+      "description": "Older adults who own dogs and require assistance with dog walking due to physical limitations.",
+      "percentage": 30,
+      "characteristics": {
+        "demographics": [
+          "Ages 60+",
+          "Fixed income (retirement)",
+          "Varied education levels"
+        ],
+        "psychographics": [
+          "Value companionship and pet care",
+          "Cautious with technology but willing to learn",
+          "Prioritize safety and reliability"
+        ],
+        "problemsNeeds": [
+          "Physical limitations preventing regular dog walks",
+          "Need for affordable and trustworthy services",
+          "Desire for simple and easy-to-use technology"
+        ],
+        "behaviors": [
+          "Prefer scheduling in advance",
+          "Seek recommendations from family or friends",
+          "Use app features that are straightforward and user-friendly"
+        ]
+      },
+      "growthPotential": "Medium"
+    },
+    {
+      "name": "Young Urban Dwellers",
+      "description": "Young adults living in urban areas who own dogs and have active social lives.",
+      "percentage": 20,
+      "characteristics": {
+        "demographics": [
+          "Ages 20-30",
+          "Varied income, often entry-level jobs",
+          "College students or recent graduates"
+        ],
+        "psychographics": [
+          "Enjoy socializing and outdoor activities",
+          "Value flexibility and spontaneity",
+          "Frequent users of mobile apps and social media"
+        ],
+        "problemsNeeds": [
+          "Busy social and work schedules limiting time for walks",
+          "Need for flexible and on-demand services",
+          "Desire for integration with social media for sharing experiences"
+        ],
+        "behaviors": [
+          "Use the app for last-minute bookings",
+          "Engage with promotions and discounts",
+          "Share experiences and reviews on social media"
+        ]
+      },
+      "growthPotential": "High"
+    }
+  ],
+  "excludedSegments": []
+}

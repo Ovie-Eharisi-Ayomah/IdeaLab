@@ -1,0 +1,9 @@
+{
+  "status": "error",
+  "error": "Competition analysis failed: expected string or bytes-like object, got 'NoneType'",
+  "competitors": [],
+  "market_gaps": [],
+  "barriers_to_entry": [],
+  "market_concentration": "unknown",
+  "confidence_score": 0
+}

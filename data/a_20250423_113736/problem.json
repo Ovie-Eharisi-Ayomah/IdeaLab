@@ -1,0 +1,11 @@
+{
+  "error": "Problem validation failed after multiple attempts",
+  "problem_validation": {
+    "exists": null,
+    "severity": 0,
+    "frequency": 0,
+    "willingness_to_pay": 0,
+    "evidence": []
+  },
+  "confidence_score": 0
+}

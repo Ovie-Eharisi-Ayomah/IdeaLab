@@ -1,0 +1,89 @@
+{
+  "primarySegments": [
+    {
+      "name": "Busy Professionals",
+      "description": "Dog owners who have demanding jobs and need reliable dog walking services to manage their pets' needs.",
+      "percentage": 40,
+      "characteristics": {
+        "demographics": [
+          "Ages 25-45",
+          "Middle to high income",
+          "College-educated, working professionals"
+        ],
+        "psychographics": [
+          "Value convenience and time-saving solutions",
+          "Career-oriented with busy lifestyles",
+          "Interested in technology and efficiency"
+        ],
+        "problemsNeeds": [
+          "Lack of time to walk their dogs due to work commitments",
+          "Need for trustworthy and reliable dog walkers",
+          "Desire for easy scheduling and payment options"
+        ],
+        "behaviors": [
+          "Frequently use mobile apps for services",
+          "Prefer automated scheduling and notifications",
+          "Likely to book recurring services"
+        ]
+      },
+      "growthPotential": "High"
+    },
+    {
+      "name": "Elderly Dog Owners",
+      "description": "Older adults who own dogs and may have physical limitations that make dog walking challenging.",
+      "percentage": 30,
+      "characteristics": {
+        "demographics": [
+          "Ages 60 and above",
+          "Fixed income, often retired",
+          "Varied education levels"
+        ],
+        "psychographics": [
+          "Value companionship and pet care",
+          "May have health or mobility concerns",
+          "Appreciate personal interactions and trustworthiness"
+        ],
+        "problemsNeeds": [
+          "Physical limitations in walking dogs",
+          "Need for reliable and caring dog walkers",
+          "Desire for personalized service and communication"
+        ],
+        "behaviors": [
+          "Prefer phone or simple app interfaces",
+          "Value personal recommendations and reviews",
+          "Likely to seek consistent and familiar walkers"
+        ]
+      },
+      "growthPotential": "Medium"
+    },
+    {
+      "name": "Young Urbanites",
+      "description": "Young adults living in urban areas who own dogs and seek convenient solutions for pet care.",
+      "percentage": 20,
+      "characteristics": {
+        "demographics": [
+          "Ages 18-30",
+          "Entry to mid-level income",
+          "College students or early career professionals"
+        ],
+        "psychographics": [
+          "Value lifestyle flexibility and spontaneity",
+          "Tech-savvy and socially connected",
+          "Interested in social and environmental issues"
+        ],
+        "problemsNeeds": [
+          "Limited time due to social and work commitments",
+          "Need for affordable dog walking services",
+          "Desire for eco-friendly and ethical service options"
+        ],
+        "behaviors": [
+          "Use social media and apps frequently",
+          "Likely to share experiences and reviews online",
+          "Prefer flexible and on-demand services"
+        ]
+      },
+      "growthPotential": "High"
+    }
+  ],
+  "excludedSegments": []
+}

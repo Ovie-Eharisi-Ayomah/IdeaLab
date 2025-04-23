@@ -1,0 +1,94 @@
+{
+  "primarySegments": [
+    {
+      "name": "Busy Urban Professionals",
+      "description": "Young, career-focused individuals living in cities who own dogs but struggle to find time for regular walks.",
+      "percentage": 40,
+      "characteristics": {
+        "demographics": [
+          "Ages 25-40",
+          "Higher income ($75,000+)",
+          "Urban dwellers in apartments or small homes"
+        ],
+        "psychographics": [
+          "Career-oriented and ambitious",
+          "Values work-life balance",
+          "Sees pets as important family members"
+        ],
+        "problemsNeeds": [
+          "Lack of time for regular dog walks due to long work hours",
+          "Guilt about leaving dog alone for extended periods",
+          "Need for reliable, trustworthy dog walkers"
+        ],
+        "behaviors": [
+          "Frequently use on-demand services and apps",
+          "Likely to book recurring walks on a set schedule",
+          "Willing to pay premium for convenience and quality service"
+        ]
+      },
+      "growthPotential": "High"
+    },
+    {
+      "name": "Active Empty Nesters",
+      "description": "Older adults with more free time who want to maintain an active lifestyle but sometimes need help walking their dogs.",
+      "percentage": 30,
+      "characteristics": {
+        "demographics": [
+          "Ages 55-70",
+          "Middle to upper-middle income",
+          "Suburban or urban homeowners"
+        ],
+        "psychographics": [
+          "Values health and staying active",
+          "Enjoys travel and social activities",
+          "Considers pets as companions"
+        ],
+        "problemsNeeds": [
+          "Occasional need for dog walking due to travel or social engagements",
+          "Physical limitations that sometimes prevent long walks",
+          "Desire for socialization for their dogs"
+        ],
+        "behaviors": [
+          "May use app less frequently but for longer durations",
+          "Likely to develop relationships with specific walkers",
+          "Interested in detailed reports about their dog's activities"
+        ]
+      },
+      "growthPotential": "Medium"
+    },
+    {
+      "name": "Tech-Savvy Pet Parents",
+      "description": "Younger dog owners who embrace technology and prioritize their pets' care and well-being.",
+      "percentage": 30,
+      "characteristics": {
+        "demographics": [
+          "Ages 18-30",
+          "Varied income levels",
+          "Mix of urban and suburban locations"
+        ],
+        "psychographics": [
+          "Early adopters of new technologies",
+          "Highly engaged in pet care and training",
+          "Values experiences over material possessions"
+        ],
+        "problemsNeeds": [
+          "Desire for on-demand services that fit unpredictable schedules",
+          "Interest in tracking dog's activity and health data",
+          "Need for socialization and exercise for high-energy dogs"
+        ],
+        "behaviors": [
+          "Frequent app usage, often booking last-minute walks",
+          "Likely to use additional features like GPS tracking or photo updates",
+          "May act as both dog owners and dog walkers on the platform"
+        ]
+      },
+      "growthPotential": "High"
+    }
+  ],
+  "excludedSegments": [
+    {
+      "name": "Rural Dog Owners",
+      "reason": "This segment typically has ample space for dogs to roam and exercise, reducing the need for dedicated dog walking services. The lower population density in rural areas also makes it challenging to maintain a consistent supply of dog walkers, making the service less viable in these regions."
+    }
+  ]
+}

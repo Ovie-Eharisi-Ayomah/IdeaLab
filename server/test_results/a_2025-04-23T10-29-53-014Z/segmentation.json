@@ -1,0 +1,89 @@
+{
+  "primarySegments": [
+    {
+      "name": "Busy Professionals",
+      "description": "Dog owners who work long hours and need reliable dog walking services to ensure their pets are taken care of during the day.",
+      "percentage": 40,
+      "characteristics": {
+        "demographics": [
+          "Ages 25-45",
+          "Middle to high income",
+          "Full-time employment"
+        ],
+        "psychographics": [
+          "Value convenience and reliability",
+          "Concerned about pet well-being",
+          "Tech-savvy and use apps frequently"
+        ],
+        "problemsNeeds": [
+          "Lack of time during workdays",
+          "Need trustworthy and vetted walkers",
+          "Desire for real-time updates on pet care"
+        ],
+        "behaviors": [
+          "Use the app during work hours",
+          "Schedule regular walking services",
+          "Engage with customer reviews and ratings"
+        ]
+      },
+      "growthPotential": "High"
+    },
+    {
+      "name": "Elderly Pet Owners",
+      "description": "Older adults who own dogs but may have physical limitations that prevent them from walking their pets regularly.",
+      "percentage": 30,
+      "characteristics": {
+        "demographics": [
+          "Ages 60+",
+          "Fixed income or pension",
+          "Retired or part-time employment"
+        ],
+        "psychographics": [
+          "Value companionship of pets",
+          "Appreciate personal interaction",
+          "May be less tech-savvy"
+        ],
+        "problemsNeeds": [
+          "Physical limitations for walking dogs",
+          "Need for affordable services",
+          "Desire for personalized service"
+        ],
+        "behaviors": [
+          "Prefer scheduling via phone or simple app interfaces",
+          "Seek walkers with good interpersonal skills",
+          "May require assistance with app navigation"
+        ]
+      },
+      "growthPotential": "Medium"
+    },
+    {
+      "name": "Young Urban Dwellers",
+      "description": "Young adults living in urban areas who own dogs and have active lifestyles but need help with pet care due to social and work commitments.",
+      "percentage": 20,
+      "characteristics": {
+        "demographics": [
+          "Ages 18-30",
+          "Entry to mid-level income",
+          "Students or early career professionals"
+        ],
+        "psychographics": [
+          "Value flexibility and spontaneity",
+          "Environmentally conscious",
+          "Active on social media"
+        ],
+        "problemsNeeds": [
+          "Unpredictable schedules",
+          "Need for last-minute walking services",
+          "Preference for eco-friendly and sustainable options"
+        ],
+        "behaviors": [
+          "Use the app for on-demand services",
+          "Share experiences on social media",
+          "Look for promotions and discounts"
+        ]
+      },
+      "growthPotential": "High"
+    }
+  ],
+  "excludedSegments": []
+}

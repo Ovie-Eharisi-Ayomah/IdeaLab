@@ -1,0 +1,89 @@
+{
+  "primarySegments": [
+    {
+      "name": "Busy Professionals",
+      "description": "Dog owners with demanding jobs who need reliable dog walking services during work hours.",
+      "percentage": 40,
+      "characteristics": {
+        "demographics": [
+          "Ages 25-45",
+          "Middle to high income",
+          "Professionals in demanding jobs"
+        ],
+        "psychographics": [
+          "Value convenience and efficiency",
+          "Career-focused",
+          "Tech-savvy"
+        ],
+        "problemsNeeds": [
+          "Lack of time to walk their dogs",
+          "Need for trustworthy and reliable service",
+          "Desire for real-time updates on their dog's activities"
+        ],
+        "behaviors": [
+          "Frequent app users during work hours",
+          "Prefer scheduling in advance",
+          "Engage with customer reviews and ratings"
+        ]
+      },
+      "growthPotential": "High"
+    },
+    {
+      "name": "Elderly Dog Owners",
+      "description": "Older adults who may have physical limitations and require assistance with dog walking.",
+      "percentage": 30,
+      "characteristics": {
+        "demographics": [
+          "Ages 60+",
+          "Retired or semi-retired",
+          "Fixed income"
+        ],
+        "psychographics": [
+          "Value safety and reliability",
+          "Health-conscious",
+          "Prefer personal interactions"
+        ],
+        "problemsNeeds": [
+          "Physical limitations preventing regular walks",
+          "Need for affordable services",
+          "Desire for companionship and social interaction"
+        ],
+        "behaviors": [
+          "Use app with assistance or simplified interface",
+          "Prefer consistent, familiar walkers",
+          "Engage in feedback to improve service"
+        ]
+      },
+      "growthPotential": "Medium"
+    },
+    {
+      "name": "Young Urban Dwellers",
+      "description": "Young adults living in urban areas who own dogs and have active lifestyles.",
+      "percentage": 20,
+      "characteristics": {
+        "demographics": [
+          "Ages 18-30",
+          "Entry-level to mid-income",
+          "Students or early-career professionals"
+        ],
+        "psychographics": [
+          "Value flexibility and spontaneity",
+          "Socially active",
+          "Environmentally conscious"
+        ],
+        "problemsNeeds": [
+          "Unpredictable schedules",
+          "Need for flexible walking times",
+          "Desire for eco-friendly service options"
+        ],
+        "behaviors": [
+          "Use app on-the-go",
+          "Engage with social media and app promotions",
+          "Provide feedback and share experiences online"
+        ]
+      },
+      "growthPotential": "High"
+    }
+  ],
+  "excludedSegments": []
+}
