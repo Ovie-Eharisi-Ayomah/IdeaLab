@@ -1,4 +1,4 @@
-// run_full_test.js - The Unholy Integration Script
+// run_full_test.js - The Unholy Integration Script (Very much a work in progress)
 const fs = require('fs');
 const path = require('path');
 const { exec } = require('child_process');
