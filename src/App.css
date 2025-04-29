@@ -1,7 +1,7 @@
 #root {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 0;
   text-align: center;
 }
 
@@ -39,4 +39,134 @@
 
 .read-the-docs {
   color: #888;
+}
+
+/* App.css */
+
+/* App container */
+.app-container {
+  min-height: 100vh;
+  transition: all 0.3s ease;
+}
+
+/* Light Mode (based on example) */
+.light-mode {
+  background-color: #f9fafb;
+  color: #111827;
+}
+
+.light-mode .app-header {
+  background-color: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.light-mode .logo-text {
+  color: #111827;
+}
+
+.light-mode .logo-icon {
+  color: #2563eb; /* Blue */
+}
+
+.light-mode .theme-toggle-button {
+  color: #4b5563;
+  background-color: #f3f4f6;
+}
+
+/* Dark Mode */
+.dark-mode {
+  background-color: #111827;
+  color: #f9fafb;
+}
+
+.dark-mode .app-header {
+  background-color: #1f2937;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.dark-mode .logo-text {
+  color: white;
+}
+
+.dark-mode .logo-icon {
+  color: #3b82f6; /* Blue */
+}
+
+.dark-mode .theme-toggle-button {
+  color: #e5e7eb;
+  background-color: #374151;
+}
+
+/* Header styles */
+.app-header {
+  transition: all 0.3s ease;
+}
+
+.header-content {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.header-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@media (min-width: 640px) {
+  .header-content {
+    padding: 1rem 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .header-content {
+    padding: 1rem 2rem;
+  }
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo-icon {
+  height: 2rem;
+  width: 2rem;
+  transition: color 0.3s ease;
+}
+
+.logo-text {
+  margin-left: 0.75rem;
+  font-size: 1.875rem;
+  font-weight: 700;
+  transition: color 0.3s ease;
+}
+
+/* Theme toggle button */
+.theme-toggle-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 9999px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.theme-toggle-button:hover {
+  transform: scale(1.1);
+}
+
+.theme-toggle-button:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Main content */
+.main-content {
+  padding: 2.5rem 0;
 }

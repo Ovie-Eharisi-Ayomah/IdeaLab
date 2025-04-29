@@ -1,0 +1,94 @@
+{
+  "primarySegments": [
+    {
+      "name": "Aspiring Entrepreneurs",
+      "description": "Individuals looking to start their own businesses and need validation for their business ideas.",
+      "percentage": 40,
+      "characteristics": {
+        "demographics": [
+          "Aged 25-40",
+          "Middle to upper-middle income",
+          "College-educated"
+        ],
+        "psychographics": [
+          "Value innovation and creativity",
+          "Risk-takers",
+          "Interested in entrepreneurship and startups"
+        ],
+        "problemsNeeds": [
+          "Need to validate business ideas before investing heavily",
+          "Require data on market trends and competition",
+          "Lack resources to conduct thorough market research"
+        ],
+        "behaviors": [
+          "Frequently search for business advice online",
+          "Engage with entrepreneurial communities",
+          "Use online tools for business planning"
+        ]
+      },
+      "growthPotential": "High"
+    },
+    {
+      "name": "Small Business Consultants",
+      "description": "Professionals who provide consulting services to small businesses and startups.",
+      "percentage": 30,
+      "characteristics": {
+        "demographics": [
+          "Aged 30-50",
+          "High income",
+          "Advanced degrees in business or related fields"
+        ],
+        "psychographics": [
+          "Value efficiency and accuracy",
+          "Detail-oriented",
+          "Interested in business growth and strategy"
+        ],
+        "problemsNeeds": [
+          "Need reliable tools to offer data-driven advice",
+          "Require quick access to market analysis",
+          "Seek to enhance service offerings with technology"
+        ],
+        "behaviors": [
+          "Regularly use analytical tools",
+          "Attend business seminars and workshops",
+          "Network with other professionals"
+        ]
+      },
+      "growthPotential": "Medium"
+    },
+    {
+      "name": "Corporate Innovation Teams",
+      "description": "Teams within large corporations tasked with exploring new business opportunities and innovations.",
+      "percentage": 20,
+      "characteristics": {
+        "demographics": [
+          "Aged 35-55",
+          "High income",
+          "Corporate professionals with business or technical backgrounds"
+        ],
+        "psychographics": [
+          "Value innovation and staying ahead of trends",
+          "Strategic thinkers",
+          "Focus on long-term growth"
+        ],
+        "problemsNeeds": [
+          "Need to validate new business ideas quickly",
+          "Require comprehensive market data to support decisions",
+          "Seek tools that integrate with existing corporate systems"
+        ],
+        "behaviors": [
+          "Collaborate with cross-functional teams",
+          "Utilize advanced analytical tools",
+          "Participate in industry conferences"
+        ]
+      },
+      "growthPotential": "Medium"
+    }
+  ],
+  "excludedSegments": [
+    {
+      "name": "Casual Hobbyists",
+      "reason": "This segment lacks the commitment to invest in a professional tool for business idea validation, as they engage in business activities more as a hobby than a serious venture."
+    }
+  ]
+}

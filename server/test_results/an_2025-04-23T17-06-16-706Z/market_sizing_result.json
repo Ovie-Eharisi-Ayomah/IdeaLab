@@ -1,0 +1,99 @@
+{
+  "tam": {
+    "value": 1200000000,
+    "low": 200000000,
+    "high": 7600000000,
+    "formatted": "$1.2B",
+    "range": "$200.0M - $7.6B",
+    "growth_rate": {
+      "value": 8,
+      "formatted": "8.0%"
+    },
+    "sources_count": 3,
+    "outliers_count": 0
+  },
+  "sam": {
+    "value": 388800000,
+    "low": 64800000,
+    "high": 2462400000,
+    "formatted": "$388.8M",
+    "range": "$272.2M - $505.4M",
+    "multipliers": {
+      "geographic": 0.4,
+      "segments": 0.9,
+      "techAdoption": 0.9
+    }
+  },
+  "som": {
+    "value": 233280,
+    "low": 116640,
+    "high": 466560,
+    "formatted": "$233.3K",
+    "range": "$116.6K - $466.6K",
+    "multipliers": {
+      "newEntrant": 0.03,
+      "marketingReach": 0.25,
+      "conversion": 0.08
+    }
+  },
+  "confidence_score": 7,
+  "assumptions": {
+    "geographic_focus": 0.4,
+    "tech_adoption": 0.9,
+    "new_entrant_share": 0.03,
+    "marketing_reach": 0.25,
+    "conversion_rate": 0.08
+  },
+  "sources": [
+    {
+      "publisher": "Business Research Insights",
+      "size": "0.2 billion",
+      "year": 2023,
+      "is_outlier": false
+    },
+    {
+      "publisher": "Valuates Reports",
+      "size": "7.6 billion",
+      "year": 2023,
+      "is_outlier": false
+    },
+    {
+      "publisher": "Verified Market Reports",
+      "size": "1.2 billion",
+      "year": 2024,
+      "is_outlier": false
+    }
+  ],
+  "sensitivity": [
+    {
+      "name": "segment_targeting",
+      "value": 0.9,
+      "impact": 20.000000000000025
+    },
+    {
+      "name": "tech_adoption",
+      "value": 0.9,
+      "impact": 20.000000000000025
+    },
+    {
+      "name": "geographic_focus",
+      "value": 0.4,
+      "impact": 20
+    },
+    {
+      "name": "marketing_reach",
+      "value": 0.25,
+      "impact": 20
+    },
+    {
+      "name": "conversion_rate",
+      "value": 0.08,
+      "impact": 20
+    },
+    {
+      "name": "new_entrant_share",
+      "value": 0.03,
+      "impact": 19.999999999999975
+    }
+  ]
+}

@@ -2,10 +2,7 @@
 ✔ Setup a straightforward keyword extractor function @done(25-03-24 13:21)
 ✔ Setup reddit API integration for reddit data collection @done(25-03-24 14:28)
 ✔ Develop a basic integration with Google Trends that returns real data @done(25-03-24 14:31)
-- Create pre-compiled market data for TAM calculations 
-- Implement a market data service to get the data from public sources 
-- Implement LLM enhancement market data service 
-- Implment fallback market data service using pre-compiled data 
-- Implement a TAM calculation service 
-- Implement a SAM calculation service 
-- Implement a SOM calculation service 
+✔ Implement a TAM calculation service @done(25-04-29 12:39)
+✔ Implement a SAM calculation service @done(25-04-29 12:39)
+✔ Implement a SOM calculation service @done(25-04-29 12:39)
+- Create a problem statement service that uses the LLM to create a problem statement from a business idea

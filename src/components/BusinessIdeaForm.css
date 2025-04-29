@@ -1,0 +1,480 @@
+/* BusinessIdeaForm.css */
+
+/* Main container */
+.form-container {
+  max-width: 768px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+@media (min-width: 640px) {
+  .form-container {
+    padding: 0 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .form-container {
+    padding: 0 2rem;
+  }
+}
+
+/* Card container */
+.card {
+  overflow: hidden;
+  border-radius: 0.5rem;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.light-mode .card {
+  background-color: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+.dark-mode .card {
+  background-color: #1f2937;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.card-body {
+  padding: 1rem;
+}
+
+@media (min-width: 640px) {
+  .card-body {
+    padding: 1.5rem;
+  }
+}
+
+/* Typography */
+.heading {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  transition: color 0.3s ease;
+}
+
+.light-mode .heading {
+  color: #111827;
+}
+
+.dark-mode .heading {
+  color: white;
+}
+
+.subheading {
+  margin-bottom: 1.5rem;
+  transition: color 0.3s ease;
+}
+
+.light-mode .subheading {
+  color: #6b7280;
+}
+
+.dark-mode .subheading {
+  color: #9ca3af;
+}
+
+/* Form layout */
+.form-section {
+  margin-bottom: 1.5rem;
+}
+
+.space-y {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Labels */
+.form-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+  transition: color 0.3s ease;
+}
+
+.light-mode .form-label {
+  color: #374151;
+}
+
+.dark-mode .form-label {
+  color: #d1d5db;
+}
+
+.form-label-required {
+  color: #ef4444;
+}
+
+.help-icon {
+  margin-left: 0.5rem;
+  display: inline-flex;
+  transition: color 0.3s ease;
+}
+
+.light-mode .help-icon {
+  color: #9ca3af;
+}
+
+.light-mode .help-icon:hover {
+  color: #6b7280;
+}
+
+.dark-mode .help-icon {
+  color: #6b7280;
+}
+
+.dark-mode .help-icon:hover {
+  color: #9ca3af;
+}
+
+/* Text inputs and textareas */
+.form-input-container {
+  margin-top: 0.25rem;
+  position: relative;
+}
+
+.form-input,
+.form-textarea,
+.form-select {
+  display: block;
+  width: 100%;
+  font-size: 0.875rem;
+  border-radius: 0.375rem;
+  padding: 0.75rem;
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.light-mode .form-input,
+.light-mode .form-textarea,
+.light-mode .form-select {
+  border: 1px solid #d1d5db;
+  background-color: white;
+  color: #111827;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.dark-mode .form-input,
+.dark-mode .form-textarea,
+.dark-mode .form-select {
+  border: 1px solid #4b5563;
+  background-color: #374151;
+  color: white;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.light-mode .form-input:focus,
+.light-mode .form-textarea:focus,
+.light-mode .form-select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25);
+}
+
+.dark-mode .form-input:focus,
+.dark-mode .form-textarea:focus,
+.dark-mode .form-select:focus {
+  outline: none;
+  border-color: #60a5fa;
+  box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.25);
+}
+
+.form-input-error,
+.form-textarea-error {
+  border-color: #fca5a5 !important;
+}
+
+.form-input-error:focus,
+.form-textarea-error:focus {
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.25) !important;
+}
+
+/* Input metadata */
+.input-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+  transition: color 0.3s ease;
+}
+
+.light-mode .input-meta {
+  color: #6b7280;
+}
+
+.dark-mode .input-meta {
+  color: #9ca3af;
+}
+
+.error-message {
+  display: flex;
+  align-items: center;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+  color: #dc2626;
+}
+
+.error-message svg {
+  margin-right: 0.25rem;
+}
+
+.helper-text {
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+  transition: color 0.3s ease;
+}
+
+.light-mode .helper-text {
+  color: #6b7280;
+}
+
+.dark-mode .helper-text {
+  color: #9ca3af;
+}
+
+/* Toggles and buttons */
+.toggle-button {
+  display: flex;
+  align-items: center;
+  font-size: 0.875rem;
+  font-weight: 500;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.light-mode .toggle-button {
+  color: #2563eb;
+}
+
+.light-mode .toggle-button:hover {
+  color: #1d4ed8;
+}
+
+.dark-mode .toggle-button {
+  color: #60a5fa;
+}
+
+.dark-mode .toggle-button:hover {
+  color: #93c5fd;
+}
+
+.toggle-button:hover {
+  text-decoration: underline;
+}
+
+.toggle-button svg {
+  height: 0.75rem;
+  width: 0.75rem;
+  margin-left: 0.25rem;
+}
+
+.advanced-toggle {
+  display: flex;
+  align-items: center;
+  padding-top: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.light-mode .advanced-toggle {
+  border-top: 1px solid #e5e7eb;
+}
+
+.dark-mode .advanced-toggle {
+  border-top: 1px solid #374151;
+}
+
+.advanced-toggle svg {
+  height: 1rem;
+  width: 1rem;
+  margin-left: 0.25rem;
+}
+
+/* Tips section */
+.tips-container {
+  margin-top: 0.75rem;
+  padding: 0.75rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  transition: background-color 0.3s ease;
+}
+
+.light-mode .tips-container {
+  background-color: #eff6ff;
+}
+
+.dark-mode .tips-container {
+  background-color: rgba(30, 58, 138, 0.3);
+}
+
+.tips-heading {
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  transition: color 0.3s ease;
+}
+
+.light-mode .tips-heading {
+  color: #1d4ed8;
+}
+
+.dark-mode .tips-heading {
+  color: #93c5fd;
+}
+
+.tips-list {
+  list-style-type: disc;
+  padding-left: 1.25rem;
+  line-height: 1.25;
+  transition: color 0.3s ease;
+}
+
+.light-mode .tips-list {
+  color: #1e40af;
+}
+
+.dark-mode .tips-list {
+  color: #bfdbfe;
+}
+
+.tips-list li {
+  margin-bottom: 0.25rem;
+}
+
+/* Alert boxes */
+.alert {
+  display: flex;
+  padding: 0.75rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.alert svg {
+  flex-shrink: 0;
+  margin-right: 0.5rem;
+  height: 1.25rem;
+  width: 1.25rem;
+}
+
+.light-mode .alert-warning {
+  background-color: #fefce8;
+  color: #854d0e;
+  border: 1px solid #fef08a;
+}
+
+.light-mode .alert-warning svg {
+  color: #eab308;
+}
+
+.dark-mode .alert-warning {
+  background-color: rgba(234, 179, 8, 0.1);
+  color: #fcd34d;
+  border-color: #78350f;
+}
+
+.light-mode .alert-error {
+  background-color: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+}
+
+.dark-mode .alert-error {
+  background-color: rgba(220, 38, 38, 0.1);
+  color: #fca5a5;
+  border-color: #7f1d1d;
+}
+
+.light-mode .alert-success {
+  background-color: #f0fdf4;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+}
+
+.dark-mode .alert-success {
+  background-color: rgba(22, 163, 74, 0.1);
+  color: #86efac;
+  border-color: #14532d;
+}
+
+/* Submit button */
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.submit-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: white;
+  border: 1px solid transparent;
+  border-radius: 0.375rem;
+  transition: background-color 0.2s ease-in-out, opacity 0.2s ease;
+  cursor: pointer;
+}
+
+.light-mode .submit-button {
+  background-color: #2563eb;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.light-mode .submit-button:hover {
+  background-color: #1d4ed8;
+}
+
+.dark-mode .submit-button {
+  background-color: #3b82f6;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.dark-mode .submit-button:hover {
+  background-color: #2563eb;
+}
+
+.submit-button:focus {
+  outline: none;
+}
+
+.light-mode .submit-button:focus {
+  box-shadow: 0 0 0 2px white, 0 0 0 4px #2563eb;
+}
+
+.dark-mode .submit-button:focus {
+  box-shadow: 0 0 0 2px #1f2937, 0 0 0 4px #3b82f6;
+}
+
+.submit-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.submit-button svg {
+  margin-left: 0.5rem;
+  height: 1.25rem;
+  width: 1.25rem;
+}
+
+.loading-spinner {
+  animation: spin 1s linear infinite;
+  margin-right: 0.75rem;
+  margin-left: -0.25rem;
+  height: 1.25rem;
+  width: 1.25rem;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+} 
