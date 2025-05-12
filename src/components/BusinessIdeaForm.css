@@ -477,4 +477,60 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+/* Problem statement container */
+.problem-statement-container {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.problem-statement-container .form-textarea {
+  flex: 1;
+}
+
+.generate-problem-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  padding: 0.5rem 0.75rem;
+  align-self: flex-start;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: 0.375rem;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.light-mode .generate-problem-btn {
+  background-color: #f3f4f6;
+  color: #4b5563;
+  border: 1px solid #d1d5db;
+}
+
+.light-mode .generate-problem-btn:hover:not(:disabled) {
+  background-color: #e5e7eb;
+  color: #374151;
+}
+
+.dark-mode .generate-problem-btn {
+  background-color: #374151;
+  color: #d1d5db;
+  border: 1px solid #4b5563;
+}
+
+.dark-mode .generate-problem-btn:hover:not(:disabled) {
+  background-color: #4b5563;
+  color: white;
+}
+
+.generate-problem-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.generate-problem-btn svg {
+  height: 1rem;
+  width: 1rem;
 } 

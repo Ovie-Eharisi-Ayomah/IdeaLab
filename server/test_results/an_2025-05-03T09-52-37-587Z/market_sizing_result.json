@@ -1,0 +1,93 @@
+{
+  "tam": {
+    "value": 279220000000,
+    "low": 98000000000,
+    "high": 279220000000,
+    "formatted": "$279.2B",
+    "range": "$98.0B - $279.2B",
+    "growth_rate": {
+      "value": 35.9,
+      "formatted": "35.9%"
+    },
+    "sources_count": 2,
+    "outliers_count": 0
+  },
+  "sam": {
+    "value": 90467280000,
+    "low": 31752000000,
+    "high": 90467280000,
+    "formatted": "$90.5B",
+    "range": "$63.3B - $117.6B",
+    "multipliers": {
+      "geographic": 0.4,
+      "segments": 0.9,
+      "techAdoption": 0.9
+    }
+  },
+  "som": {
+    "value": 81420552,
+    "low": 40710276,
+    "high": 162841104,
+    "formatted": "$81.4M",
+    "range": "$40.7M - $162.8M",
+    "multipliers": {
+      "newEntrant": 0.045,
+      "marketingReach": 0.25,
+      "conversion": 0.08
+    }
+  },
+  "confidence_score": 4,
+  "assumptions": {
+    "geographic_focus": 0.4,
+    "tech_adoption": 0.9,
+    "new_entrant_share": 0.045,
+    "marketing_reach": 0.25,
+    "conversion_rate": 0.08
+  },
+  "sources": [
+    {
+      "publisher": "ABI Research",
+      "size": "98 billion",
+      "year": 2024,
+      "is_outlier": false
+    },
+    {
+      "publisher": "Grand View Research",
+      "size": "279.22 billion",
+      "year": 2024,
+      "is_outlier": false
+    }
+  ],
+  "sensitivity": [
+    {
+      "name": "segment_targeting",
+      "value": 0.9,
+      "impact": 20.000000000000025
+    },
+    {
+      "name": "geographic_focus",
+      "value": 0.4,
+      "impact": 20.000000000000007
+    },
+    {
+      "name": "tech_adoption",
+      "value": 0.9,
+      "impact": 20.000000000000007
+    },
+    {
+      "name": "new_entrant_share",
+      "value": 0.045,
+      "impact": 20.000000000000007
+    },
+    {
+      "name": "marketing_reach",
+      "value": 0.25,
+      "impact": 20.000000000000007
+    },
+    {
+      "name": "conversion_rate",
+      "value": 0.08,
+      "impact": 20.000000000000007
+    }
+  ]
+}

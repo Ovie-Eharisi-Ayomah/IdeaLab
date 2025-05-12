@@ -7,13 +7,15 @@ import {
   ChevronUp, 
   AlertCircle, 
   Loader2,
-  CheckCircle 
+  CheckCircle,
+  Sparkles
 } from 'lucide-react';
 import './BusinessIdeaForm.css';
 
 // --- Constants ---
 const MIN_IDEA_LENGTH = 20;
 const MIN_WORD_COUNT = 30; // Target word count for better analysis
+const API_BASE_URL = 'http://localhost:5002/api'; // API base URL
 
 // --- Component Type Definitions ---
 type ApiSuccessResponse = {
@@ -60,7 +62,9 @@ const BusinessIdeaForm: React.FC = () => {
   const [isAdvancedExpanded, setIsAdvancedExpanded] = useState<boolean>(false);
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isGeneratingProblem, setIsGeneratingProblem] = useState<boolean>(false);
   const [apiError, setApiError] = useState<string | null>(null);
+  const [problemGenError, setProblemGenError] = useState<string | null>(null);
   const [submitSuccess, setSubmitSuccess] = useState<boolean>(false);
 
   // --- Effects ---
@@ -155,6 +159,43 @@ const BusinessIdeaForm: React.FC = () => {
       setApiError(err instanceof Error ? err.message : 'An unexpected error occurred. Please try again.');
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  // Generate Problem Statement from Business Idea
+  const handleGenerateProblem = async () => {
+    // Validate business idea
+    if (businessIdea.trim().length < MIN_IDEA_LENGTH) {
+      setFormErrors(prev => ({ 
+        ...prev, 
+        businessIdea: `Please provide more details about your idea (minimum ${MIN_IDEA_LENGTH} characters).` 
+      }));
+      return;
+    }
+
+    try {
+      setProblemGenError(null);
+      setIsGeneratingProblem(true);
+
+      const response = await fetch(`${API_BASE_URL}/generate-problem`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ businessIdea }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to generate problem statement');
+      }
+
+      const data = await response.json();
+      setProblemStatement(data.problemStatement);
+    } catch (error) {
+      console.error('Error generating problem statement:', error);
+      setProblemGenError(error instanceof Error ? error.message : 'Failed to generate problem statement');
+    } finally {
+      setIsGeneratingProblem(false);
     }
   };
 
@@ -273,7 +314,7 @@ const BusinessIdeaForm: React.FC = () => {
                         <HelpCircle className="h-4 w-4" />
                       </button>
                     </label>
-                    <div className="form-input-container">
+                    <div className="form-input-container problem-statement-container">
                       <textarea
                         id="problemStatement"
                         name="problemStatement"
@@ -283,7 +324,26 @@ const BusinessIdeaForm: React.FC = () => {
                         placeholder="Example: Pet owners struggle to find trustworthy, affordable pet sitters on short notice, especially for last-minute trips."
                         className="form-textarea"
                       />
+                      <button
+                        type="button"
+                        onClick={handleGenerateProblem}
+                        className="generate-problem-btn"
+                        disabled={isGeneratingProblem || businessIdea.length < MIN_IDEA_LENGTH}
+                        title="Generate a problem statement from your business idea"
+                      >
+                        {isGeneratingProblem ? (
+                          <Loader2 className="h-4 w-4 animate-spin" />
+                        ) : (
+                          <Sparkles className="h-4 w-4" />
+                        )}
+                        {isGeneratingProblem ? 'Generating...' : 'Generate'}
+                      </button>
                     </div>
+                    {problemGenError && (
+                      <p className="error-message">
+                        <AlertCircle size={14} className="mr-1" /> {problemGenError}
+                      </p>
+                    )}
                   </div>
 
                   {/* Industry Selection */}

@@ -1,0 +1,89 @@
+{
+  "primarySegments": [
+    {
+      "name": "Aspiring Entrepreneurs",
+      "description": "Individuals looking to start their own business and need data-driven validation for their ideas.",
+      "percentage": 40,
+      "characteristics": {
+        "demographics": [
+          "Ages 25-40",
+          "Middle to upper-middle income",
+          "College-educated"
+        ],
+        "psychographics": [
+          "Innovative mindset",
+          "Risk-takers",
+          "Interest in startups and business trends"
+        ],
+        "problemsNeeds": [
+          "Need for market validation",
+          "Lack of resources to conduct market research",
+          "Desire to minimize business risk"
+        ],
+        "behaviors": [
+          "Frequent use of online business tools",
+          "Participate in entrepreneurship forums",
+          "Seek mentorship and advice"
+        ]
+      },
+      "growthPotential": "High"
+    },
+    {
+      "name": "Small Business Owners",
+      "description": "Owners of small businesses seeking to expand or pivot with validated business decisions.",
+      "percentage": 35,
+      "characteristics": {
+        "demographics": [
+          "Ages 30-50",
+          "Established income",
+          "Varied educational backgrounds"
+        ],
+        "psychographics": [
+          "Value stability and growth",
+          "Pragmatic decision-makers",
+          "Interest in sustainable business practices"
+        ],
+        "problemsNeeds": [
+          "Need to validate new business ideas",
+          "Limited time for extensive market research",
+          "Desire to stay competitive"
+        ],
+        "behaviors": [
+          "Regularly review business performance",
+          "Attend business workshops",
+          "Use business analytics tools"
+        ]
+      },
+      "growthPotential": "Medium"
+    },
+    {
+      "name": "Corporate Innovators",
+      "description": "Professionals in corporate innovation roles tasked with exploring new business opportunities.",
+      "percentage": 25,
+      "characteristics": {
+        "demographics": [
+          "Ages 35-55",
+          "High income",
+          "Advanced degrees in business or related fields"
+        ],
+        "psychographics": [
+          "Forward-thinking",
+          "Embrace technology",
+          "Focus on innovation and change"
+        ],
+        "problemsNeeds": [
+          "Need for quick and reliable market insights",
+          "Pressure to innovate within corporate structures",
+          "Desire for tools that integrate with existing systems"
+        ],
+        "behaviors": [
+          "Leverage multiple data sources",
+          "Collaborate with cross-functional teams",
+          "Present findings to stakeholders"
+        ]
+      },
+      "growthPotential": "High"
+    }
+  ],
+  "excludedSegments": []
+}

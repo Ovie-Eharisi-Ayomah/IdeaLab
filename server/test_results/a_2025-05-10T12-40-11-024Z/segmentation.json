@@ -1,0 +1,89 @@
+{
+  "primarySegments": [
+    {
+      "name": "Safety-Conscious Women",
+      "description": "Women who prioritize personal safety and seek tools to quickly alert others in emergencies.",
+      "percentage": 40,
+      "characteristics": {
+        "demographics": [
+          "Women aged 18-45",
+          "Middle to upper-middle income",
+          "Varied education levels"
+        ],
+        "psychographics": [
+          "Value personal safety",
+          "Interested in self-defense and safety apps",
+          "Active social media users"
+        ],
+        "problemsNeeds": [
+          "Need for quick emergency alerts",
+          "Desire for discreet safety solutions",
+          "Concerned about personal safety in public spaces"
+        ],
+        "behaviors": [
+          "Download safety apps",
+          "Engage with safety-related content",
+          "Share safety tips with peers"
+        ]
+      },
+      "growthPotential": "High"
+    },
+    {
+      "name": "Elderly and Caregivers",
+      "description": "Elderly individuals and their caregivers who need a reliable way to communicate emergencies.",
+      "percentage": 30,
+      "characteristics": {
+        "demographics": [
+          "Elderly aged 65+",
+          "Caregivers aged 30-60",
+          "Varied income levels"
+        ],
+        "psychographics": [
+          "Value health and safety",
+          "Trust technology for health monitoring",
+          "Concerned about rapid response in emergencies"
+        ],
+        "problemsNeeds": [
+          "Need for easy-to-use emergency tools",
+          "Desire for peace of mind",
+          "Concern over falls or medical emergencies"
+        ],
+        "behaviors": [
+          "Use health monitoring devices",
+          "Participate in senior safety programs",
+          "Rely on family for tech support"
+        ]
+      },
+      "growthPotential": "High"
+    },
+    {
+      "name": "Urban Professionals",
+      "description": "Professionals living in urban areas who face potential safety risks during commutes or travel.",
+      "percentage": 20,
+      "characteristics": {
+        "demographics": [
+          "Aged 25-40",
+          "Middle to high income",
+          "College-educated"
+        ],
+        "psychographics": [
+          "Value convenience and efficiency",
+          "Tech-savvy and early adopters",
+          "Concerned about urban safety"
+        ],
+        "problemsNeeds": [
+          "Need for quick emergency communication",
+          "Desire for discreet safety solutions",
+          "Concern over crime in urban areas"
+        ],
+        "behaviors": [
+          "Use public transportation apps",
+          "Engage with urban safety initiatives",
+          "Adopt new tech solutions quickly"
+        ]
+      },
+      "growthPotential": "Medium"
+    }
+  ],
+  "excludedSegments": []
+}

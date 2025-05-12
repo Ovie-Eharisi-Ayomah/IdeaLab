@@ -1,0 +1,89 @@
+{
+  "primarySegments": [
+    {
+      "name": "Aspiring Entrepreneurs",
+      "description": "Individuals looking to start their own business and need validation for their ideas.",
+      "percentage": 40,
+      "characteristics": {
+        "demographics": [
+          "Aged 25-40",
+          "Middle to upper-middle income",
+          "College-educated"
+        ],
+        "psychographics": [
+          "Innovative and risk-takers",
+          "Value independence and creativity",
+          "Interested in entrepreneurship and startups"
+        ],
+        "problemsNeeds": [
+          "Need to validate business ideas before investing",
+          "Lack of market research skills",
+          "Desire to minimize risk in business ventures"
+        ],
+        "behaviors": [
+          "Frequently search for business idea validation tools",
+          "Engage in online entrepreneurship forums",
+          "Use social media to follow business trends"
+        ]
+      },
+      "growthPotential": "High"
+    },
+    {
+      "name": "Small Business Owners",
+      "description": "Owners of small businesses seeking to expand or pivot their current offerings.",
+      "percentage": 30,
+      "characteristics": {
+        "demographics": [
+          "Aged 35-50",
+          "Established income from business",
+          "Business-oriented education or experience"
+        ],
+        "psychographics": [
+          "Pragmatic and goal-oriented",
+          "Value efficiency and results",
+          "Interested in business growth and innovation"
+        ],
+        "problemsNeeds": [
+          "Need to identify new market opportunities",
+          "Desire to stay competitive",
+          "Limited resources for extensive market research"
+        ],
+        "behaviors": [
+          "Regularly evaluate business performance",
+          "Attend business networking events",
+          "Subscribe to industry newsletters"
+        ]
+      },
+      "growthPotential": "Medium"
+    },
+    {
+      "name": "Corporate Innovators",
+      "description": "Professionals in large companies tasked with exploring new business opportunities and innovations.",
+      "percentage": 20,
+      "characteristics": {
+        "demographics": [
+          "Aged 30-45",
+          "High income",
+          "Advanced degrees in business or technology"
+        ],
+        "psychographics": [
+          "Innovative and forward-thinking",
+          "Value data-driven decision making",
+          "Interested in corporate innovation and trends"
+        ],
+        "problemsNeeds": [
+          "Need to validate new business ideas quickly",
+          "Pressure to innovate within corporate constraints",
+          "Require comprehensive market analysis"
+        ],
+        "behaviors": [
+          "Participate in corporate innovation programs",
+          "Use professional networks for insights",
+          "Attend industry conferences"
+        ]
+      },
+      "growthPotential": "High"
+    }
+  ],
+  "excludedSegments": []
+}

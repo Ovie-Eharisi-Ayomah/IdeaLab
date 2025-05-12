@@ -1,0 +1,49 @@
+{
+  "status": "success",
+  "market_data": {
+    "sources": [
+      {
+        "publisher": "ABI Research",
+        "market_size": 98.0,
+        "market_size_unit": "billion",
+        "currency": "USD",
+        "year": 2024,
+        "source_quality": 7,
+        "growth_rate": 30.0,
+        "growth_rate_period": "annual",
+        "projected_size": 391.43,
+        "projected_size_unit": "billion",
+        "projection_year": 2030,
+        "key_information": "Focuses on AI software market growth driven by tech giants."
+      },
+      {
+        "publisher": "Grand View Research",
+        "market_size": 279.22,
+        "market_size_unit": "billion",
+        "currency": "USD",
+        "year": 2024,
+        "source_quality": 7,
+        "growth_rate": 35.9,
+        "growth_rate_period": "annual",
+        "key_information": "Highlights AI market growth across various industries."
+      }
+    ],
+    "market_breakdown": {
+      "geographic_regions": [
+        "Global focus with significant growth in tech-driven regions."
+      ],
+      "growth_drivers": [
+        "Innovation by tech giants",
+        "accessibility to datasets",
+        "advancements in AI technologies."
+      ],
+      "challenges": [
+        "Data privacy concerns",
+        "integration complexities."
+      ]
+    },
+    "confidence_score": 4
+  },
+  "raw_text": "I've researched the market size and growth rate for AI-powered tools that validate business ideas.\n\nSOURCE 1: ABI Research\nCurrent Market Size: $98 billion (Year: 2024)\nGrowth Rate: 30% CAGR\nProjected Size: $391.43 billion by 2030\nKey Information: Focuses on AI software market growth driven by tech giants.\n\nSOURCE 2: KBV Research\nCurrent Market Size: Not specified\nGrowth Rate: 22.3% CAGR\nProjected Size: $17.2 billion by 2030\nKey Information: Covers AI Code Tools market growth.\n\nSOURCE 3: Grand View Research\nCurrent Market Size: $279.22 billion (Year: 2024)\nGrowth Rate: 35.9% CAGR\nProjected Size: Significant growth by 2030\nKey Information: Highlights AI market growth across various industries.\n\nMARKET BREAKDOWN:\nGeographic Regions: Global focus with significant growth in tech-driven regions.\nKey Growth Drivers: Innovation by tech giants, accessibility to datasets, advancements in AI technologies.\nKey Challenges: Data privacy concerns, integration complexities.\n\nRESEARCH SUMMARY:\nRange o...",
+  "research_method": "web_research"
+}
