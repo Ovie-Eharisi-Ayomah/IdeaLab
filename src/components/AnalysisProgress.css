@@ -1,0 +1,231 @@
+.analysis-progress-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.back-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 24px;
+  text-decoration: none;
+  color: var(--text-color-secondary);
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.back-button:hover {
+  color: var(--primary-color);
+}
+
+.progress-card {
+  background-color: var(--card-bg);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  padding: 32px;
+}
+
+.progress-header {
+  margin-bottom: 32px;
+}
+
+.progress-header h2 {
+  margin-top: 0;
+  margin-bottom: 16px;
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--text-color-primary);
+}
+
+.idea-text {
+  margin-bottom: 24px;
+  font-size: 16px;
+  color: var(--text-color-secondary);
+  font-style: italic;
+}
+
+.overall-progress {
+  margin-top: 24px;
+}
+
+.progress-stats {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-color-secondary);
+}
+
+.progress-bar-container {
+  height: 8px;
+  background-color: var(--bg-secondary);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--primary-color), var(--accent-color, #6366f1));
+  transition: width 0.8s ease-in-out;
+}
+
+.progress-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.progress-step {
+  display: flex;
+  gap: 16px;
+  position: relative;
+  padding: 16px;
+  border-radius: 8px;
+  background-color: var(--bg-secondary);
+  transition: all 0.3s ease;
+}
+
+.progress-step.complete {
+  background-color: rgba(16, 185, 129, 0.1);
+}
+
+.progress-step.processing {
+  background-color: rgba(59, 130, 246, 0.1);
+}
+
+.step-icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: var(--card-bg);
+  color: var(--text-color-secondary);
+  flex-shrink: 0;
+}
+
+.progress-step.complete .step-icon-container {
+  color: #10b981;
+  background-color: rgba(16, 185, 129, 0.2);
+}
+
+.progress-step.processing .step-icon-container {
+  color: #3b82f6;
+  background-color: rgba(59, 130, 246, 0.2);
+}
+
+.step-content {
+  flex-grow: 1;
+}
+
+.step-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.step-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-color-primary);
+}
+
+.step-status {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.step-status.green {
+  color: #10b981;
+}
+
+.step-status.blue {
+  color: #3b82f6;
+}
+
+.step-status.gray {
+  color: var(--text-color-secondary);
+}
+
+.step-description {
+  margin: 0 0 12px 0;
+  font-size: 14px;
+  color: var(--text-color-secondary);
+}
+
+.step-preview {
+  margin-top: 12px;
+}
+
+.preview-box {
+  background-color: var(--card-bg);
+  border-radius: 6px;
+  padding: 12px;
+  border-left: 3px solid var(--primary-color);
+}
+
+.preview-box p {
+  margin: 4px 0;
+  font-size: 14px;
+  color: var(--text-color-secondary);
+}
+
+.preview-box strong {
+  color: var(--text-color-primary);
+}
+
+.progress-note {
+  padding: 16px;
+  background-color: var(--bg-secondary);
+  border-radius: 8px;
+  font-size: 14px;
+  color: var(--text-color-secondary);
+  text-align: center;
+  margin-bottom: 0;
+}
+
+/* Spinner animation */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.spinner {
+  animation: spin 1.5s linear infinite;
+}
+
+/* Fade-in animation for preview boxes */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.step-preview {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 600px) {
+  .progress-step {
+    flex-direction: column;
+  }
+  
+  .step-icon-container {
+    margin-bottom: 12px;
+  }
+  
+  .step-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+} 

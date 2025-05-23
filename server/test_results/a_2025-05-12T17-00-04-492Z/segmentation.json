@@ -1,0 +1,94 @@
+{
+  "primarySegments": [
+    {
+      "name": "Young Urban Professionals",
+      "description": "Tech-savvy individuals who live in urban areas and are concerned about personal safety.",
+      "percentage": 40,
+      "characteristics": {
+        "demographics": [
+          "Aged 25-35",
+          "Middle to high income",
+          "College-educated"
+        ],
+        "psychographics": [
+          "Value convenience and technology",
+          "Concerned about personal safety",
+          "Active social lives"
+        ],
+        "problemsNeeds": [
+          "Need quick access to emergency contacts",
+          "Desire for discreet safety solutions",
+          "Concerned about crime in urban environments"
+        ],
+        "behaviors": [
+          "Likely to download and set up the app immediately",
+          "Regularly update emergency contacts",
+          "Engage with app features such as location sharing"
+        ]
+      },
+      "growthPotential": "High"
+    },
+    {
+      "name": "Elderly Living Alone",
+      "description": "Older adults who live independently and may face health emergencies.",
+      "percentage": 30,
+      "characteristics": {
+        "demographics": [
+          "Aged 65 and above",
+          "Fixed income",
+          "Varied education levels"
+        ],
+        "psychographics": [
+          "Value independence",
+          "Concerned about health and safety",
+          "Prefer simple technology solutions"
+        ],
+        "problemsNeeds": [
+          "Need reliable emergency alert system",
+          "Fear of being unable to call for help",
+          "Desire for peace of mind for themselves and family"
+        ],
+        "behaviors": [
+          "May need assistance setting up the app",
+          "Use app primarily for emergencies",
+          "Rely on family to manage app settings"
+        ]
+      },
+      "growthPotential": "Medium"
+    },
+    {
+      "name": "Parents with Young Children",
+      "description": "Parents who are concerned about the safety of their children and themselves.",
+      "percentage": 20,
+      "characteristics": {
+        "demographics": [
+          "Aged 30-45",
+          "Middle income",
+          "Varied education levels"
+        ],
+        "psychographics": [
+          "Family-oriented",
+          "Safety-conscious",
+          "Busy lifestyles"
+        ],
+        "problemsNeeds": [
+          "Need to ensure family safety",
+          "Desire for quick emergency communication",
+          "Concerned about child safety in public"
+        ],
+        "behaviors": [
+          "Likely to use app in crowded places",
+          "Regularly update emergency contacts",
+          "Use app to educate children about safety"
+        ]
+      },
+      "growthPotential": "High"
+    }
+  ],
+  "excludedSegments": [
+    {
+      "name": "Rural Residents",
+      "reason": "Rural residents may have less immediate need for such an app due to lower crime rates and slower adoption of technology."
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 {
-  "name": "idea-lab",
+  "name": "semita-ai",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -14,7 +14,9 @@
     "lucide-react": "^0.503.0",
     "openai": "^4.89.0",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "react-router-dom": "^7.6.0",
+    "recharts": "^2.15.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",

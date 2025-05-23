@@ -1,0 +1,13 @@
+{
+  "classification": {
+    "primaryIndustry": "Safety/Security is most appropriate as the app's core value is enhancing personal safety.",
+    "secondaryIndustry": "Technology is appropriate as the app is the medium for delivering the safety service.",
+    "targetAudience": "Consumers are the primary users and customers, focusing on personal safety.",
+    "productType": "Mobile App best describes the delivery method and user interaction."
+  },
+  "method": "llm",
+  "confidence": "high",
+  "reasoning": "INDUSTRY ANALYSIS:\nThis business idea involves a mobile app designed for emergency situations. The primary industries to consider are:\n\n1. Technology - because the core offering is a mobile application.\n2. Safety/Security - because the app is designed to enhance personal safety by alerting emergency contacts and recording audio during emergencies.\n\nThe primary function of the app is to provide a safety solution by enabling quick communication and location sharing in emergencies. While technology is the medium through which this service is delivered, the core value proposition is enhancing personal safety. Therefore, the primary industry is Safety/Security. Technology is a significant enabler of this service, making it an appropriate secondary industry.\n\nTARGET AUDIENCE ANALYSIS:\nThe app is designed for individuals who may find themselves in emergency situations and need to alert their contacts quickly. This indicates a consumer-focused product, as it is intended for personal use by individuals rather than businesses or government entities. The primary target audience is Consumers, specifically those concerned with personal safety.\n\nPRODUCT TYPE ANALYSIS:\nThe business offers a mobile application that provides a service (emergency alerts and audio recording). The app is the primary interface through which users interact with the service. While the app itself is a digital product, the core value is the service it provides in emergency situations. Therefore, the product type is best classified as a Mobile App, as it captures both the delivery method and user interaction.\n\nREVIEW AND FINAL DECISION:\n- Primary Industry: Safety/Security is most appropriate as the app's core value is enhancing personal safety.\n- Secondary Industry: Technology is appropriate as the app is the medium for delivering the safety service.\n- Target Audience: Consumers are the primary users and customers, focusing on personal safety.\n- Product Type: Mobile App best describes the delivery method and user interaction.",
+  "primaryIndustry": "general industry",
+  "productType": "product/service type"
+}

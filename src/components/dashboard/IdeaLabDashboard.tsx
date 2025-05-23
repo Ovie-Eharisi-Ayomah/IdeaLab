@@ -1,160 +1,132 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import DashboardNavigation from './DashboardNavigation';
-import SummarySection from './sections/SummarySection';
-import SegmentationSection from './sections/SegmentationSection';
-import ProblemSection from './sections/ProblemSection';
+import ProblemValidationSection from './sections/ProblemValidationSection';
+import MarketSizingSection from './sections/MarketSizingSection';
 import CompetitionSection from './sections/CompetitionSection';
-import MarketSection from './sections/MarketSection';
-import ScoreCircle from './shared/ScoreCircle';
-import './Dashboard.css';
+import SegmentationSection from './sections/SegmentationSection';
+import './IdeaLabDashboard.css';
 
-// Type definitions for the analysis result data
-interface AnalysisResult {
+interface AnalysisData {
   businessIdea: string;
+  problemStatement: string;
+  industry: string;
+  productType: string;
   analysisDate: string;
   score: number;
-  primaryIndustry: string;
-  secondaryIndustry: string;
-  productType: string;
-  targetAudience: string;
-  insights: {
-    segmentation: string;
-    problem: string;
-    competition: string;
-    market: string;
-  };
-  recommendations: Array<{
-    type: 'positive' | 'warning' | 'negative';
-    title: string;
-    description: string;
-  }>;
 }
 
-interface IdeaLabDashboardProps {
-  // You can pass real data here later, for now using mock data inside
-  analysisResult?: AnalysisResult;
-}
-
-const IdeaLabDashboard: React.FC<IdeaLabDashboardProps> = ({ analysisResult }) => {
-  // Current section/tab state
+const IdeaLabDashboard: React.FC = () => {
+  const { jobId } = useParams<{ jobId: string }>();
   const [currentSection, setCurrentSection] = useState('summary');
+  const [analysisData, setAnalysisData] = useState<AnalysisData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  // Mock data for development and demo purposes
-  const mockData: AnalysisResult = {
-    businessIdea: "Fitness Tracker App with AI Coach",
-    analysisDate: "2025-04-24T12:00:00Z",
-    score: 73,
-    primaryIndustry: "Health & Fitness Technology",
-    secondaryIndustry: "Wearable Technology",
-    productType: "Mobile Application with Hardware",
-    targetAudience: "Health-conscious adults",
-    insights: {
-      segmentation: "4 primary segments identified, with Fitness Enthusiasts (40%) being the largest",
-      problem: "Problem validated with 8.5/10 severity score and high willingness to pay",
-      competition: "5 major competitors with Fitbit (35% share) leading; key gap in AI coaching",
-      market: "$160B TAM with 12.5% CAGR; $12.8B SAM and $64M addressable SOM"
-    },
-    recommendations: [
-      {
-        type: "positive",
-        title: "Focus on Fitness Enthusiasts segment first",
-        description: "This segment represents 40% of your market and has the highest growth potential"
-      },
-      {
-        type: "positive",
-        title: "Develop AI coaching as key differentiator",
-        description: "This is an identified market gap with high willingness to pay"
-      },
-      {
-        type: "positive",
-        title: "Establish partnerships with fitness centers",
-        description: "Leverage existing infrastructure for faster market penetration"
-      },
-      {
-        type: "warning",
-        title: "Watch for Apple's expansion in this space",
-        description: "Their ecosystem advantage could threaten your position"
-      },
-      {
-        type: "negative",
-        title: "Avoid hardware development initially",
-        description: "Focus on software and integrate with existing hardware platforms"
+  useEffect(() => {
+    const fetchAnalysisData = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch(`http://localhost:5003/api/jobs/${jobId}`);
+        
+        if (!response.ok) {
+          throw new Error('Failed to fetch analysis data');
+        }
+
+        const data = await response.json();
+        
+        // Transform the data to match our AnalysisData interface
+        setAnalysisData({
+          businessIdea: data.input.businessIdea,
+          problemStatement: data.input.problemStatement,
+          industry: data.results.classification?.primaryIndustry || '',
+          productType: data.results.classification?.productType || '',
+          analysisDate: new Date(data.createdAt).toISOString(),
+          score: data.results.problemValidation?.problem_validation?.validation_score || 0
+        });
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'An error occurred');
+      } finally {
+        setLoading(false);
       }
-    ]
-  };
+    };
 
-  // Use passed data or mock data
-  const data = analysisResult || mockData;
+    if (jobId) {
+      fetchAnalysisData();
+    }
+  }, [jobId]);
 
-  // Handle section navigation
   const handleSectionChange = (section: string) => {
     setCurrentSection(section);
   };
 
+  if (loading) {
+    return <div className="loading">Loading analysis data...</div>;
+  }
+
+  if (error) {
+    return <div className="error">Error: {error}</div>;
+  }
+
+  if (!analysisData) {
+    return <div className="error">No analysis data available</div>;
+  }
+
   return (
     <div className="dashboard">
-      {/* Navigation */}
       <DashboardNavigation 
         currentSection={currentSection}
         onSectionChange={handleSectionChange}
-        analysisDate={data.analysisDate}
+        analysisDate={analysisData.analysisDate}
       />
-      
-      {/* Main Content */}
       <div className="dashboard-content">
-        {/* Top Bar */}
         <div className="dashboard-topbar">
           <div className="dashboard-topbar-content">
             <div>
-              <h2 className="dashboard-title">{data.businessIdea}</h2>
+              <h2 className="dashboard-title">{analysisData.businessIdea}</h2>
               <p className="dashboard-date">
-                Analysis completed on {new Date(data.analysisDate).toLocaleDateString('en-US', {
+                Analysis completed on {new Date(analysisData.analysisDate).toLocaleDateString('en-US', {
                   year: 'numeric',
                   month: 'long',
                   day: 'numeric'
                 })}
               </p>
             </div>
-            <ScoreCircle score={data.score} labelText="Validation Score" />
-          </div>
-        </div>
-        
-        {/* Content Area - Show the appropriate section based on currentSection */}
-        <div className="dashboard-main">
-          <div className="dashboard-main-content">
-            <div className="dashboard-section-container">
-              {currentSection === 'summary' && (
-                <SummarySection 
-                  businessIdea={data.businessIdea}
-                  analysisDate={data.analysisDate}
-                  score={data.score}
-                  primaryIndustry={data.primaryIndustry}
-                  secondaryIndustry={data.secondaryIndustry}
-                  productType={data.productType}
-                  targetAudience={data.targetAudience}
-                  insights={data.insights}
-                  recommendations={data.recommendations}
-                  onNavigate={handleSectionChange}
-                />
-              )}
-              
-              {currentSection === 'segmentation' && (
-                <SegmentationSection />
-              )}
-              
-              {currentSection === 'problem' && (
-                <ProblemSection />
-              )}
-              
-              {currentSection === 'competition' && (
-                <CompetitionSection />
-              )}
-              
-              {currentSection === 'market' && (
-                <MarketSection />
-              )}
+            <div className="score-circle">
+              <span className="score-value">{analysisData.score}</span>
+              <span className="score-label">Validation Score</span>
             </div>
           </div>
+        </div>
+
+        <div className="dashboard-sections">
+          {currentSection === 'problem' && (
+            <ProblemValidationSection
+              businessIdea={analysisData.businessIdea}
+              problemStatement={analysisData.problemStatement}
+              industry={analysisData.industry}
+            />
+          )}
+          {currentSection === 'market' && (
+            <MarketSizingSection
+              businessIdea={analysisData.businessIdea}
+              industry={analysisData.industry}
+              productType={analysisData.productType}
+            />
+          )}
+          {currentSection === 'competition' && (
+            <CompetitionSection
+              businessIdea={analysisData.businessIdea}
+              industry={analysisData.industry}
+              productType={analysisData.productType}
+            />
+          )}
+          {currentSection === 'segmentation' && (
+            <SegmentationSection
+              businessIdea={analysisData.businessIdea}
+              industry={analysisData.industry}
+            />
+          )}
         </div>
       </div>
     </div>

@@ -106,7 +106,7 @@ async function getOpenAITextResponse(businessDescription, classification, option
       { role: 'system', content: systemPrompt },
       { role: 'user', content: userPrompt }
     ],
-    temperature: 0.7,
+    temperature: 0.4,
     max_tokens: 2500
   });
   

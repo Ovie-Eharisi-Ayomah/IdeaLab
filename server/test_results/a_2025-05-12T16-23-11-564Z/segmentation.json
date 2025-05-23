@@ -1,0 +1,89 @@
+{
+  "primarySegments": [
+    {
+      "name": "Young Urban Professionals",
+      "description": "Tech-savvy individuals living in urban areas who prioritize safety and quick communication in emergencies.",
+      "percentage": 40,
+      "characteristics": {
+        "demographics": [
+          "Ages 25-35",
+          "Middle to high income",
+          "College educated"
+        ],
+        "psychographics": [
+          "Value safety and security",
+          "Tech-savvy and early adopters",
+          "Busy lifestyle with frequent travel"
+        ],
+        "problemsNeeds": [
+          "Need quick and reliable emergency communication",
+          "Concerned about personal safety in urban environments",
+          "Desire for peace of mind when traveling alone"
+        ],
+        "behaviors": [
+          "Regularly use mobile apps for convenience",
+          "Likely to test and adopt new technologies",
+          "Engage with safety-related content online"
+        ]
+      },
+      "growthPotential": "High"
+    },
+    {
+      "name": "Elderly Living Alone",
+      "description": "Older individuals living independently who require reliable emergency communication tools.",
+      "percentage": 30,
+      "characteristics": {
+        "demographics": [
+          "Ages 65+",
+          "Fixed income",
+          "Varied education levels"
+        ],
+        "psychographics": [
+          "Value independence and self-sufficiency",
+          "Concerned about health and safety",
+          "Prefer simple and easy-to-use technology"
+        ],
+        "problemsNeeds": [
+          "Need for quick assistance in medical emergencies",
+          "Desire for a sense of security while living alone",
+          "Concern about being unable to reach help when needed"
+        ],
+        "behaviors": [
+          "Use technology primarily for communication",
+          "Prefer straightforward and reliable apps",
+          "Depend on family or caregivers for tech setup"
+        ]
+      },
+      "growthPotential": "Medium"
+    },
+    {
+      "name": "Parents with Young Children",
+      "description": "Parents who are concerned about the safety of their children and want a reliable way to ensure their well-being.",
+      "percentage": 20,
+      "characteristics": {
+        "demographics": [
+          "Ages 30-45",
+          "Middle income",
+          "Parents of children under 12"
+        ],
+        "psychographics": [
+          "Highly value family safety",
+          "Interested in child safety products",
+          "Proactive in emergency preparedness"
+        ],
+        "problemsNeeds": [
+          "Need to ensure children's safety during emergencies",
+          "Desire for tools that provide peace of mind",
+          "Concern about quick access to help"
+        ],
+        "behaviors": [
+          "Use apps for family organization and safety",
+          "Seek recommendations from other parents",
+          "Engage with parenting and safety communities online"
+        ]
+      },
+      "growthPotential": "High"
+    }
+  ],
+  "excludedSegments": []
+}

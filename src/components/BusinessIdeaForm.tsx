@@ -1,4 +1,5 @@
 import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { 
   Lightbulb, 
   ArrowRight, 
@@ -14,8 +15,10 @@ import './BusinessIdeaForm.css';
 
 // --- Constants ---
 const MIN_IDEA_LENGTH = 20;
-const MIN_WORD_COUNT = 30; // Target word count for better analysis
-const API_BASE_URL = 'http://localhost:5002/api'; // API base URL
+const MIN_WORD_COUNT = 20; // Target word count for better analysis
+
+// API URL with env variable support
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5002/api';
 
 // --- Component Type Definitions ---
 type ApiSuccessResponse = {
@@ -49,6 +52,8 @@ const countWords = (text: string): number => {
 
 // --- Component ---
 const BusinessIdeaForm: React.FC = () => {
+  const navigate = useNavigate();
+  
   // --- State ---
   const [businessIdea, setBusinessIdea] = useState<string>('');
   const [problemStatement, setProblemStatement] = useState<string>('');
@@ -113,53 +118,62 @@ const BusinessIdeaForm: React.FC = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setApiError(null); // Clear previous errors
+    setApiError(null); 
     setSubmitSuccess(false);
 
     if (!validateForm()) {
-      return; // Stop submission if validation fails
+      return;
     }
 
     setIsLoading(true);
 
+    // --- RESTORING REAL API CALL LOGIC ---
     const formData = {
       businessIdea,
-      problemStatement,
-      industry: industry || undefined, // Only send if selected
-      geoFocus: geoFocus || 'global' // Default to global if not specified
+      problemStatement: problemStatement || undefined,
+      industry: industry || undefined, 
+      geoFocus: geoFocus || 'global' 
     };
 
     try {
-      // --- Simulate API Call ---
-      // Replace with your actual fetch/axios call
-      console.log("Submitting:", formData);
-      await new Promise(resolve => setTimeout(resolve, 2000)); // Simulate network delay
-      // Simulate success or error response
-      const simulateSuccess = true; // Change to false to test error handling
-      const response: ApiResponse = simulateSuccess
-        ? { ok: true, data: { jobId: '12345xyz' } }
-        : { ok: false, error: "Failed to connect to the server." };
+      console.log("Submitting to:", `${API_BASE_URL}/analyze`);
+      const response = await fetch(`${API_BASE_URL}/analyze`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
 
       if (!response.ok) {
-        // Now response.error is accessible because TypeScript knows it's an ApiErrorResponse
-        throw new Error(response.error || 'An unknown error occurred.');
+        const errorData = await response.json().catch(() => ({ error: `HTTP error ${response.status}` })); // Try to parse error, fallback
+        throw new Error(errorData.error || `Failed to submit: ${response.statusText}`);
       }
 
-      // Handle Success (response is ApiSuccessResponse here)
+      const { jobId } = await response.json();
       setSubmitSuccess(true);
-      console.log("Submission successful, Job ID:", response.data.jobId);
-      // --- Redirect ---
-      // You would typically redirect here using react-router-dom's useNavigate
-      // Example: navigate(`/results/${response.data.jobId}`);
-      alert(`Analysis started! Redirecting to results for Job ID: ${response.data.jobId}`); // Placeholder
+      console.log("Submission successful, Job ID:", jobId);
+      
+      // Navigate to results page after short delay
+      setTimeout(() => {
+        navigate(`/results/${jobId}`);
+      }, 500);
 
     } catch (err) {
-      // Handle Error
       console.error("Submission failed:", err);
-      setApiError(err instanceof Error ? err.message : 'An unexpected error occurred. Please try again.');
+      setApiError(err instanceof Error ? err.message : 'Failed to submit analysis');
     } finally {
       setIsLoading(false);
     }
+    // --- END OF RESTORED REAL API CALL LOGIC ---
+
+    /* PREVIOUS MOCK DEMO LOGIC - NOW COMMENTED OUT
+    console.log("Mock Demo: Bypassing API call, navigating to mock results.");
+    setSubmitSuccess(true); // Show success message
+    
+    setTimeout(() => {
+      navigate(`/results/mock-demo-flow`); 
+      setIsLoading(false); 
+    }, 1000); 
+    */
   };
 
   // Generate Problem Statement from Business Idea

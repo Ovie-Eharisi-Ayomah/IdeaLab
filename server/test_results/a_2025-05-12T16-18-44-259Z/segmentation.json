@@ -1,0 +1,89 @@
+{
+  "primarySegments": [
+    {
+      "name": "Young Urban Professionals",
+      "description": "Tech-savvy young adults living in urban areas who prioritize personal safety and are early adopters of new technology.",
+      "percentage": 40,
+      "characteristics": {
+        "demographics": [
+          "Ages 25-35",
+          "Middle to high income",
+          "College educated"
+        ],
+        "psychographics": [
+          "Value safety and security",
+          "Interested in technology and innovation",
+          "Lead busy, active lifestyles"
+        ],
+        "problemsNeeds": [
+          "Concerned about personal safety in urban environments",
+          "Need quick and discreet ways to alert contacts during emergencies",
+          "Desire reliable technology solutions"
+        ],
+        "behaviors": [
+          "Likely to download and test new apps",
+          "Use the app during late-night commutes or travel",
+          "Share app with friends and family for safety"
+        ]
+      },
+      "growthPotential": "High"
+    },
+    {
+      "name": "Elderly Living Independently",
+      "description": "Senior citizens who live alone and seek easy-to-use solutions to stay connected and safe.",
+      "percentage": 30,
+      "characteristics": {
+        "demographics": [
+          "Ages 65+",
+          "Fixed income or pension",
+          "Varied education levels"
+        ],
+        "psychographics": [
+          "Value independence",
+          "Concerned about health and safety",
+          "Prefer simple and intuitive technology"
+        ],
+        "problemsNeeds": [
+          "Fear of falling or medical emergencies without immediate help",
+          "Need a simple way to alert family or caregivers",
+          "Desire peace of mind for themselves and their families"
+        ],
+        "behaviors": [
+          "Use the app as a safety net during daily activities",
+          "Rely on family members to set up and explain the app",
+          "Regularly check app functionality for reassurance"
+        ]
+      },
+      "growthPotential": "Medium"
+    },
+    {
+      "name": "Parents of Young Children",
+      "description": "Parents who prioritize the safety of their children and seek tools to ensure rapid response in emergencies.",
+      "percentage": 20,
+      "characteristics": {
+        "demographics": [
+          "Ages 30-45",
+          "Middle income",
+          "Parents of children under 12"
+        ],
+        "psychographics": [
+          "Family-oriented",
+          "Concerned about child safety",
+          "Interested in practical safety solutions"
+        ],
+        "problemsNeeds": [
+          "Worry about emergencies when children are away from home",
+          "Need a reliable way for children to alert parents",
+          "Desire easy-to-use safety tools for kids"
+        ],
+        "behaviors": [
+          "Teach children how to use the app",
+          "Use the app during family outings or when children are at school",
+          "Share app with other parents for community safety"
+        ]
+      },
+      "growthPotential": "High"
+    }
+  ],
+  "excludedSegments": []
+}

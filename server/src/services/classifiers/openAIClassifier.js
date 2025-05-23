@@ -119,8 +119,20 @@ Product Type: [Final product type classification]`;
     // Parse the response content
     const content = response.choices[0].message.content;
     
+    // --- ADDING LOGGING HERE ---
+    console.log("--- OpenAI Raw Response Content ---");
+    console.log(content);
+    console.log("-----------------------------------");
+    
     // Parse the classification from the response
-    return parseClassificationResponse(content, includeReasoning);
+    const parsedResult = parseClassificationResponse(content, includeReasoning);
+    
+    // --- ADDING LOGGING HERE ---
+    console.log("--- Parsed Classification Result by classifyWithOpenAI ---");
+    console.log(JSON.stringify(parsedResult, null, 2));
+    console.log("---------------------------------------------------------");
+
+    return parsedResult;
     
   } catch (error) {
     console.error('OpenAI classification error:', error);

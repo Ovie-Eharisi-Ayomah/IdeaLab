@@ -29,7 +29,17 @@ async function runFullTest(businessIdea, problemStatement = null) {
     // STEP 1: Run JS classifier
     console.log("\n🧠 STEP 1: Running business classification...");
     const classification = await classifyBusinessIdea(businessIdea);
-    console.log(`Classification result: ${classification.primaryIndustry} / ${classification.productType}`);
+    // Add a check for classification result
+    if (!classification || !classification.primaryIndustry || !classification.productType) {
+      console.error("💥 ERROR: Business classification failed to return expected structure.", classification);
+      // Decide how to handle: throw error, or use very generic defaults
+      // For now, let's use generic defaults and log a prominent error
+      classification.primaryIndustry = classification.primaryIndustry || "general industry";
+      classification.productType = classification.productType || "product/service type";
+      console.warn("⚠️ Proceeding with generic classification defaults for problem statement generation.");
+    } else {
+      console.log(`Classification result: ${classification.primaryIndustry} / ${classification.productType}`);
+    }
     
     // Save classification
     const classificationPath = path.join(testDir, 'classification.json');
@@ -52,9 +62,23 @@ async function runFullTest(businessIdea, problemStatement = null) {
     // STEP 3: Run Python research services
     console.log("\n🔍 STEP 3: Running Python research services...");
     
-    // If no problem statement provided, generate one
     if (!problemStatement) {
-      problemStatement = `difficulty finding ${classification.primaryIndustry.toLowerCase()} ${classification.productType.toLowerCase()}`;
+      let defaultProblemIndustry = "general products/services";
+      let defaultProductType = "";
+
+      if (classification && typeof classification.primaryIndustry === 'string' && classification.primaryIndustry.trim() !== "") {
+        defaultProblemIndustry = classification.primaryIndustry.toLowerCase();
+      } else {
+        console.warn("Warning: classification.primaryIndustry is undefined, empty, or not a string. Using default for problem statement.");
+      }
+
+      if (classification && typeof classification.productType === 'string' && classification.productType.trim() !== "") {
+        defaultProductType = classification.productType.toLowerCase();
+      } else {
+        console.warn("Warning: classification.productType is undefined, empty, or not a string. Using default for problem statement.");
+      }
+      
+      problemStatement = `difficulty finding ${defaultProblemIndustry}${defaultProductType ? ' ' + defaultProductType : ''}`;
       console.log(`Using generated problem statement: "${problemStatement}"`);
     }
     
@@ -86,32 +110,32 @@ async function runFullTest(businessIdea, problemStatement = null) {
 
     const marketData = JSON.parse(fs.readFileSync(marketDataPath));
     // Read the segmentation data using the existing segmentationPath variable
-    const segmentationData = JSON.parse(fs.readFileSync(segmentationPath)); 
+    const segmentationDataForSizing = JSON.parse(fs.readFileSync(segmentationPath)); 
     
     // Load optional data if available
-    let problemData = null;
-    let competitiveData = null;
+    let problemDataForSizing = null;
+    let competitiveDataForSizing = null;
     
     try {
-      problemData = JSON.parse(fs.readFileSync(problemDataPath));
-      console.log("✅ Loaded problem validation data");
+      problemDataForSizing = JSON.parse(fs.readFileSync(problemDataPath));
+      console.log("✅ Loaded problem validation data for sizing");
     } catch (e) {
-      console.warn(`⚠️ No problem validation data available at ${problemDataPath}`);
+      console.warn(`⚠️ No problem validation data available for sizing at ${problemDataPath}`);
     }
     
     try {
-      competitiveData = JSON.parse(fs.readFileSync(competitionDataPath));
-      console.log("✅ Loaded competitive analysis data");
+      competitiveDataForSizing = JSON.parse(fs.readFileSync(competitionDataPath));
+      console.log("✅ Loaded competitive analysis data for sizing");
     } catch (e) {
-      console.warn(`⚠️ No competitive analysis data available at ${competitionDataPath}`);
+      console.warn(`⚠️ No competitive analysis data available for sizing at ${competitionDataPath}`);
     }
     
     // Run the market sizing calculation
     const marketSizingResult = calculateMarketSizing(
       marketData,
-      segmentationData, // Use the loaded JS segmentation data
-      problemData,
-      competitiveData
+      segmentationDataForSizing, // Use the loaded JS segmentation data
+      problemDataForSizing,
+      competitiveDataForSizing
     );
     
     // Save the result
@@ -122,15 +146,23 @@ async function runFullTest(businessIdea, problemStatement = null) {
     // Print the key results
     console.log("\n📊 MARKET SIZING RESULTS");
     console.log("======================");
-    console.log(`TAM: ${marketSizingResult.tam.formatted} (Range: ${marketSizingResult.tam.range})`);
-    console.log(`SAM: ${marketSizingResult.sam.formatted} (Range: ${marketSizingResult.sam.range})`);
-    console.log(`SOM: ${marketSizingResult.som.formatted} (Range: ${marketSizingResult.som.range})`);
-    console.log(`Confidence Score: ${marketSizingResult.confidence_score}/10`);
-    
-    console.log("\n🎯 TOP SENSITIVITY FACTORS:");
-    marketSizingResult.sensitivity.slice(0, 3).forEach((factor, idx) => {
-      console.log(`${idx + 1}. ${factor.name.replace(/_/g, ' ')}: +20% → ${factor.impact.toFixed(1)}% impact`);
-    });
+    if (marketSizingResult.tam && marketSizingResult.sam && marketSizingResult.som) {
+        console.log(`TAM: ${marketSizingResult.tam.formatted} (Range: ${marketSizingResult.tam.range})`);
+        console.log(`SAM: ${marketSizingResult.sam.formatted} (Range: ${marketSizingResult.sam.range})`);
+        console.log(`SOM: ${marketSizingResult.som.formatted} (Range: ${marketSizingResult.som.range})`);
+        console.log(`Confidence Score: ${marketSizingResult.confidence_score}/10`);
+        if (marketSizingResult.sensitivity && marketSizingResult.sensitivity.length > 0) {
+            console.log("\n🎯 TOP SENSITIVITY FACTORS:");
+            marketSizingResult.sensitivity.slice(0, 3).forEach((factor, idx) => {
+              console.log(`${idx + 1}. ${factor.name.replace(/_/g, ' ')}: +20% → ${factor.impact.toFixed(1)}% impact`);
+            });
+        } else {
+            console.log("Sensitivity analysis data not available.");
+        }
+    } else {
+        console.log("Market sizing TAM/SAM/SOM data not available or incomplete.");
+        if(marketSizingResult.error) console.error("Market Sizing Error:", marketSizingResult.error)
+    }
     
     console.log(`\n✨ COMPLETE TEST RESULTS SAVED TO: ${testDir}`);
     return { 

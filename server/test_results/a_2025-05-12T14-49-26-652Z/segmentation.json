@@ -1,0 +1,94 @@
+{
+  "primarySegments": [
+    {
+      "name": "Safety-Conscious Young Adults",
+      "description": "Tech-savvy individuals in their 20s and early 30s who prioritize personal safety and emergency preparedness.",
+      "percentage": 40,
+      "characteristics": {
+        "demographics": [
+          "Age 20-35",
+          "Urban and suburban dwellers",
+          "College-educated professionals"
+        ],
+        "psychographics": [
+          "Safety-conscious and proactive about personal security",
+          "Early adopters of technology",
+          "Value independence and self-reliance"
+        ],
+        "problemsNeeds": [
+          "Concerned about safety when out alone or in unfamiliar areas",
+          "Want a discreet way to call for help in threatening situations",
+          "Desire quick communication with emergency contacts"
+        ],
+        "behaviors": [
+          "Regularly use smartphone apps for various aspects of daily life",
+          "Likely to recommend the app to friends and family",
+          "Willing to pay for premium features for added security"
+        ]
+      },
+      "growthPotential": "High"
+    },
+    {
+      "name": "Concerned Parents",
+      "description": "Parents of teenagers and young adults who want to ensure their children's safety and quick access to help in emergencies.",
+      "percentage": 35,
+      "characteristics": {
+        "demographics": [
+          "Age 35-55",
+          "Parents of teens and young adults",
+          "Middle to upper-middle income"
+        ],
+        "psychographics": [
+          "Protective and concerned about their children's well-being",
+          "Technologically competent but not necessarily early adopters",
+          "Value family security and peace of mind"
+        ],
+        "problemsNeeds": [
+          "Worry about their children's safety when they're away from home",
+          "Need a reliable way to be notified of their children's emergencies",
+          "Want to provide their children with an easy-to-use safety tool"
+        ],
+        "behaviors": [
+          "Likely to purchase and set up the app for their children",
+          "May use the app themselves as a family safety measure",
+          "Regularly check and update emergency contact information"
+        ]
+      },
+      "growthPotential": "Medium"
+    },
+    {
+      "name": "Active Seniors",
+      "description": "Older adults who maintain an independent lifestyle but want added security for health-related emergencies.",
+      "percentage": 25,
+      "characteristics": {
+        "demographics": [
+          "Age 60+",
+          "Retired or semi-retired",
+          "Living independently or with a partner"
+        ],
+        "psychographics": [
+          "Value their independence and active lifestyle",
+          "Health-conscious and aware of potential risks",
+          "Increasingly comfortable with smartphone technology"
+        ],
+        "problemsNeeds": [
+          "Concerned about falling or having a medical emergency when alone",
+          "Need a simple, reliable way to call for help quickly",
+          "Want to maintain independence while ensuring safety"
+        ],
+        "behaviors": [
+          "May need assistance in initial app setup",
+          "Likely to use the app as an alternative to traditional medical alert systems",
+          "Regular testing of the app to ensure it works when needed"
+        ]
+      },
+      "growthPotential": "High"
+    }
+  ],
+  "excludedSegments": [
+    {
+      "name": "Young Children",
+      "reason": "Children under 12 are unlikely to have their own smartphones or the maturity to use the app effectively. Their safety needs are better addressed through parental supervision and other child-specific safety measures."
+    }
+  ]
+}

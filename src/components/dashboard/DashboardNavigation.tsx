@@ -1,5 +1,5 @@
 import React from 'react';
-import { FileText, Users, Target, BarChart2, TrendingUp } from 'lucide-react';
+import { FileText, Users, Target, BarChart2, TrendingUp, Waypoints } from 'lucide-react';
 import './Navigation.css';
 
 interface DashboardNavigationProps {
@@ -35,8 +35,9 @@ const DashboardNavigation: React.FC<DashboardNavigationProps> = ({
       <div className="dashboard-sidebar">
         <div className="sidebar-container">
           <div className="sidebar-inner">
-            <div className="sidebar-logo">
-              <h1>Idea Lab</h1>
+            <div className="dashboard-nav-header">
+              <Waypoints className="dashboard-nav-logo-icon" /> 
+              <h1>Semita AI</h1>
             </div>
             <div className="sidebar-nav">
               <p className="sidebar-nav-label">

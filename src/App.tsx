@@ -1,13 +1,45 @@
 import React, { useState, useEffect } from 'react';
+import { BrowserRouter, Routes, Route, Navigate, Link } from 'react-router-dom';
 import BusinessIdeaForm from './components/BusinessIdeaForm';
-import { IdeaLabDashboard } from './components/dashboard';
-import { Lightbulb, Moon, Sun, ArrowLeft } from 'lucide-react';
+import AnalysisResultsPage from './pages/AnalysisResultsPage'; // Restore original results page
+// import MockAnalysisResultsPage from './pages/MockAnalysisResultsPage'; // Comment out mock results page
+import { Waypoints, Moon, Sun } from 'lucide-react';
 import './index.css'; 
 import './App.css';
 
+// Layout component with header
+const AppLayout = ({ children, darkMode, toggleDarkMode }: { children: React.ReactNode, darkMode: boolean, toggleDarkMode: () => void }) => {
+  return (
+    <>
+      <header className="app-header">
+        <div className="header-content">
+          <div className="header-wrapper">
+            <div className="logo-container">
+              <Link to="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
+                <Waypoints className="logo-icon" />
+                <h1 className="logo-text">Semita AI</h1>
+              </Link>
+            </div>
+            
+            <button 
+              className="theme-toggle-button"
+              onClick={toggleDarkMode}
+              aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
+            >
+              {darkMode ? <Sun size={20} /> : <Moon size={20} />}
+            </button>
+          </div>
+        </div>
+      </header>
+      <main className="main-content">
+        {children}
+      </main>
+    </>
+  );
+};
+
 function App() {
   const [darkMode, setDarkMode] = useState<boolean>(false);
-  const [showDashboard, setShowDashboard] = useState<boolean>(false);
 
   // Toggle dark mode
   const toggleDarkMode = () => {
@@ -41,86 +73,34 @@ function App() {
         document.documentElement.classList.add('dark-mode');
       }
     }
-
-    // Check if we should show the dashboard from URL
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('view') === 'dashboard') {
-      setShowDashboard(true);
-    }
   }, []);
 
-  // Handle form submission to show dashboard
-  const handleFormSubmit = () => {
-    setShowDashboard(true);
-    // Update URL for bookmarking
-    const url = new URL(window.location.href);
-    url.searchParams.set('view', 'dashboard');
-    window.history.pushState({}, '', url);
-  };
-
-  // Handle going back to form
-  const handleBackToForm = () => {
-    setShowDashboard(false);
-    // Update URL
-    const url = new URL(window.location.href);
-    url.searchParams.delete('view');
-    window.history.pushState({}, '', url);
-  };
-
   return (
-    <div className={`app-container ${darkMode ? 'dark-mode' : 'light-mode'}`}>
-      {!showDashboard ? (
-        <>
-          {/* Header */}
-          <header className="app-header">
-            <div className="header-content">
-              <div className="header-wrapper">
-                <div className="logo-container">
-                  <Lightbulb className="logo-icon" />
-                  <h1 className="logo-text">Idea Lab</h1>
-                </div>
-                
-                <button 
-                  className="theme-toggle-button"
-                  onClick={toggleDarkMode}
-                  aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
-                >
-                  {darkMode ? <Sun size={20} /> : <Moon size={20} />}
-                </button>
-              </div>
-            </div>
-          </header>
-
-          {/* Main Content Area - Form */}
-          <main className="main-content">
-            <BusinessIdeaForm />
-            {/* Demo button to view dashboard */}
-            <div className="max-w-768px mx-auto px-4 mt-8 text-center">
-              <button 
-                onClick={handleFormSubmit}
-                className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-              >
-                View Dashboard Demo
-              </button>
-            </div>
-          </main>
-        </>
-      ) : (
-        <>
-          {/* Dashboard View */}
-          {/* Small back button in top corner */}
-          <button
-            onClick={handleBackToForm}
-            className="fixed top-4 left-4 z-50 bg-white dark:bg-gray-800 p-2 rounded-full shadow-md"
-            aria-label="Back to form"
-          >
-            <ArrowLeft size={20} className="text-gray-700 dark:text-gray-300" />
-          </button>
-          
-          <IdeaLabDashboard />
-        </>
-      )}
-    </div>
+    <BrowserRouter>
+      <div className={`app-container ${darkMode ? 'dark-mode' : 'light-mode'}`}>
+        <Routes>
+          <Route 
+            path="/" 
+            element={
+              <AppLayout darkMode={darkMode} toggleDarkMode={toggleDarkMode}>
+                <BusinessIdeaForm />
+              </AppLayout>
+            } 
+          />
+          {/* Route to the REAL Analysis Results Page */}
+          <Route 
+            path="/results/:jobId" 
+            element={<AnalysisResultsPage />} 
+          />
+          {/* Optional: You could have a specific mock route too if needed */}
+          {/* <Route path="/mock-results" element={<MockAnalysisResultsPage />} /> */}
+          <Route 
+            path="*" 
+            element={<Navigate to="/" replace />} 
+          />
+        </Routes>
+      </div>
+    </BrowserRouter>
   );
 }
 

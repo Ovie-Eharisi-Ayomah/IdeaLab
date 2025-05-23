@@ -43,6 +43,31 @@
 
 /* App.css */
 
+/* CSS Variables */
+:root {
+  --primary-color: #3b82f6;
+  --accent-color: #6366f1;
+  --text-color-primary: #111827;
+  --text-color-secondary: #4b5563;
+  --card-bg: #ffffff;
+  --bg-secondary: #f3f4f6;
+  --bg-hover: #f9fafb;
+  --bg-selected: #f3f4f6;
+  --border-color: #e5e7eb;
+}
+
+.dark-mode {
+  --primary-color: #60a5fa;
+  --accent-color: #818cf8;
+  --text-color-primary: #f9fafb;
+  --text-color-secondary: #9ca3af;
+  --card-bg: #1f2937;
+  --bg-secondary: #374151;
+  --bg-hover: #2d3748;
+  --bg-selected: #374151;
+  --border-color: #4b5563;
+}
+
 /* App container */
 .app-container {
   min-height: 100vh;

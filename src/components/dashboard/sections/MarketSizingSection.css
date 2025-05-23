@@ -1,0 +1,586 @@
+/* MarketSizingSection.css */
+
+.market-sizing-view {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Header styles */
+.section-header {
+  margin-bottom: 1.5rem;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-color-primary);
+  margin-bottom: 0.5rem;
+}
+
+.section-subtitle {
+  font-size: 0.875rem;
+  color: var(--text-color-secondary);
+}
+
+/* Card styles */
+.section-card {
+  background-color: var(--card-bg);
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.card-header.clickable {
+  cursor: pointer;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+}
+
+.icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.5rem;
+  margin-right: 1rem;
+  flex-shrink: 0;
+}
+
+.icon-container.blue {
+  background-color: #eff6ff;
+}
+
+.icon-container.green {
+  background-color: #dcfce7;
+}
+
+.icon-container.indigo {
+  background-color: #eef2ff;
+}
+
+.icon-container.gray {
+  background-color: #f3f4f6;
+}
+
+.icon-container .icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.icon-container.blue .icon {
+  color: #3b82f6;
+}
+
+.icon-container.green .icon {
+  color: #10b981;
+}
+
+.icon-container.indigo .icon {
+  color: #6366f1;
+}
+
+.icon-container.gray .icon {
+  color: #4b5563;
+}
+
+.toggle-icon {
+  display: flex;
+  align-items: center;
+}
+
+.toggle-icon-item {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: var(--text-color-secondary);
+}
+
+.card-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-color-primary);
+  margin: 0;
+}
+
+.card-subtitle {
+  font-size: 0.875rem;
+  color: var(--text-color-secondary);
+  margin-top: 0.25rem;
+}
+
+.card-content {
+  padding: 1.25rem 1rem;
+}
+
+/* Chart container styles */
+.chart-container {
+  height: 18rem;
+  margin-bottom: 1.5rem;
+}
+
+.market-size-chart {
+  height: 20rem;
+}
+
+.growth-chart {
+  height: 16rem;
+}
+
+/* Market size cards styles */
+.market-size-cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .market-size-cards {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.market-size-card {
+  background-color: var(--card-bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.market-size-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.market-size-card-title {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-color-primary);
+  margin: 0;
+}
+
+.market-size-value {
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.market-size-value.tam {
+  color: #1d4ed8;
+}
+
+.market-size-value.sam {
+  color: #2563eb;
+}
+
+.market-size-value.som {
+  color: #3b82f6;
+}
+
+.market-size-desc {
+  font-size: 0.75rem;
+  color: var(--text-color-secondary);
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+.market-size-details {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--text-color-secondary);
+  margin-bottom: 0.75rem;
+}
+
+.market-size-projection {
+  font-size: 0.75rem;
+  background-color: #eff6ff;
+  color: #1d4ed8;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  margin: 0.5rem 0 0 0;
+}
+
+.market-multipliers {
+  font-size: 0.75rem;
+  color: var(--text-color-secondary);
+}
+
+.multiplier-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.25rem;
+}
+
+.multiplier-row:last-child {
+  margin-bottom: 0;
+}
+
+/* Confidence info styles */
+.confidence-info {
+  display: flex;
+  align-items: center;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.info-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: var(--text-color-secondary);
+  margin-right: 0.5rem;
+}
+
+.confidence-text {
+  font-size: 0.875rem;
+  color: var(--text-color-secondary);
+  margin: 0;
+}
+
+.confidence-label {
+  font-weight: 500;
+}
+
+/* Growth drivers styles */
+.growth-drivers-container {
+  background-color: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.growth-drivers-title {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #166534;
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+.growth-drivers-list {
+  list-style-type: disc;
+  padding-left: 1.25rem;
+  margin: 0;
+}
+
+.growth-drivers-list li {
+  font-size: 0.875rem;
+  color: #166534;
+  margin-bottom: 0.25rem;
+}
+
+/* Geographic distribution styles */
+.geo-distribution-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .geo-distribution-grid {
+    grid-template-columns: 1fr 2fr;
+  }
+}
+
+.geo-chart-container {
+  height: 16rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.geo-insights-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.geo-insights-title {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-color-primary);
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.geo-insights {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.geo-insight-card {
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  border-width: 1px;
+  border-style: solid;
+}
+
+.geo-insight-card.blue {
+  background-color: #eff6ff;
+  border-color: #bfdbfe;
+}
+
+.geo-insight-card.green {
+  background-color: #f0fdf4;
+  border-color: #bbf7d0;
+}
+
+.geo-insight-card.yellow {
+  background-color: #fefce8;
+  border-color: #fef08a;
+}
+
+.geo-color-indicator {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.25rem;
+}
+
+.color-dot {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 9999px;
+  margin-right: 0.5rem;
+}
+
+.geo-region-title {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-color-primary);
+  margin: 0;
+}
+
+.geo-region-desc {
+  font-size: 0.875rem;
+  color: var(--text-color-secondary);
+  margin: 0.25rem 0 0 0;
+}
+
+/* Sources styles */
+.sources-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.source-item {
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.source-item:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.source-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.source-name {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-color-primary);
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+.external-link {
+  margin-left: 0.25rem;
+  color: #3b82f6;
+}
+
+.external-icon {
+  width: 0.75rem;
+  height: 0.75rem;
+}
+
+.source-quality .quality-badge {
+  font-size: 0.75rem;
+  font-weight: 500;
+  background-color: #eff6ff;
+  color: #1d4ed8;
+  padding: 0.25rem 0.5rem;
+  border-radius: 9999px;
+}
+
+.source-details-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .source-details-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.source-detail-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.source-detail-row:last-child {
+  margin-bottom: 0;
+}
+
+.detail-icon {
+  width: 1rem;
+  height: 1rem;
+  color: var(--text-color-secondary);
+  margin-right: 0.25rem;
+}
+
+.detail-label {
+  font-size: 0.875rem;
+  color: var(--text-color-secondary);
+}
+
+.detail-value {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-color-primary);
+  margin-left: 0.25rem;
+}
+
+.detail-info {
+  font-size: 0.875rem;
+  color: var(--text-color-secondary);
+}
+
+/* Methodology styles */
+.methodology-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .methodology-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.methodology-title {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-color-primary);
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+.methodology-title-gap {
+  margin-top: 1.5rem;
+}
+
+.methodology-desc {
+  font-size: 0.875rem;
+  color: var(--text-color-secondary);
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+.methodology-list {
+  list-style-type: disc;
+  padding-left: 1.25rem;
+  margin: 0.25rem 0 0 0;
+}
+
+.methodology-list li {
+  font-size: 0.875rem;
+  color: var(--text-color-secondary);
+  margin-bottom: 0.25rem;
+}
+
+/* Custom tooltip styles */
+.custom-tooltip {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 0.25rem;
+  padding: 0.75rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.tooltip-title {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-color-primary);
+  margin: 0 0 0.25rem 0;
+}
+
+.tooltip-desc {
+  font-size: 0.75rem;
+  color: var(--text-color-secondary);
+  margin: 0;
+}
+
+/* Error notification styles */
+.error-notification {
+  background-color: #fee2e2;
+  border-left: 4px solid #ef4444;
+  border-radius: 0.25rem;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: flex-start;
+}
+
+.error-icon {
+  background-color: #ef4444;
+  color: white;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  margin-right: 0.75rem;
+  flex-shrink: 0;
+}
+
+.error-content {
+  flex: 1;
+}
+
+.error-title {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #b91c1c;
+  margin: 0 0 0.25rem 0;
+}
+
+.error-message {
+  font-size: 0.875rem;
+  color: #7f1d1d;
+  margin: 0;
+}
+
+/* Calculation source style */
+.calculation-source {
+  display: block;
+  margin-top: 0.25rem;
+  font-style: italic;
+  font-size: 0.75rem;
+  color: var(--text-color-secondary);
+} 

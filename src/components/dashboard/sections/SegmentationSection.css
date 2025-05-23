@@ -1,0 +1,437 @@
+/* SegmentationSection.css */
+
+.segmentation-view {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Header styles */
+.section-header {
+  margin-bottom: 1.5rem;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-color-primary);
+  margin-bottom: 0.5rem;
+}
+
+.section-subtitle {
+  font-size: 0.875rem;
+  color: var(--text-color-secondary);
+}
+
+/* Card styles */
+.section-card {
+  background-color: var(--card-bg);
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.card-header.clickable {
+  cursor: pointer;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+}
+
+.icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.5rem;
+  margin-right: 1rem;
+  flex-shrink: 0;
+}
+
+.icon-container.purple {
+  background-color: #f3e8ff;
+}
+
+.icon-container.red {
+  background-color: #fee2e2;
+}
+
+.icon-container.green {
+  background-color: #dcfce7;
+}
+
+.icon-container .icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.icon-container.purple .icon {
+  color: #8b5cf6;
+}
+
+.icon-container.red .icon {
+  color: #ef4444;
+}
+
+.icon-container.green .icon {
+  color: #10b981;
+}
+
+.toggle-icon .icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: var(--text-color-secondary);
+}
+
+.card-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-color-primary);
+  margin: 0;
+}
+
+.card-subtitle {
+  font-size: 0.875rem;
+  color: var(--text-color-secondary);
+  margin-top: 0.25rem;
+}
+
+.card-content {
+  padding: 1.25rem 1rem;
+}
+
+.card-divider {
+  border-top: 1px solid var(--border-color);
+}
+
+/* Segments grid layout */
+.segment-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 1024px) {
+  .segment-grid {
+    grid-template-columns: 2fr 3fr;
+  }
+}
+
+/* Pie chart container */
+.pie-chart-container {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+}
+
+.pie-chart {
+  width: 100%;
+  height: 100%;
+}
+
+/* Segments list */
+.segments-list {
+  padding: 0;
+  border-top: 1px solid var(--border-color);
+}
+
+@media (min-width: 1024px) {
+  .segments-list {
+    border-top: none;
+    border-left: 1px solid var(--border-color);
+  }
+}
+
+.segments-list-inner {
+  display: flex;
+  flex-direction: column;
+}
+
+.segment-item {
+  padding: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.segment-item:hover {
+  background-color: var(--bg-hover);
+}
+
+.segment-item.segment-selected {
+  background-color: var(--bg-selected);
+}
+
+.segment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.segment-title {
+  display: flex;
+  align-items: center;
+}
+
+.segment-color-dot {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+  margin-right: 0.5rem;
+}
+
+.segment-name {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: var(--text-color-primary);
+  margin: 0;
+}
+
+.segment-stats {
+  display: flex;
+  align-items: center;
+}
+
+.growth-indicator {
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-right: 0.5rem;
+}
+
+.growth-high {
+  color: #10b981;
+}
+
+.growth-medium {
+  color: #f59e0b;
+}
+
+.growth-low {
+  color: #ef4444;
+}
+
+.growth-unknown {
+  color: var(--text-color-secondary);
+}
+
+.percentage-badge {
+  background-color: #f3e8ff;
+  color: #8b5cf6;
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.25rem 0.625rem;
+  border-radius: 0.25rem;
+}
+
+.segment-description {
+  font-size: 0.875rem;
+  color: var(--text-color-secondary);
+  margin: 0;
+}
+
+/* Segment detail card styles */
+.segment-badges {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.segment-full-description {
+  font-size: 0.875rem;
+  color: var(--text-color-secondary);
+  margin-bottom: 1.5rem;
+}
+
+.characteristics-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .characteristics-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.characteristic-box {
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.characteristic-title {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-color-primary);
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+}
+
+.characteristic-icon {
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.5rem;
+  color: var(--text-color-secondary);
+}
+
+.characteristic-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.characteristic-item {
+  font-size: 0.875rem;
+  color: var(--text-color-secondary);
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 0.5rem;
+}
+
+.characteristic-item:last-child {
+  margin-bottom: 0;
+}
+
+.bullet {
+  display: inline-block;
+  width: 0.25rem;
+  height: 0.25rem;
+  border-radius: 50%;
+  margin-top: 0.375rem;
+  margin-right: 0.5rem;
+}
+
+.bullet.purple {
+  background-color: #c084fc;
+}
+
+.bullet.blue {
+  background-color: #60a5fa;
+}
+
+.bullet.red {
+  background-color: #f87171;
+}
+
+.bullet.green {
+  background-color: #4ade80;
+}
+
+/* Excluded segments styles */
+.excluded-segments {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.excluded-segment {
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.excluded-segment-title {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-color-primary);
+  margin-top: 0;
+  margin-bottom: 0.25rem;
+}
+
+.excluded-segment-reason {
+  font-size: 0.875rem;
+  color: var(--text-color-secondary);
+  margin: 0;
+}
+
+/* Recommendations styles */
+.recommendations {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.recommendation {
+  display: flex;
+  align-items: flex-start;
+}
+
+.recommendation-icon-container {
+  flex-shrink: 0;
+}
+
+.recommendation-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: #10b981;
+}
+
+.recommendation-content {
+  margin-left: 0.75rem;
+}
+
+.recommendation-title {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-color-primary);
+  margin-top: 0;
+  margin-bottom: 0.25rem;
+}
+
+.recommendation-text {
+  font-size: 0.875rem;
+  color: var(--text-color-secondary);
+  margin: 0;
+}
+
+/* Methodology styles */
+.methodology-text {
+  font-size: 0.875rem;
+  color: var(--text-color-secondary);
+  margin-bottom: 0.75rem;
+}
+
+.methodology-list {
+  list-style-type: disc;
+  padding-left: 1.25rem;
+  font-size: 0.875rem;
+  color: var(--text-color-secondary);
+  margin-bottom: 0.75rem;
+}
+
+.methodology-list li {
+  margin-bottom: 0.25rem;
+}
+
+.methodology-list li:last-child {
+  margin-bottom: 0;
+}
+
+/* Legend specific styling (if needed, Recharts default classes can be targeted too) */
+.recharts-legend-wrapper {
+  width: 100% !important;
+  bottom: 0px !important;
+}
+
+/* Individual legend item styling for better spacing if default is too cramped */
+.recharts-legend-item {
+  margin-right: 10px !important;
+} 

@@ -6,7 +6,7 @@ export { default as SummarySection } from './sections/SummarySection';
 export { default as SegmentationSection } from './sections/SegmentationSection';
 export { default as ProblemSection } from './sections/ProblemSection';
 export { default as CompetitionSection } from './sections/CompetitionSection';
-export { default as MarketSection } from './sections/MarketSection';
+export { default as MarketSizingSection } from './sections/MarketSizingSection';
 
 // Shared components
 export { default as ScoreCircle } from './shared/ScoreCircle';

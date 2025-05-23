@@ -21,7 +21,7 @@ const { sanitizeInput } = require('../classifiers/utils');
 async function identifyCustomerSegments(businessDescription, classificationResult, options = {}) {
   try {
     const {
-      numberOfSegments = 3,
+      numberOfSegments = 5,
       includeExcludedSegments = true
     } = options;
 

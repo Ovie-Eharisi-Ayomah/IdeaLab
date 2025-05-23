@@ -1,0 +1,94 @@
+{
+  "primarySegments": [
+    {
+      "name": "Young Urban Professionals",
+      "description": "Tech-savvy young professionals living in urban areas who prioritize safety and quick access to emergency services.",
+      "percentage": 40,
+      "characteristics": {
+        "demographics": [
+          "Ages 25-35",
+          "Middle to high income",
+          "College educated"
+        ],
+        "psychographics": [
+          "Value safety and security",
+          "Interested in technology and innovation",
+          "Busy lifestyle with frequent travel"
+        ],
+        "problemsNeeds": [
+          "Need quick and reliable emergency alert system",
+          "Desire for peace of mind during commutes and travel",
+          "Concerned about personal safety in urban environments"
+        ],
+        "behaviors": [
+          "Regularly use mobile apps",
+          "Likely to activate the app during commutes",
+          "Share app usage with peers for safety tips"
+        ]
+      },
+      "growthPotential": "High"
+    },
+    {
+      "name": "Elderly Living Alone",
+      "description": "Older adults who live independently and require a simple emergency alert system for peace of mind.",
+      "percentage": 30,
+      "characteristics": {
+        "demographics": [
+          "Ages 65+",
+          "Retired",
+          "Fixed income"
+        ],
+        "psychographics": [
+          "Value independence",
+          "Concerned about health and safety",
+          "Less tech-savvy but willing to learn for safety"
+        ],
+        "problemsNeeds": [
+          "Need easy-to-use emergency alert system",
+          "Require reassurance for themselves and their families",
+          "Concerned about falls and medical emergencies"
+        ],
+        "behaviors": [
+          "Use app primarily at home",
+          "May need assistance setting up the app",
+          "Likely to use app in case of health-related emergencies"
+        ]
+      },
+      "growthPotential": "Medium"
+    },
+    {
+      "name": "Parents with Young Children",
+      "description": "Parents who are concerned about the safety of their children and need a reliable emergency alert system.",
+      "percentage": 30,
+      "characteristics": {
+        "demographics": [
+          "Ages 30-45",
+          "Middle income",
+          "Varied education levels"
+        ],
+        "psychographics": [
+          "Family-oriented",
+          "Highly value child safety",
+          "Active lifestyle with frequent outings"
+        ],
+        "problemsNeeds": [
+          "Need to quickly alert contacts in case of family emergencies",
+          "Desire for additional safety measures for children",
+          "Concerned about child safety in public spaces"
+        ],
+        "behaviors": [
+          "Use app during family outings",
+          "Teach children how to use the app",
+          "Share app with other parents for community safety"
+        ]
+      },
+      "growthPotential": "High"
+    }
+  ],
+  "excludedSegments": [
+    {
+      "name": "Rural Dwellers",
+      "reason": "This segment is less likely to have immediate access to emergency services and may not see the value in a mobile app-based solution due to limited connectivity and different emergency response dynamics."
+    }
+  ]
+}

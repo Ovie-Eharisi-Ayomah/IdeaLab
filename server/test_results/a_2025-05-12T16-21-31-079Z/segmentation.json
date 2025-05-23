@@ -1,0 +1,89 @@
+{
+  "primarySegments": [
+    {
+      "name": "Young Urban Professionals",
+      "description": "Tech-savvy individuals living in urban areas who value safety and convenience.",
+      "percentage": 40,
+      "characteristics": {
+        "demographics": [
+          "Aged 25-35",
+          "Middle to high income",
+          "College educated"
+        ],
+        "psychographics": [
+          "Value personal safety",
+          "Tech-savvy",
+          "Busy lifestyle"
+        ],
+        "problemsNeeds": [
+          "Concerned about personal safety in urban environments",
+          "Need for quick emergency communication",
+          "Desire for technology that integrates seamlessly into their lives"
+        ],
+        "behaviors": [
+          "Download apps frequently",
+          "Use voice-activated technology",
+          "Engage with apps that enhance personal safety"
+        ]
+      },
+      "growthPotential": "High"
+    },
+    {
+      "name": "Elderly Individuals",
+      "description": "Older adults who may live alone and have a heightened need for emergency support.",
+      "percentage": 30,
+      "characteristics": {
+        "demographics": [
+          "Aged 65 and above",
+          "Fixed income",
+          "Retired"
+        ],
+        "psychographics": [
+          "Value independence",
+          "Concerned about health and safety",
+          "Prefer simple technology"
+        ],
+        "problemsNeeds": [
+          "Fear of falling or health emergencies",
+          "Need for quick assistance",
+          "Desire for easy-to-use technology"
+        ],
+        "behaviors": [
+          "Prefer voice-activated devices",
+          "Seek out safety-related products",
+          "Rely on family for tech support"
+        ]
+      },
+      "growthPotential": "Medium"
+    },
+    {
+      "name": "Parents of Young Children",
+      "description": "Parents who are concerned about the safety of their children and themselves.",
+      "percentage": 20,
+      "characteristics": {
+        "demographics": [
+          "Aged 30-45",
+          "Middle income",
+          "Varied education levels"
+        ],
+        "psychographics": [
+          "Family-oriented",
+          "Safety-conscious",
+          "Busy schedules"
+        ],
+        "problemsNeeds": [
+          "Worry about children's safety",
+          "Need for quick communication during emergencies",
+          "Desire for peace of mind"
+        ],
+        "behaviors": [
+          "Use family safety apps",
+          "Engage with parenting communities online",
+          "Adopt technology that ensures family safety"
+        ]
+      },
+      "growthPotential": "High"
+    }
+  ],
+  "excludedSegments": []
+}

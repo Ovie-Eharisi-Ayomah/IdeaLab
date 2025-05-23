@@ -1,0 +1,89 @@
+{
+  "primarySegments": [
+    {
+      "name": "Young Urban Professionals",
+      "description": "Tech-savvy individuals living in urban areas who prioritize personal safety and quick access to emergency services.",
+      "percentage": 40,
+      "characteristics": {
+        "demographics": [
+          "Age 25-35",
+          "Middle to high income",
+          "College educated"
+        ],
+        "psychographics": [
+          "Value convenience and technology",
+          "Concerned about personal safety",
+          "Active social lives"
+        ],
+        "problemsNeeds": [
+          "Need quick access to emergency help",
+          "Desire to feel safe in urban environments",
+          "Require reliable technology solutions"
+        ],
+        "behaviors": [
+          "Regularly use mobile apps",
+          "Likely to share app with friends",
+          "Engage with app during travel or late hours"
+        ]
+      },
+      "growthPotential": "High"
+    },
+    {
+      "name": "Parents of Teenagers",
+      "description": "Parents who are concerned about the safety of their teenage children, especially when they are not at home.",
+      "percentage": 30,
+      "characteristics": {
+        "demographics": [
+          "Age 35-50",
+          "Middle income",
+          "Parents with children aged 13-19"
+        ],
+        "psychographics": [
+          "Family-oriented",
+          "Safety-conscious",
+          "Trust technology for family management"
+        ],
+        "problemsNeeds": [
+          "Need peace of mind regarding children's safety",
+          "Desire a quick way for children to alert them in emergencies",
+          "Require a reliable communication tool"
+        ],
+        "behaviors": [
+          "Encourage children to use safety apps",
+          "Monitor children's app usage",
+          "Respond quickly to emergency alerts"
+        ]
+      },
+      "growthPotential": "High"
+    },
+    {
+      "name": "Elderly Living Independently",
+      "description": "Older adults who live alone and require an easy-to-use emergency alert system for personal safety.",
+      "percentage": 20,
+      "characteristics": {
+        "demographics": [
+          "Age 65+",
+          "Fixed income",
+          "Retired"
+        ],
+        "psychographics": [
+          "Value independence",
+          "Concerned about health and safety",
+          "Prefer simple technology"
+        ],
+        "problemsNeeds": [
+          "Need a simple way to call for help",
+          "Desire to maintain independence",
+          "Require reassurance of safety"
+        ],
+        "behaviors": [
+          "Use app for peace of mind",
+          "Engage family members in setup",
+          "Use app during health emergencies"
+        ]
+      },
+      "growthPotential": "Medium"
+    }
+  ],
+  "excludedSegments": []
+}
