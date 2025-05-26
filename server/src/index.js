@@ -230,11 +230,18 @@ async function runCompetitionAnalysis(job) {
   console.log(`[Job ${job.id}] Running competition analysis via Python API...`);
   await updateJob(job);
   try {
-    const response = await axios.post(`${PYTHON_API_URL}/competition`, {
+    const requestBody = {
       description: job.input.businessIdea,
       industry: job.results.classification.primaryIndustry,
       product_type: job.results.classification.productType
-    }, { timeout: 600000 });
+    };
+    
+    // Include problem statement if available
+    if (job.input.problemStatement) {
+      requestBody.problem_statement = job.input.problemStatement;
+    }
+    
+    const response = await axios.post(`${PYTHON_API_URL}/competition`, requestBody, { timeout: 600000 });
     job.results.competition = response.data;
     job.progress.competition = 'complete';
     console.log(`[Job ${job.id}] Competition analysis complete`);

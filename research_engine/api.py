@@ -33,6 +33,7 @@ class BusinessRequest(BaseModel):
     description: str
     industry: str
     product_type: str
+    problem_statement: str = None  # Optional problem statement
 
 class ProblemRequest(BaseModel):
     description: str
@@ -65,7 +66,8 @@ async def analyze_competition(request: BusinessRequest):
         result = await competition.analyze_competition(
             request.description,
             request.industry,
-            request.product_type
+            request.product_type,
+            request.problem_statement
         )
         
         # Check if we got an error response with no useful data

@@ -226,8 +226,8 @@ const AnalysisResultsPage: React.FC = () => {
 
   if (job.status === 'complete') {
     // Transform job results using the imported transformer
-    const transformedData = transformJobToAnalysisResult(job);
-    return <IdeaLabDashboard analysisResult={transformedData} />;
+    // const transformedData = transformJobToAnalysisResult(job);
+    return <IdeaLabDashboard />;
   }
 
   return (

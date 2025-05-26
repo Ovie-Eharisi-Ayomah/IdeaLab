@@ -7,6 +7,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
 from browser_use import Agent, Browser, BrowserConfig
+from browser_use.browser.context import BrowserContextConfig
 
 # Load environment variables
 load_dotenv()
@@ -26,7 +27,7 @@ class CompetitiveAnalysisService:
         )
         print("CompetitiveAnalysisService: Using OpenAI as primary LLM.")
     
-    async def analyze_competition(self, business_idea, industry, product_type):
+    async def analyze_competition(self, business_idea, industry, product_type, problem_statement=None):
         """Analyze competition using browser-use with enhanced error handling and caching"""
         try:
             # Input validation
@@ -51,52 +52,85 @@ class CompetitiveAnalysisService:
             
             print(f"Starting competition analysis for {industry} using {self.llm.__class__.__name__}...")
             
-            # Create task prompt - more detailed and structured
-            search_task = self._create_search_task(business_idea, industry, product_type)
+            # Create task prompt - more detailed and structured (now with problem statement)
+            search_task = self._create_search_task(business_idea, industry, product_type, problem_statement)
             
             # Enhanced browser configuration for better reliability
             browser_config = BrowserConfig(
-                # headless=True,  # Run headless for production
-                disable_security=True
+                headless=True,  # Run headless for production
+                disable_security=True,
+                # Add essential Chromium args for better compatibility
+                extra_chromium_args=[
+                    '--no-sandbox',
+                    '--disable-dev-shm-usage',
+                    '--disable-gpu',
+                    '--disable-features=VizDisplayCompositor'
+                ]
             )
             
-            # Create agent with enhanced configuration
-            agent = Agent(
-                task=search_task,
-                llm=self.llm,
-                use_vision=True,
-                save_conversation_path="logs/competition_research",
-                browser=Browser(config=browser_config)
+            # Enhanced browser context config for better page loading and timeout handling
+            context_config = BrowserContextConfig(
+                wait_for_network_idle_page_load_time=3.0,  # Wait for network to settle
+                maximum_wait_page_load_time=45.0,  # Increase timeout for slow sites
+                minimum_wait_page_load_time=1.0,  # Minimum wait time
+                browser_window_size={'width': 1280, 'height': 1100},
+                locale='en-US',
+                user_agent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                highlight_elements=True,
+                viewport_expansion=500  # Keep default for better context
             )
             
-            # Run agent with timeout protection
-            print("Executing competitive research agent...")
-            history = await agent.run(max_steps=60)  # Limit steps to prevent infinite loops
+            # Create browser with enhanced config
+            browser = Browser(config=browser_config)
             
-            # Get final result from history
-            final_result = history.final_result()
-            if not final_result:
-                raise ValueError("Agent completed but returned no final result")
+            try:
+                # Create browser context with enhanced settings
+                browser_context = await browser.new_context(config=context_config)
                 
-            print("Agent completed competition research task successfully")
-            
-            # Extract structured data with enhanced processing
-            result = self._process_result(final_result, industry)
-            
-            # Add quality validation
-            result = self._validate_and_enhance_result(result, business_idea, industry)
-            
-            # Cache the result for future use (only if quality is sufficient)
-            if result.get("confidence_score", 0) >= 5:
-                self._save_to_cache(cache_key, result)
-                print(f"Cached high-quality result for {cache_key}")
-            
-            # Add research method and metadata
-            result["research_method"] = "web_research"
-            result["analysis_timestamp"] = time.time()
-            result["agent_steps"] = len(history.model_actions()) if hasattr(history, 'model_actions') else 0
-            
-            return result
+                # Create agent with enhanced configuration and context
+                agent = Agent(
+                    task=search_task,
+                    llm=self.llm,
+                    use_vision=True,
+                    save_conversation_path="logs/competition_research",
+                    browser_context=browser_context
+                )
+                
+                # Run agent with reduced steps to handle timeout issues better
+                print("Executing competitive research agent...")
+                history = await agent.run(max_steps=50)  # Reduced steps to prevent timeout issues
+                
+                # Get final result from history
+                final_result = history.final_result()
+                if not final_result:
+                    raise ValueError("Agent completed but returned no final result")
+                    
+                print("Agent completed competition research task successfully")
+                
+                # Extract structured data with enhanced processing
+                result = self._process_result(final_result, industry)
+                
+                # Add quality validation
+                result = self._validate_and_enhance_result(result, business_idea, industry)
+                
+                # Cache the result for future use (only if quality is sufficient)
+                if result.get("confidence_score", 0) >= 5:
+                    self._save_to_cache(cache_key, result)
+                    print(f"Cached high-quality result for {cache_key}")
+                
+                # Add research method and metadata
+                result["research_method"] = "web_research"
+                result["analysis_timestamp"] = time.time()
+                result["agent_steps"] = len(history.model_actions()) if hasattr(history, 'model_actions') else 0
+                
+                return result
+                
+            finally:
+                # Ensure browser is always closed
+                try:
+                    await browser.close()
+                except Exception as cleanup_error:
+                    print(f"Warning: Error during browser cleanup: {cleanup_error}")
             
         except Exception as e:
             error_msg = f"Competition analysis failed: {str(e)}"
@@ -140,8 +174,15 @@ class CompetitiveAnalysisService:
         with open(cache_file, "w") as f:
             json.dump(data, f)
     
-    def _create_search_task(self, business_idea, industry, product_type):
+    def _create_search_task(self, business_idea, industry, product_type, problem_statement=None):
         """Create the refined search task prompt with specific queries and format"""
+        
+        # Generate specific search queries using LLM
+        search_queries = self._generate_search_queries(business_idea, industry, product_type, problem_statement)
+        
+        # Format queries for the prompt
+        formatted_queries = '\n            '.join([f'- "{query}"' for query in search_queries])
+        
         return f"""
         **Objective:** Conduct a comprehensive competitive landscape analysis for the business idea: "{business_idea}" (Industry: {industry}, Product Type: {product_type}).
 
@@ -151,24 +192,23 @@ class CompetitiveAnalysisService:
 
         **IMPORTANT: CAPTCHA and Access Restrictions Handling:**
         - If you encounter a CAPTCHA or are blocked from accessing a website, **DO NOT get stuck or wait indefinitely**
-        - Skip that specific website and move to alternative sources
-        - Try alternative search engines (Google, Bing, DuckDuckGo) if one blocks you
+        - **TIMEOUT HANDLING**: If a page takes longer than 30 seconds to load, immediately move to alternative sources
+        - **STUCK DETECTION**: If you find yourself repeatedly trying the same action (like switching tabs), stop and move to a different task
+        - Skip that specific website and move to alternative sources immediately
+        - Try alternative search engines (Google, Bing, DuckDuckGo) if one blocks you or times out
+        - **AVOID AUTHENTICATION**: Do not attempt to log into sites like LinkedIn, Crunchbase, or social media platforms
         - Look for information on alternative sites like company directories, news sites, or industry reports
         - If a key competitor's main website is blocked, search for information about them on third-party sites
+        - **PRIORITIZE ACCESSIBLE SOURCES**: Focus on sites that work reliably (Wikipedia, news sites, public company directories)
         - Always prioritize completing the research over accessing any single specific website
         - Document any access restrictions encountered in your sources notes
+        - **STEP LIMIT AWARENESS**: You have limited steps (50), so be efficient and move quickly between sources
 
         **Research & Data Collection Strategy:**
 
         **Phase 1: Initial Competitor Identification**
-        1.  Execute *at least 5* of the following EXACT search queries on accessible search engines:
-            - "top {industry} {product_type} companies"
-            - "{industry} {product_type} market leaders"
-            - "leading {industry} {product_type} solutions"
-            - "{industry} startups {product_type}"
-            - "{product_type} {industry} market share analysis"
-            - "{industry} {product_type} pricing comparison"
-            - "reviews of {industry} {product_type}"
+        1.  Execute *at least 5* of the following TARGETED search queries on accessible search engines:
+            {formatted_queries}
         2.  If you encounter access restrictions on any search engine, immediately switch to an alternative
         3.  Identify distinct competitors offering similar solutions to a similar target audience
 
@@ -593,3 +633,82 @@ class CompetitiveAnalysisService:
         }
         
         return result
+
+    def _generate_search_queries(self, business_idea, industry, product_type, problem_statement=None):
+        """Generate specific search queries using LLM to extract key concepts from business idea and problem statement"""
+        try:
+            # Include problem statement if available
+            problem_context = ""
+            if problem_statement:
+                problem_context = f"""
+            Problem Statement: "{problem_statement}"
+            """
+            
+            query_prompt = f"""
+            Generate 6-8 specific and targeted search queries for competitive research based on this business idea:
+            
+            Business Idea: "{business_idea}"
+            Industry Context: {industry}
+            Product Type: {product_type}{problem_context}
+            
+            Extract the key concepts, technologies, value propositions, target use cases, and specific problems being solved.
+            Create search queries that would find ACTUAL competitors solving the same problem, not just companies in the broad industry category.
+            
+            Rules:
+            1. Focus on the specific value proposition and unique features
+            2. Include relevant technology terms (AI, automation, etc.)
+            3. Target the exact problem being solved and pain points mentioned
+            4. Use terms potential customers would search for when looking for solutions
+            5. Include target audience keywords if evident (startups, small business, etc.)
+            6. Avoid overly broad industry terms
+            7. Each query should be 2-6 words
+            8. Think about what someone with this exact problem would search for
+            
+            Return exactly 6-8 search queries, one per line, without numbers or quotes.
+            
+            Example for "AI-powered tool that validates business ideas" with problem "Entrepreneurs waste time building unvalidated products":
+            AI business idea validation
+            startup idea validation software
+            entrepreneur market testing tools
+            business concept validation platforms
+            AI market research automation
+            startup validation before building
+            idea testing for entrepreneurs
+            market demand validation tools
+            """
+            
+            response = self.llm.invoke(query_prompt)
+            
+            # Extract queries from response
+            queries = []
+            for line in response.content.strip().split('\n'):
+                line = line.strip()
+                # Remove numbers, bullets, quotes
+                line = re.sub(r'^[\d\.\-\*\s]*', '', line)
+                line = line.strip('"\'')
+                if line and len(line.split()) >= 2:  # Ensure meaningful queries
+                    queries.append(line)
+            
+            # Fallback to original method if LLM fails
+            if len(queries) < 4:
+                print("LLM query generation insufficient, using fallback queries")
+                return self._get_fallback_queries(business_idea, industry, product_type)
+            
+            print(f"Generated {len(queries)} specific search queries: {queries}")
+            return queries[:8]  # Limit to 8 queries
+            
+        except Exception as e:
+            print(f"Search query generation failed: {e}, using fallback")
+            return self._get_fallback_queries(business_idea, industry, product_type)
+    
+    def _get_fallback_queries(self, business_idea, industry, product_type):
+        """Fallback to original query method if LLM generation fails"""
+        return [
+            f"top {industry} {product_type} companies",
+            f"{industry} {product_type} market leaders",
+            f"leading {industry} {product_type} solutions",
+            f"{industry} startups {product_type}",
+            f"{product_type} {industry} market share analysis",
+            f"{industry} {product_type} pricing comparison",
+            f"reviews of {industry} {product_type}"
+        ]
