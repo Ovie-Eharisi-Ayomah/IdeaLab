@@ -1,229 +1,27 @@
 {
-  "competitors": [
-    {
-      "name": "Validator AI",
-      "website": "https://validatorai.com",
-      "products": [
-        "AI-Powered Startup Guidance",
-        "Customized Startup Roadmap",
-        "Business Analysis Reports"
-      ],
-      "target_audience": "Market Researchers, Entrepreneurs, Business Analysts, Business Consultants, Small Business Owners",
-      "pricing_model": "Standard: Price not available, Pro: $25/mo",
-      "unique_selling_points": [
-        "Adaptive learning system",
-        "Actionable insights",
-        "14-day digital accelerator program"
-      ],
-      "market_position": "Moderately concentrated market player",
-      "founded": null,
-      "funding": null
-    },
-    {
-      "name": "FounderPal",
-      "website": "https://founderpal.ai",
-      "products": [
-        "AI Business Idea Validator",
-        "AI Marketing Platform",
-        "User Persona"
-      ],
-      "target_audience": "Founders, Entrepreneurs, Businesses seeking marketing clarity",
-      "pricing_model": "100% free service",
-      "unique_selling_points": [
-        "100% free service",
-        "Quick validation process",
-        "Comprehensive idea validation report"
-      ],
-      "market_position": "Moderately concentrated market player",
-      "founded": null,
-      "funding": null
-    },
-    {
-      "name": "DimeADozen.ai",
-      "website": "https://www.dimeadozen.ai",
-      "products": [
-        "Instant Business Validation",
-        "Time-Saving Solutions",
-        "Smart Pivoting Decisions"
-      ],
-      "target_audience": "Entrepreneurs, Individuals transitioning to entrepreneurship, Business owners",
-      "pricing_model": "Not Found",
-      "unique_selling_points": [
-        "Comprehensive business reports",
-        "Real-time data and insights",
-        "Cost-effective"
-      ],
-      "market_position": "Moderately concentrated market player",
-      "founded": null,
-      "funding": null
-    },
-    {
-      "name": "Bolt Insight",
-      "website": "https://www.boltinsight.com",
-      "products": [
-        "Qualitative Research at Scale",
-        "Autopilot Innovation",
-        "Video Interviews"
-      ],
-      "target_audience": "Businesses, Companies, Organizations",
-      "pricing_model": "Not Found",
-      "unique_selling_points": [
-        "Informed Market Understanding",
-        "Risk Reduction",
-        "Strategic Decision-Making"
-      ],
-      "market_position": "Moderately concentrated market player",
-      "founded": null,
-      "funding": null
-    },
-    {
-      "name": "VenturusAI",
-      "website": "https://venturusai.com",
-      "products": [
-        "Comprehensive Business Analysis",
-        "Target Audience Identification",
-        "Customized Business Strategies"
-      ],
-      "target_audience": "Entrepreneurs, Start-ups, SMBs, Enterprises",
-      "pricing_model": "No Credit Card Required",
-      "unique_selling_points": [
-        "AI-Powered Insights",
-        "Speed and Efficiency",
-        "Trusted by Over 137,000 Users"
-      ],
-      "market_position": "Moderately concentrated market player",
-      "founded": null,
-      "funding": null
-    },
-    {
-      "name": "Fe/male Switch",
-      "website": "Access restricted",
-      "products": [
-        "Not Found"
-      ],
-      "target_audience": "Not Found",
-      "pricing_model": "Not Found",
-      "unique_selling_points": [
-        "Not Found"
-      ],
-      "market_position": "Not Found",
-      "founded": null,
-      "funding": null
-    },
-    {
-      "name": "Buildpad",
-      "website": "https://buildpad.io",
-      "products": [
-        "Idea validation tool",
-        "Business ideas generator",
-        "User persona generator"
-      ],
-      "target_audience": "Founders, Individuals interested in building products",
-      "pricing_model": "100% free tool",
-      "unique_selling_points": [
-        "100% free tool",
-        "Quick validation process",
-        "No requirement for email"
-      ],
-      "market_position": "Moderately concentrated market player",
-      "founded": null,
-      "funding": null
-    },
-    {
-      "name": "Galaxy AI",
-      "website": "Access restricted",
-      "products": [
-        "AI Communication",
-        "AI Notetaking",
-        "AI Camera"
-      ],
-      "target_audience": "Users of Samsung Galaxy devices",
-      "pricing_model": "Not Found",
-      "unique_selling_points": [
-        "Integration of Samsung's proprietary AI models",
-        "Combination of on-device and cloud-based AI",
-        "Focus on privacy"
-      ],
-      "market_position": "Moderately concentrated market player",
-      "founded": null,
-      "funding": null
-    }
-  ],
-  "market_gaps": [
-    "There is a need for more comprehensive AI tools that not only validate business ideas but also provide detailed market analysis and consumer behavior insights."
-  ],
-  "barriers_to_entry": [
-    "High competition among existing AI-powered business idea validation tools.",
-    "The need for advanced AI technology and data analytics capabilities."
-  ],
-  "market_concentration": "Moderately concentrated with several key players.",
-  "emerging_trends": [
-    "Increasing use of AI for rapid validation of business ideas.",
-    "Integration of AI tools with other business analysis frameworks like SWOT, PESTEL, and Porter's Five Forces."
-  ],
-  "sources": [
-    {
-      "url": "https://validatorai.com",
-      "name": "Validator AI",
-      "date": "Date not found",
-      "access_status": "accessible"
-    },
-    {
-      "url": "https://founderpal.ai",
-      "name": "FounderPal",
-      "date": "Date not found",
-      "access_status": "accessible"
-    },
-    {
-      "url": "https://www.dimeadozen.ai",
-      "name": "DimeADozen.ai",
-      "date": "Date not found",
-      "access_status": "accessible"
-    },
-    {
-      "url": "https://www.boltinsight.com",
-      "name": "Bolt Insight",
-      "date": "Date not found",
-      "access_status": "accessible"
-    },
-    {
-      "url": "https://venturusai.com",
-      "name": "VenturusAI",
-      "date": "Date not found",
-      "access_status": "accessible"
-    },
-    {
-      "url": "https://buildpad.io",
-      "name": "Buildpad",
-      "date": "Date not found",
-      "access_status": "accessible"
-    },
-    {
-      "url": "Access restricted",
-      "name": "Fe/male Switch",
-      "date": "Date not found",
-      "access_status": "blocked_by_captcha"
-    },
-    {
-      "url": "Access restricted",
-      "name": "Galaxy AI",
-      "date": "Date not found",
-      "access_status": "blocked_by_captcha"
-    }
-  ],
-  "confidence_score": 8,
-  "research_limitations": [
-    "Encountered CAPTCHAs on Crunchbase and EU-Startups for some competitors.",
-    "Access restrictions on Fe/male Switch and Galaxy AI websites."
-  ],
   "status": "success",
+  "competitors": [],
+  "market_gaps": [],
+  "barriers_to_entry": [],
+  "market_concentration": "unknown",
+  "emerging_trends": [],
+  "sources": [],
+  "confidence_score": 0,
+  "research_limitations": [],
   "data_quality": {
-    "total_competitors": 8,
-    "valid_sources": 8,
-    "analysis_completeness": 0.7,
-    "missing_fields": []
+    "total_competitors": 0,
+    "valid_sources": 0,
+    "analysis_completeness": 0.0,
+    "missing_fields": [
+      "competitors",
+      "market_gaps",
+      "barriers_to_entry",
+      "emerging_trends",
+      "sources",
+      "research_limitations"
+    ]
   },
   "research_method": "web_research",
-  "analysis_timestamp": 1748256690.025449,
-  "agent_steps": 39
+  "analysis_timestamp": 1748351601.9589171,
+  "agent_steps": 60
 }

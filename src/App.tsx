@@ -77,13 +77,13 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div className={`app-container ${darkMode ? 'dark-mode' : 'light-mode'}`}>
+    <div className={`app-container ${darkMode ? 'dark-mode' : 'light-mode'}`}>
         <Routes>
           <Route 
             path="/" 
             element={
               <AppLayout darkMode={darkMode} toggleDarkMode={toggleDarkMode}>
-                <BusinessIdeaForm />
+         <BusinessIdeaForm />
               </AppLayout>
             } 
           />
@@ -99,7 +99,7 @@ function App() {
             element={<Navigate to="/" replace />} 
           />
         </Routes>
-      </div>
+    </div>
     </BrowserRouter>
   );
 }

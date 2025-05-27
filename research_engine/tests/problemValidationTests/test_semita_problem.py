@@ -60,4 +60,4 @@ async def test_semita_problem():
     print("\n=== TEST COMPLETED SUCCESSFULLY ===\n")
 
 if __name__ == "__main__":
-    asyncio.run(test_obvious_problem())
+    asyncio.run(test_semita_problem())

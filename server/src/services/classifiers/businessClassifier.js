@@ -28,13 +28,13 @@ async function classifyBusinessIdea(businessDescription, options = {}) {
     let rawResult = null;
     let error = null;
     let classificationMethod = 'unknown';
-
+    
     // Step 1: Try OpenAI first
     try {
       console.log('Attempting classification with OpenAI');
       rawResult = await classifyWithOpenAI(sanitizedDescription, { includeReasoning });
       if (rawResult && rawResult.classification && rawResult.classification.primaryIndustry) { // More specific check
-        console.log('Successfully classified with OpenAI');
+      console.log('Successfully classified with OpenAI');
         classificationMethod = rawResult.method || 'openai';
       } else {
         throw new Error("OpenAI returned unexpected structure or missing primaryIndustry.")
@@ -51,15 +51,15 @@ async function classifyBusinessIdea(businessDescription, options = {}) {
         console.log('Falling back to Anthropic classification');
         rawResult = await classifyWithAnthropic(sanitizedDescription, { includeReasoning });
         if (rawResult && rawResult.classification && rawResult.classification.primaryIndustry) { 
-            console.log('Successfully classified with Anthropic');
+        console.log('Successfully classified with Anthropic');
             classificationMethod = rawResult.method || 'anthropic';
-            error = null; 
+        error = null;
         } else {
             throw new Error("Anthropic returned unexpected structure or missing primaryIndustry.")
         }
       } catch (err) {
         console.error('Anthropic classification failed:', err.message);
-        error = err; 
+        error = err;
         rawResult = null; 
       }
     }
@@ -75,7 +75,7 @@ async function classifyBusinessIdea(businessDescription, options = {}) {
                 method: 'rule-based',
                 confidence: 'medium' 
             };
-            console.log('Successfully classified with rule-based approach');
+        console.log('Successfully classified with rule-based approach');
             classificationMethod = 'rule-based'; // Already set by rawResult.method
             error = null; // Clear error if rule-based succeeds
         } else {
@@ -106,7 +106,7 @@ async function classifyBusinessIdea(businessDescription, options = {}) {
     console.error('Critical error in classifyBusinessIdea pipeline:', error.message);
     // Ensure a consistent error structure or rethrow the original error
     // For now, rethrowing to be caught by runFullTest
-    throw error; 
+    throw error;
   }
 }
 

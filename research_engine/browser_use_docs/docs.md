@@ -425,14 +425,14 @@ With this example you can run initial actions without the LLM. Specify the actio
 
 ```python
 initial_actions = [
-    {'open_tab': {'url': 'https://www.google.com'}},
-    {'open_tab': {'url': 'https://en.wikipedia.org/wiki/Randomness'}},
-    {'scroll_down': {'amount': 1000}},
+	{'open_tab': {'url': 'https://www.google.com'}},
+	{'open_tab': {'url': 'https://en.wikipedia.org/wiki/Randomness'}},
+	{'scroll_down': {'amount': 1000}},
 ]
 agent = Agent(
-    task='What theories are displayed on the page?',
-    initial_actions=initial_actions,
-    llm=llm,
+	task='What theories are displayed on the page?',
+	initial_actions=initial_actions,
+	llm=llm,
 )
 ```
 
@@ -557,10 +557,10 @@ browser = Browser()
 context = BrowserContext(browser=browser, config=config)
 
 async def run_search():
-    agent = Agent(
-        browser_context=context,
-        task='Your task',
-        llm=llm)
+	agent = Agent(
+		browser_context=context,
+		task='Your task',
+		llm=llm)
 ```
 
 #### Configuration Options
@@ -636,38 +636,38 @@ With this example you can define what output format the agent should return to y
 from pydantic import BaseModel
 # Define the output format as a Pydantic model
 class Post(BaseModel):
-    post_title: str
-    post_url: str
-    num_comments: int
-    hours_since_post: int
+	post_title: str
+	post_url: str
+	num_comments: int
+	hours_since_post: int
 
 class Posts(BaseModel):
-    posts: List[Post]
+	posts: List[Post]
 
 controller = Controller(output_model=Posts)
 
 async def main():
     task = 'Go to hackernews show hn and give me the first 5 posts'
-    model = ChatOpenAI(model='gpt-4o')
-    agent = Agent(task=task, llm=model, controller=controller)
+	model = ChatOpenAI(model='gpt-4o')
+	agent = Agent(task=task, llm=model, controller=controller)
 
-    history = await agent.run()
+	history = await agent.run()
 
-    result = history.final_result()
-    if result:
-        parsed: Posts = Posts.model_validate_json(result)
+	result = history.final_result()
+	if result:
+		parsed: Posts = Posts.model_validate_json(result)
 
-        for post in parsed.posts:
-            print('\n--------------------------------')
-            print(f'Title:            {post.post_title}')
-            print(f'URL:              {post.post_url}')
-            print(f'Comments:         {post.num_comments}')
-            print(f'Hours since post: {post.hours_since_post}')
-    else:
-        print('No result')
+		for post in parsed.posts:
+			print('\n--------------------------------')
+			print(f'Title:            {post.post_title}')
+			print(f'URL:              {post.post_url}')
+			print(f'Comments:         {post.num_comments}')
+			print(f'Hours since post: {post.hours_since_post}')
+	else:
+		print('No result')
 
 if __name__ == '__main__':
-    asyncio.run(main())
+	asyncio.run(main())
 ```
 
 ## System Prompt

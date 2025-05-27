@@ -1,0 +1,469 @@
+{
+  "test_session": {
+    "start_time": "2025-05-27T16:14:14.446891",
+    "test_type": "enhanced_modules_comprehensive",
+    "test_case": {
+      "business_idea": "An AI-powered tool that validates business ideas by analyzing market size, competition, and demand",
+      "problem_statement": "Entrepreneurs and startup founders waste months building products without validating market demand first, leading to 90% of startups failing due to lack of market need",
+      "industry": "Business Services",
+      "product_type": "SaaS Platform"
+    },
+    "end_time": "2025-05-27T16:31:14.847987",
+    "total_execution_time_seconds": 1020.4
+  },
+  "results": {
+    "competitive_analysis": {
+      "competitors": [
+        {
+          "name": "ValidatorAI",
+          "website": "https://validatorai.com",
+          "products": [
+            "Val",
+            "AI Powered Startup Idea Generator"
+          ],
+          "target_audience": "First-time founders, Repeat entrepreneurs, College students, Individuals with no business experience, Entrepreneurs seeking idea validation",
+          "pricing_model": "Free for initial idea validation and feedback, $49 for 3 calls with Val for deeper analysis and personalized advice",
+          "unique_selling_points": [
+            "Affordable and instant access to AI-driven startup advice",
+            "Tailored advice based on real-time market research",
+            "No scheduling or waiting required"
+          ],
+          "market_position": "Community of 200,000+ entrepreneurs, 4.8 out of 5 on Product Hunt",
+          "founded": null,
+          "funding": null
+        },
+        {
+          "name": "FounderPal",
+          "website": "https://founderpal.ai",
+          "products": [
+            "AI Business Idea Validator"
+          ],
+          "target_audience": "Solopreneurs",
+          "pricing_model": "Free",
+          "unique_selling_points": [
+            "Honest feedback in 10 seconds",
+            "Build something people want"
+          ],
+          "market_position": "Emerging player",
+          "founded": 2023,
+          "funding": "Unfunded"
+        },
+        {
+          "name": "DimeADozen.ai",
+          "website": "https://www.dimeadozen.ai",
+          "products": [
+            "AI Business Validation"
+          ],
+          "target_audience": "Entrepreneurs, Individuals aspiring to transition from stable careers to entrepreneurship",
+          "pricing_model": "Free initial analysis with potential costs saved ranging from $5k to $10k",
+          "unique_selling_points": [
+            "Instant business validation with real-time analysis",
+            "Time-saving solutions by reducing research and guesswork"
+          ],
+          "market_position": "Used by over 85,000 entrepreneurs, featured in notable publications",
+          "founded": null,
+          "funding": null
+        },
+        {
+          "name": "VenturusAI",
+          "website": "https://venturusai.com",
+          "products": [
+            "Comprehensive Business Analysis",
+            "Target Audience Identification"
+          ],
+          "target_audience": "Entrepreneurs, Start-ups, SMBs, Enterprises",
+          "pricing_model": "Start for free with no credit card required",
+          "unique_selling_points": [
+            "AI-powered insights for business analysis",
+            "In-depth analysis including SWOT, PESTEL, and Porter's Five Forces assessments"
+          ],
+          "market_position": "Trusted by over 137,000 users",
+          "founded": null,
+          "funding": null
+        },
+        {
+          "name": "Inodash",
+          "website": "https://www.inodash.com",
+          "products": [
+            "Startup Idea Validator AI",
+            "Innovation Toolkit"
+          ],
+          "target_audience": "Entrepreneurs and startups",
+          "pricing_model": "Free trial available",
+          "unique_selling_points": [
+            "AI-powered validation and insights",
+            "Comprehensive analysis of startup ideas"
+          ],
+          "market_position": "Tool for entrepreneurs to validate their ideas",
+          "founded": null,
+          "funding": null
+        },
+        {
+          "name": "Bizway.io",
+          "website": "https://bizway.io",
+          "products": [
+            "Business Idea Validator",
+            "AI Assistants"
+          ],
+          "target_audience": "Entrepreneurs, Small business owners, Startups",
+          "pricing_model": "Freemium with additional features for registered users",
+          "unique_selling_points": [
+            "AI-powered business idea validation",
+            "Comprehensive analysis based on seven key factors"
+          ],
+          "market_position": "Tool for entrepreneurs and small businesses",
+          "founded": null,
+          "funding": null
+        },
+        {
+          "name": "RebeccAi",
+          "website": "https://rebeccai.com",
+          "products": [
+            "Free Plan",
+            "Premium",
+            "Business Plan"
+          ],
+          "target_audience": "Individuals and businesses",
+          "pricing_model": "Freemium model with a free plan and paid premium and business plans",
+          "unique_selling_points": [
+            "AI-powered business idea evaluation and validation",
+            "Fast idea refinement with AI tools"
+          ],
+          "market_position": "Over 25,000 reports generated and over 5,000 users",
+          "founded": null,
+          "funding": null
+        }
+      ],
+      "market_gaps": [
+        "There is a need for AI tools that can provide comprehensive market analysis and consumer behavior insights to help businesses align with current demands.",
+        "Tools that offer quick and efficient validation of business ideas, such as those that can provide results in under 5 minutes, are in demand."
+      ],
+      "barriers_to_entry": [
+        "The market for AI business idea validation tools is competitive, with several established players offering similar services.",
+        "Developing sophisticated AI algorithms that can accurately analyze market trends and consumer behavior requires significant technical expertise and resources."
+      ],
+      "market_concentration": "The market features several key players such as ValidatorAI.com, FounderPal, DimeADozen.ai, and VenturusAI, indicating a moderate level of concentration.",
+      "emerging_trends": [
+        "There is a growing trend towards using AI for rapid validation of business ideas, with tools that provide instant feedback and market insights.",
+        "AI tools are increasingly incorporating comprehensive business analysis frameworks like SWOT and PESTEL to provide deeper insights."
+      ],
+      "sources": [
+        {
+          "url": "https://validatorai.com",
+          "name": "ValidatorAI.com",
+          "date": "Date not found",
+          "access_status": "accessible"
+        },
+        {
+          "url": "https://founderpal.ai",
+          "name": "FounderPal",
+          "date": "Date not found",
+          "access_status": "accessible"
+        },
+        {
+          "url": "https://www.dimeadozen.ai",
+          "name": "DimeADozen.ai",
+          "date": "Date not found",
+          "access_status": "accessible"
+        },
+        {
+          "url": "https://venturusai.com",
+          "name": "VenturusAI",
+          "date": "Date not found",
+          "access_status": "accessible"
+        },
+        {
+          "url": "https://aicontentfy.com",
+          "name": "AIContentfy",
+          "date": "2025-04-07",
+          "access_status": "accessible"
+        },
+        {
+          "url": "https://www.inodash.com",
+          "name": "Inodash",
+          "date": "Date not found",
+          "access_status": "accessible"
+        },
+        {
+          "url": "https://www.femaleswitch.com",
+          "name": "Fe/male Switch",
+          "date": "2025-03-16",
+          "access_status": "accessible"
+        },
+        {
+          "url": "https://www.linkedin.com",
+          "name": "LinkedIn",
+          "date": "Date not found",
+          "access_status": "accessible"
+        },
+        {
+          "url": "https://medium.com",
+          "name": "Medium",
+          "date": "Date not found",
+          "access_status": "accessible"
+        },
+        {
+          "url": "https://theresanaiforthat.com",
+          "name": "There's An AI For That",
+          "date": "Date not found",
+          "access_status": "accessible"
+        }
+      ],
+      "confidence_score": 8,
+      "research_limitations": [
+        "Encountered navigation errors and page errors while accessing some competitor websites."
+      ],
+      "status": "success",
+      "data_quality": {
+        "total_competitors": 7,
+        "valid_sources": 10,
+        "analysis_completeness": 0.8,
+        "missing_fields": []
+      },
+      "research_method": "web_research",
+      "analysis_timestamp": 1748359374.9617689,
+      "agent_steps": 27,
+      "test_metadata": {
+        "module": "competitive_analysis",
+        "execution_time_seconds": 520.4,
+        "test_timestamp": "2025-05-27T16:22:54.962378",
+        "competitors_found": 7,
+        "market_gaps_found": 2,
+        "barriers_found": 2,
+        "trends_found": 2,
+        "sources_found": 10
+      }
+    },
+    "problem_validation": {
+      "problem_validation": {
+        "exists": true,
+        "severity": 8.0,
+        "frequency": 7.0,
+        "willingness_to_pay": "25,000 to $65,000 for custom market research projects",
+        "market_size_estimate": "Significant, affecting a large number of startups",
+        "confidence_level": 9.0
+      },
+      "evidence": [
+        {
+          "source": "Exploding Topics]",
+          "url": "",
+          "type": "research_study",
+          "date": "Date not found",
+          "credibility": "High",
+          "excerpt": "High)",
+          "key_insight": "34% of startup failures are attributed to a poor product-market fit."
+        },
+        {
+          "source": "CleverX]",
+          "url": "",
+          "type": "blog_post",
+          "date": "Date not found",
+          "credibility": "Medium",
+          "excerpt": "Medium)",
+          "key_insight": "Common pitfalls during market validation include overenthusiasm leading to errors."
+        },
+        {
+          "source": "StartupTalky]",
+          "url": "",
+          "type": "blog_post",
+          "date": "Date not found",
+          "credibility": "Medium",
+          "excerpt": "Medium)",
+          "key_insight": "Big companies spend nearly 5-10% of their annual revenue on market research."
+        },
+        {
+          "source": "Attest]",
+          "url": "",
+          "type": "blog_post",
+          "date": "2025",
+          "credibility": "03-06 - Medium",
+          "excerpt": "Medium)",
+          "key_insight": "Market research is essential to ensure the viability of a business idea."
+        },
+        {
+          "source": "Reddit]",
+          "url": "",
+          "type": "forum_post",
+          "date": "Date not found",
+          "credibility": "Medium",
+          "excerpt": "Medium)",
+          "key_insight": "35% of startups fail because the product has no market."
+        }
+      ],
+      "alternative_solutions": [
+        {
+          "name": "[Mentionlytics]",
+          "approach": "Monitoring online mentions and gaining insights into market trends.",
+          "limitations": [
+            "May not provide comprehensive market analysis reports."
+          ],
+          "pricing": ""
+        },
+        {
+          "name": "[Semrush]",
+          "approach": "Offers a broad understanding of market trends and competitor analysis.",
+          "limitations": [
+            "Does not offer detailed reports."
+          ],
+          "pricing": ""
+        },
+        {
+          "name": "[BuzzSumo]",
+          "approach": "Helps monitor online mentions and track content performance.",
+          "limitations": [
+            "May require additional tools for in-depth market analysis."
+          ],
+          "pricing": ""
+        }
+      ],
+      "problem_statement_feedback": "- Accuracy: The problem statement is not explicitly defined in the provided content.\n- Specificity: The content is not specific to a single problem statement.\n- Improvements: Define a clear problem statement related to the cost of market analysis tools for entrepreneurs.",
+      "sources": [],
+      "confidence_score": 9.0,
+      "status": "success",
+      "research_limitations": [
+        "None encountered during the research process."
+      ],
+      "data_quality": {
+        "total_evidence_sources": 5,
+        "high_credibility_sources": 0,
+        "alternative_solutions_found": 3,
+        "analysis_completeness": 0.5,
+        "evidence_types": [
+          "research_study",
+          "blog_post",
+          "forum_post"
+        ]
+      },
+      "research_method": "cached",
+      "test_metadata": {
+        "module": "problem_validation",
+        "execution_time_seconds": 0.0,
+        "test_timestamp": "2025-05-27T16:22:54.989731",
+        "problem_exists": true,
+        "severity_score": 8.0,
+        "frequency_score": 7.0,
+        "evidence_count": 5,
+        "alternative_solutions_count": 3
+      }
+    },
+    "market_sizing": {
+      "status": "success",
+      "market_data": {
+        "sources": [
+          {
+            "publisher": "Grand View Research",
+            "report_title": "Artificial Intelligence Market Report",
+            "publication_date": "2024-03-15",
+            "market_size": 279.22,
+            "market_size_unit": "billion",
+            "currency": "USD",
+            "base_year": 2024,
+            "growth_rate": 35.9,
+            "geographic_scope": "Global",
+            "source_quality": "high",
+            "url": "https://www.grandviewresearch.com/industry-analysis/artificial-intelligence-ai-market"
+          },
+          {
+            "publisher": "MarketsandMarkets",
+            "report_title": "Artificial Intelligence Market Research Reports",
+            "publication_date": "2025-05-27",
+            "market_size": 371.71,
+            "market_size_unit": "billion",
+            "currency": "USD",
+            "base_year": 2025,
+            "growth_rate": 30.6,
+            "geographic_scope": "Global",
+            "source_quality": "high",
+            "url": "https://www.marketsandmarkets.com/Market-Reports/artificial-intelligence-market-74851580.html"
+          },
+          {
+            "publisher": "Zion Market Research",
+            "report_title": "Artificial Intelligence SaaS Market Report",
+            "publication_date": "2025-05-27",
+            "market_size": 115.22,
+            "market_size_unit": "billion",
+            "currency": "USD",
+            "base_year": 2024,
+            "growth_rate": 38.4,
+            "geographic_scope": "Global",
+            "source_quality": "high",
+            "url": "https://www.zionmarketresearch.com/report/artificial-intelligence-saas-market"
+          }
+        ],
+        "market_breakdown": {
+          "tam": 279.22,
+          "sam": 115.22,
+          "som": 5.0,
+          "geographic_regions": [
+            "North America: 40%",
+            "Europe: 25%",
+            "Asia-Pacific: 15%"
+          ],
+          "growth_drivers": [
+            "Increasing use of AI SaaS tools in healthcare",
+            "E-commerce industry leveraging AI SaaS"
+          ],
+          "market_challenges": [
+            "Rising subscription fees",
+            "Risk of security breaches"
+          ]
+        },
+        "confidence_score": 8,
+        "data_recency": "Most data from 2024-2025",
+        "data_quality": {
+          "total_sources": 3,
+          "high_quality_sources": 3,
+          "has_tam_sam": true,
+          "analysis_completeness": 0.8,
+          "data_recency": "Very recent (most data within 2 years)"
+        }
+      },
+      "research_limitations": [],
+      "research_method": "web_research",
+      "analysis_timestamp": 1748359874.847296,
+      "agent_steps": 28,
+      "test_metadata": {
+        "module": "market_sizing",
+        "execution_time_seconds": 499.8,
+        "test_timestamp": "2025-05-27T16:31:14.847926",
+        "sources_found": 3,
+        "confidence_score": 8,
+        "has_market_breakdown": true,
+        "data_recency": "Most data from 2024-2025"
+      }
+    }
+  },
+  "summary": {
+    "all_tests_passed": true,
+    "competitive_analysis": {
+      "status": "success",
+      "confidence_score": 8,
+      "execution_time": 520.4,
+      "research_method": "web_research"
+    },
+    "problem_validation": {
+      "status": "success",
+      "confidence_score": 9.0,
+      "execution_time": 0.0,
+      "research_method": "cached"
+    },
+    "market_sizing": {
+      "status": "success",
+      "confidence_score": 8,
+      "execution_time": 499.8,
+      "research_method": "web_research"
+    },
+    "enhanced_features_verified": [
+      "5-Phase Research Methodology",
+      "Enhanced JSON Output Processing",
+      "Browser Configuration Improvements",
+      "CAPTCHA Handling",
+      "Quality Validation System",
+      "LLM-Powered Search Query Generation",
+      "Intelligent Caching",
+      "Confidence Scoring",
+      "Headless Browser Operation"
+    ]
+  },
+  "errors": []
+}

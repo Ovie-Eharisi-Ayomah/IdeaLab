@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
 from browser_use import Agent, Browser, BrowserConfig
 from browser_use.browser.context import BrowserContextConfig
+from browser_config_fix import get_enhanced_browser_config, get_enhanced_context_config, get_enhanced_agent_config
 
 # Load environment variables
 load_dotenv()
@@ -55,83 +56,53 @@ class CompetitiveAnalysisService:
             # Create task prompt - more detailed and structured (now with problem statement)
             search_task = self._create_search_task(business_idea, industry, product_type, problem_statement)
             
-            # Enhanced browser configuration for better reliability
-            browser_config = BrowserConfig(
-                headless=True,  # Run headless for production
-                disable_security=True,
-                # Add essential Chromium args for better compatibility
-                extra_chromium_args=[
-                    '--no-sandbox',
-                    '--disable-dev-shm-usage',
-                    '--disable-gpu',
-                    '--disable-features=VizDisplayCompositor'
-                ]
-            )
+            # Get enhanced agent configuration
+            agent_config = get_enhanced_agent_config()
             
-            # Enhanced browser context config for better page loading and timeout handling
-            context_config = BrowserContextConfig(
-                wait_for_network_idle_page_load_time=3.0,  # Wait for network to settle
-                maximum_wait_page_load_time=45.0,  # Increase timeout for slow sites
-                minimum_wait_page_load_time=1.0,  # Minimum wait time
-                browser_window_size={'width': 1280, 'height': 1100},
-                locale='en-US',
-                user_agent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-                highlight_elements=True,
-                viewport_expansion=500  # Keep default for better context
-            )
-            
-            # Create browser with enhanced config
-            browser = Browser(config=browser_config)
+            # Create browser with enhanced configuration (ensures headless mode)
+            browser = Browser(config=BrowserConfig(**get_enhanced_browser_config()))
             
             try:
-                # Create browser context with enhanced settings
-                browser_context = await browser.new_context(config=context_config)
-                
-                # Create agent with enhanced configuration and context
+                # Create agent with configured browser (as per docs)
                 agent = Agent(
                     task=search_task,
                     llm=self.llm,
-                    use_vision=True,
-                    save_conversation_path="logs/competition_research",
-                    browser_context=browser_context
+                    browser=browser,
+                    use_vision=agent_config['use_vision'],
+                    save_conversation_path="logs/competition_research"
                 )
                 
-                # Run agent with reduced steps to handle timeout issues better
-                print("Executing competitive research agent...")
-                history = await agent.run(max_steps=50)  # Reduced steps to prevent timeout issues
+                # Run agent
+                print(f"Executing competitive research agent with max {agent_config['max_steps']} steps...")
+                history = await agent.run(max_steps=agent_config['max_steps'])
                 
                 # Get final result from history
                 final_result = history.final_result()
                 if not final_result:
                     raise ValueError("Agent completed but returned no final result")
                     
-                print("Agent completed competition research task successfully")
-                
-                # Extract structured data with enhanced processing
-                result = self._process_result(final_result, industry)
-                
-                # Add quality validation
-                result = self._validate_and_enhance_result(result, business_idea, industry)
-                
-                # Cache the result for future use (only if quality is sufficient)
-                if result.get("confidence_score", 0) >= 5:
-                    self._save_to_cache(cache_key, result)
-                    print(f"Cached high-quality result for {cache_key}")
-                
-                # Add research method and metadata
-                result["research_method"] = "web_research"
-                result["analysis_timestamp"] = time.time()
-                result["agent_steps"] = len(history.model_actions()) if hasattr(history, 'model_actions') else 0
-                
-                return result
-                
             finally:
-                # Ensure browser is always closed
-                try:
-                    await browser.close()
-                except Exception as cleanup_error:
-                    print(f"Warning: Error during browser cleanup: {cleanup_error}")
+                # Clean up browser
+                await browser.close()
             
+            # Extract structured data with enhanced processing
+            result = self._process_result(final_result, industry)
+            
+            # Add quality validation
+            result = self._validate_and_enhance_result(result, business_idea, industry)
+            
+            # Cache the result for future use (only if quality is sufficient)
+            if result.get("confidence_score", 0) >= 5:
+                self._save_to_cache(cache_key, result)
+                print(f"Cached high-quality result for {cache_key}")
+            
+            # Add research method and metadata
+            result["research_method"] = "web_research"
+            result["analysis_timestamp"] = time.time()
+            result["agent_steps"] = len(history.model_actions()) if hasattr(history, 'model_actions') else 0
+            
+            return result
+                
         except Exception as e:
             error_msg = f"Competition analysis failed: {str(e)}"
             print(f"Browser-use competition analysis failed: {error_msg}")
@@ -202,7 +173,7 @@ class CompetitiveAnalysisService:
         - **PRIORITIZE ACCESSIBLE SOURCES**: Focus on sites that work reliably (Wikipedia, news sites, public company directories)
         - Always prioritize completing the research over accessing any single specific website
         - Document any access restrictions encountered in your sources notes
-        - **STEP LIMIT AWARENESS**: You have limited steps (50), so be efficient and move quickly between sources
+        - **STEP LIMIT AWARENESS**: You have limited steps (30), so be efficient and move quickly between sources
 
         **Research & Data Collection Strategy:**
 
@@ -338,7 +309,7 @@ class CompetitiveAnalysisService:
     
     def _process_result(self, text, industry):
         """Process raw text into structured format with comprehensive competitor data"""
-        # Try to extract JSON first
+        # First try to extract JSON (in case agent returns JSON format)
         json_data = self._extract_json(text)
         
         # If we got parseable JSON with expected structure, return it
@@ -351,7 +322,7 @@ class CompetitiveAnalysisService:
             json_data["status"] = "success"
             return json_data
         
-        # If JSON extraction failed, parse text format
+        # Parse structured text format (what the agent actually returns)
         result = {
             "status": "success",
             "competitors": [],
@@ -364,131 +335,153 @@ class CompetitiveAnalysisService:
             "research_limitations": []
         }
         
-        # Extract competitors
-        competitor_pattern = r'([^\n]+)\s*\(Website:\s*([^\)]+)\)\s*\n((?:- [^\n]+\n?)+)'
-        competitor_blocks = re.findall(competitor_pattern, text, re.DOTALL)
+        # Extract competitors using the actual format: **CompanyName**
+        competitors_section = re.search(r'\*\*Competitors:\*\*(.*?)(?:\*\*Market Gaps:\*\*|\*\*Barriers|\*\*Market Concentration|\*\*Emerging Trends|\*\*Sources|\*\*Research Limitations|\*\*Confidence Score|$)', text, re.DOTALL)
         
-        for name, website, details_block in competitor_blocks:
-            competitor = {
-                "name": name.strip(),
-                "website": website.strip(),
-                "products": [],
-                "target_audience": "",
-                "pricing_model": "",
-                "unique_selling_points": [],
-                "market_position": "",
-                "founded": None,
-                "funding": ""
-            }
+        if competitors_section:
+            competitors_text = competitors_section.group(1).strip()
             
-            # Extract details
-            products_match = re.search(r'- Products:\s*([^\n]+)', details_block)
-            audience_match = re.search(r'- Target Audience:\s*([^\n]+)', details_block)
-            pricing_match = re.search(r'- Pricing:\s*([^\n]+)', details_block)
-            usps_match = re.search(r'- USPs?:\s*([^\n]+)', details_block)
-            position_match = re.search(r'- Market Position:\s*([^\n]+)', details_block)
-            founded_match = re.search(r'- Founded:\s*(\d{4})', details_block)
-            funding_match = re.search(r'- Funding:\s*([^\n]+)', details_block)
+            # Split by numbered competitors (1. **CompanyName**, 2. **CompanyName**, etc.)
+            competitor_blocks = re.split(r'\d+\.\s*\*\*([^*]+)\*\*', competitors_text)[1:]  # Skip first empty element
             
-            if products_match:
-                products_text = products_match.group(1).strip()
-                if "," in products_text:
-                    competitor["products"] = [p.strip() for p in products_text.split(",")]
-                else:
-                    competitor["products"] = [products_text]
-            
-            if audience_match:
-                competitor["target_audience"] = audience_match.group(1).strip()
-            
-            if pricing_match:
-                competitor["pricing_model"] = pricing_match.group(1).strip()
-            
-            if usps_match:
-                usps_text = usps_match.group(1).strip()
-                if "," in usps_text:
-                    competitor["unique_selling_points"] = [usp.strip() for usp in usps_text.split(",")]
-                else:
-                    competitor["unique_selling_points"] = [usps_text]
-            
-            if position_match:
-                competitor["market_position"] = position_match.group(1).strip()
-            
-            if founded_match:
-                competitor["founded"] = int(founded_match.group(1).strip())
-            
-            if funding_match:
-                competitor["funding"] = funding_match.group(1).strip()
-            
-            result["competitors"].append(competitor)
+            # Process competitors in pairs (name, details)
+            for i in range(0, len(competitor_blocks), 2):
+                if i + 1 < len(competitor_blocks):
+                    name = competitor_blocks[i].strip()
+                    details_block = competitor_blocks[i + 1].strip()
+                    
+                    competitor = {
+                        "name": name,
+                        "website": "",
+                        "products": [],
+                        "target_audience": "",
+                        "pricing_model": "",
+                        "unique_selling_points": [],
+                        "market_position": "",
+                        "founded": None,
+                        "funding": ""
+                    }
+                    
+                    # Extract details using the actual format
+                    website_match = re.search(r'- \*\*Website:\*\*\s*(?:\[([^\]]+)\]\([^)]+\)|([^\n]+))', details_block)
+                    products_match = re.search(r'- \*\*Products:\*\*\s*([^\n]+)', details_block)
+                    audience_match = re.search(r'- \*\*Target Audience:\*\*\s*([^\n]+)', details_block)
+                    pricing_match = re.search(r'- \*\*Pricing Model:\*\*\s*([^\n]+)', details_block)
+                    usps_match = re.search(r'- \*\*Unique Selling Points:\*\*\s*([^\n]+)', details_block)
+                    position_match = re.search(r'- \*\*Market Position:\*\*\s*([^\n]+)', details_block)
+                    founded_match = re.search(r'- \*\*Founded Year:\*\*\s*(\d{4}|Not Found)', details_block)
+                    funding_match = re.search(r'- \*\*Funding:\*\*\s*([^\n]+)', details_block)
+                    
+                    if website_match:
+                        competitor["website"] = website_match.group(1) or website_match.group(2) or ""
+                    
+                    if products_match:
+                        products_text = products_match.group(1).strip()
+                        if "," in products_text:
+                            competitor["products"] = [p.strip() for p in products_text.split(",")]
+                        else:
+                            competitor["products"] = [products_text]
+                    
+                    if audience_match:
+                        competitor["target_audience"] = audience_match.group(1).strip()
+                    
+                    if pricing_match:
+                        competitor["pricing_model"] = pricing_match.group(1).strip()
+                    
+                    if usps_match:
+                        usps_text = usps_match.group(1).strip()
+                        if "," in usps_text:
+                            competitor["unique_selling_points"] = [usp.strip() for usp in usps_text.split(",")]
+                        else:
+                            competitor["unique_selling_points"] = [usps_text]
+                    
+                    if position_match:
+                        competitor["market_position"] = position_match.group(1).strip()
+                    
+                    if founded_match:
+                        founded_text = founded_match.group(1).strip()
+                        if founded_text.isdigit():
+                            competitor["founded"] = int(founded_text)
+                    
+                    if funding_match:
+                        funding_text = funding_match.group(1).strip()
+                        if funding_text.lower() != "not found":
+                            competitor["funding"] = funding_text
+                    
+                    result["competitors"].append(competitor)
         
         # Extract market gaps
-        gaps_section = re.search(r'MARKET GAPS:(.*?)(?:BARRIERS TO ENTRY:|$)', text, re.DOTALL)
+        gaps_section = re.search(r'\*\*Market Gaps:\*\*(.*?)(?:\*\*Barriers|\*\*Market Concentration|\*\*Emerging Trends|\*\*Sources|\*\*Research Limitations|\*\*Confidence Score|$)', text, re.DOTALL)
         if gaps_section:
             gaps_text = gaps_section.group(1).strip()
-            # Try numbered list pattern
+            # Extract numbered items
             gaps = re.findall(r'\d+\.\s*([^\n]+)', gaps_text)
-            # If no numbered items found, try bullet points
-            if not gaps:
-                gaps = re.findall(r'- ([^\n]+)', gaps_text)
             result["market_gaps"] = gaps
         
         # Extract barriers to entry
-        barriers_section = re.search(r'BARRIERS TO ENTRY:(.*?)(?:MARKET CONCENTRATION:|$)', text, re.DOTALL)
+        barriers_section = re.search(r'\*\*Barriers to Entry:\*\*(.*?)(?:\*\*Market Concentration|\*\*Emerging Trends|\*\*Sources|\*\*Research Limitations|\*\*Confidence Score|$)', text, re.DOTALL)
         if barriers_section:
             barriers_text = barriers_section.group(1).strip()
-            # Try numbered list pattern
             barriers = re.findall(r'\d+\.\s*([^\n]+)', barriers_text)
-            # If no numbered items found, try bullet points
-            if not barriers:
-                barriers = re.findall(r'- ([^\n]+)', barriers_text)
             result["barriers_to_entry"] = barriers
         
         # Extract market concentration
-        concentration_section = re.search(r'MARKET CONCENTRATION:(.*?)(?:EMERGING TRENDS:|SOURCES:|$)', text, re.DOTALL)
+        concentration_section = re.search(r'\*\*Market Concentration:\*\*\s*([^\n]+)', text)
         if concentration_section:
             result["market_concentration"] = concentration_section.group(1).strip()
         
         # Extract emerging trends
-        trends_section = re.search(r'EMERGING TRENDS:(.*?)(?:SOURCES:|$)', text, re.DOTALL)
+        trends_section = re.search(r'\*\*Emerging Trends:\*\*(.*?)(?:\*\*Sources|\*\*Research Limitations|\*\*Confidence Score|$)', text, re.DOTALL)
         if trends_section:
             trends_text = trends_section.group(1).strip()
-            # Try numbered list pattern
             trends = re.findall(r'\d+\.\s*([^\n]+)', trends_text)
-            # If no numbered items found, try bullet points
-            if not trends:
-                trends = re.findall(r'- ([^\n]+)', trends_text)
             result["emerging_trends"] = trends
         
         # Extract sources
-        sources_section = re.search(r'SOURCES:(.*?)(?:RESEARCH LIMITATIONS:|$)', text, re.DOTALL)
+        sources_section = re.search(r'\*\*Sources:\*\*(.*?)(?:\*\*Research Limitations|\*\*Confidence Score|$)', text, re.DOTALL)
         if sources_section:
             sources_text = sources_section.group(1).strip()
-            # Try numbered list pattern with access status
-            source_matches = re.findall(r'\d+\.\s*([^\s]+)\s*-\s*([^\(]+)(?:\(([^\)]+)\))?\s*(?:\[([^\]]+)\])?', sources_text)
+            # Extract sources with format: [Number]. [URL](link) - Description
+            source_matches = re.findall(r'\d+\.\s*(?:\[([^\]]+)\]\([^)]+\)|([^\-\n]+))(?:\s*-\s*([^\n]+))?', sources_text)
             
-            for url, name, date, access_status in source_matches:
-                source = {
-                    "url": url.strip(),
-                    "name": name.strip(),
-                    "date": date.strip() if date else None,
-                    "access_status": access_status.strip() if access_status else "accessible"
-                }
-                result["sources"].append(source)
+            for match in source_matches:
+                name = match[0] or match[1] or ""
+                description = match[2] or ""
+                
+                # Extract URL if present
+                url_match = re.search(r'\(([^)]+)\)', name) if name else None
+                url = url_match.group(1) if url_match else ""
+                
+                # Clean name
+                name = re.sub(r'\[|\]|\([^)]*\)', '', name).strip()
+                
+                if name:
+                    source = {
+                        "url": url,
+                        "name": name,
+                        "date": None,
+                        "access_status": "accessible"
+                    }
+                    result["sources"].append(source)
         
         # Extract research limitations
-        limitations_section = re.search(r'RESEARCH LIMITATIONS:(.*?)$', text, re.DOTALL)
+        limitations_section = re.search(r'\*\*Research Limitations:\*\*(.*?)(?:\*\*Confidence Score|$)', text, re.DOTALL)
         if limitations_section:
             limitations_text = limitations_section.group(1).strip()
-            # Try to extract bullet points or numbered items
+            # Extract bullet points
             limitations = re.findall(r'[-\*]\s*([^\n]+)', limitations_text)
-            if not limitations:
-                limitations = re.findall(r'\d+\.\s*([^\n]+)', limitations_text)
             result["research_limitations"] = limitations
         
-        # Calculate confidence score based on number of competitors and sources
-        competitor_score = min(5, len(result["competitors"]))
-        source_score = min(5, len(result["sources"]))
-        result["confidence_score"] = competitor_score + source_score
+        # Extract confidence score
+        confidence_match = re.search(r'\*\*Confidence Score:\*\*\s*(\d+)', text)
+        if confidence_match:
+            result["confidence_score"] = int(confidence_match.group(1))
+        else:
+            # Calculate based on data quality
+            competitor_score = min(5, len(result["competitors"]))
+            source_score = min(3, len(result["sources"]))
+            analysis_score = min(2, len(result["market_gaps"]) + len(result["barriers_to_entry"]))
+            result["confidence_score"] = competitor_score + source_score + analysis_score
         
         return result
     

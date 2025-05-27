@@ -1,14 +1,18 @@
-# problem_validation.py - Enhanced with better browser configuration and error handling
+# problem_validation.py - Enhanced with Browser-Use and improved prompts
 import json
-import re
-import asyncio
-import time
 import os
+import time
+import re
 import hashlib
-from typing import Dict, List, Any, Optional
+from pathlib import Path
+from dotenv import load_dotenv
+from langchain_openai import ChatOpenAI
 from browser_use import Agent, Browser, BrowserConfig
 from browser_use.browser.context import BrowserContextConfig
-from langchain_openai import ChatOpenAI
+from browser_config_fix import get_enhanced_browser_config, get_enhanced_context_config, get_enhanced_agent_config
+
+# Load environment variables
+load_dotenv()
 
 class ProblemValidationService:
     def __init__(self, openai_api_key=None, anthropic_api_key=None):
@@ -67,84 +71,54 @@ class ProblemValidationService:
             # Create search task with generated queries
             search_task = self._create_search_task(business_idea, problem_statement, industry, search_queries)
             
-            # Enhanced browser configuration for better reliability
-            browser_config = BrowserConfig(
-                headless=True,  # Run headless for production
-                disable_security=True,
-                # Add essential Chromium args for better compatibility
-                extra_chromium_args=[
-                    '--no-sandbox',
-                    '--disable-dev-shm-usage',
-                    '--disable-gpu',
-                    '--disable-features=VizDisplayCompositor'
-                ]
-            )
+            # Get enhanced agent configuration
+            agent_config = get_enhanced_agent_config()
             
-            # Enhanced browser context config for better page loading and timeout handling
-            context_config = BrowserContextConfig(
-                wait_for_network_idle_page_load_time=3.0,  # Wait for network to settle
-                maximum_wait_page_load_time=45.0,  # Increase timeout for slow sites
-                minimum_wait_page_load_time=1.0,  # Minimum wait time
-                browser_window_size={'width': 1280, 'height': 1100},
-                locale='en-US',
-                user_agent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-                highlight_elements=True,
-                viewport_expansion=500
-            )
-            
-            # Create browser with enhanced config
-            browser = Browser(config=browser_config)
+            # Create browser with enhanced configuration (ensures headless mode)
+            browser = Browser(config=BrowserConfig(**get_enhanced_browser_config()))
             
             try:
-                # Create browser context with enhanced settings
-                browser_context = await browser.new_context(config=context_config)
-                
-                # Create agent with enhanced configuration and context
+                # Create agent with configured browser (as per docs)
                 agent = Agent(
                     task=search_task,
                     llm=self.llm,
-                    use_vision=True,
-                    save_conversation_path="logs/problem_validation",
-                    browser_context=browser_context
+                    browser=browser,
+                    use_vision=agent_config['use_vision'],
+                    save_conversation_path="logs/problem_validation_research"
                 )
                 
-                # Run agent with appropriate step limit
-                print("Executing problem validation research agent...")
-                history = await agent.run(max_steps=40)  # Reasonable step limit for problem validation
+                # Run agent
+                print(f"Executing problem validation research agent with max {agent_config['max_steps']} steps...")
+                history = await agent.run(max_steps=agent_config['max_steps'])
                 
                 # Get final result from history
                 final_result = history.final_result()
                 if not final_result:
                     raise ValueError("Agent completed but returned no final result")
                     
-                print("Agent completed problem validation research successfully")
-                
-                # Parse and structure the result
-                result = self._parse_validation_result(final_result)
-                
-                # Validate and enhance the result
-                result = self._validate_and_enhance_result(result, business_idea, problem_statement, industry)
-                
-                # Cache the result for future use (only if quality is sufficient)
-                if result.get("confidence_score", 0) >= 4:
-                    self._save_to_cache(cache_key, result)
-                    print(f"Cached high-quality result for {cache_key[:8]}...")
-                
-                # Add research metadata
-                result["research_method"] = "web_research"
-                result["analysis_timestamp"] = time.time()
-                result["agent_steps"] = len(history.model_actions()) if hasattr(history, 'model_actions') else 0
-                result["search_queries_used"] = search_queries
-                
-                return result
-                
             finally:
-                # Ensure browser is always closed
-                try:
-                    await browser.close()
-                except Exception as cleanup_error:
-                    print(f"Warning: Error during browser cleanup: {cleanup_error}")
+                # Clean up browser
+                await browser.close()
             
+            # Parse and structure the result
+            result = self._parse_validation_result(final_result)
+            
+            # Validate and enhance the result
+            result = self._validate_and_enhance_result(result, business_idea, problem_statement, industry)
+            
+            # Cache the result for future use (only if quality is sufficient)
+            if result.get("confidence_score", 0) >= 4:
+                self._save_to_cache(cache_key, result)
+                print(f"Cached high-quality result for {cache_key[:8]}...")
+            
+            # Add research metadata
+            result["research_method"] = "web_research"
+            result["analysis_timestamp"] = time.time()
+            result["agent_steps"] = len(history.model_actions()) if hasattr(history, 'model_actions') else 0
+            result["search_queries_used"] = search_queries
+            
+            return result
+                
         except Exception as e:
             error_msg = f"Problem validation failed: {str(e)}"
             print(f"Problem validation error: {error_msg}")
@@ -193,7 +167,7 @@ class ProblemValidationService:
         - **PRIORITIZE ACCESSIBLE SOURCES**: Focus on sites that work reliably (Wikipedia, news sites, research publications, forums)
         - Always prioritize completing the research over accessing any single specific website
         - Document any access restrictions encountered in your sources notes
-        - **STEP LIMIT AWARENESS**: You have limited steps (50), so be efficient and move quickly between sources
+        - **STEP LIMIT AWARENESS**: You have limited steps (30), so be efficient and move quickly between sources
 
         **Research Strategy:**
 
@@ -220,7 +194,7 @@ class ProblemValidationService:
         **Phase 3: Alternative Solutions Analysis**
         Identify the top 2-3 CURRENT SOLUTIONS people use:
         - Name of the solution or approach
-        - How it addresses the problem
+           - How it addresses the problem
         - Key limitations, complaints, or gaps users mention
         - Pricing if available
 
@@ -281,22 +255,22 @@ class ProblemValidationService:
         Willingness to Pay: [$amount or range]
         Market Size: [estimate of affected population]
         Confidence Level: [1-10 based on quality and quantity of evidence]
-
+        
         EVIDENCE:
         [Source 1]: [Type] ([Date] - [Credibility])
         - [Exact quote or statistic]
         - [Key insight about the problem]
-
+        
         [Source 2]: [Type] ([Date] - [Credibility])
         - [Exact quote or statistic]
         - [Key insight about the problem]
-
+        
         ALTERNATIVE SOLUTIONS:
         [Solution 1]: 
         - Approach: [How it solves the problem]
         - Limitations: [Key complaints or shortcomings]
         - Pricing: [Cost information]
-
+        
         PROBLEM STATEMENT FEEDBACK:
         [Analysis of accuracy, specificity, and suggestions for improvement]
 
@@ -327,9 +301,10 @@ class ProblemValidationService:
                 },
                 "evidence": [],
                 "alternative_solutions": [],
-                "problem_statement_feedback": "No feedback extracted",
+                "problem_statement_feedback": "Research failed",
+                "sources": [],
                 "confidence_score": 0,
-                "research_limitations": []
+                "status": "success"
             }
             
             # Extract problem validation summary

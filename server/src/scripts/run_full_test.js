@@ -38,7 +38,7 @@ async function runFullTest(businessIdea, problemStatement = null) {
       classification.productType = classification.productType || "product/service type";
       console.warn("⚠️ Proceeding with generic classification defaults for problem statement generation.");
     } else {
-      console.log(`Classification result: ${classification.primaryIndustry} / ${classification.productType}`);
+    console.log(`Classification result: ${classification.primaryIndustry} / ${classification.productType}`);
     }
     
     // Save classification
@@ -147,15 +147,15 @@ async function runFullTest(businessIdea, problemStatement = null) {
     console.log("\n📊 MARKET SIZING RESULTS");
     console.log("======================");
     if (marketSizingResult.tam && marketSizingResult.sam && marketSizingResult.som) {
-        console.log(`TAM: ${marketSizingResult.tam.formatted} (Range: ${marketSizingResult.tam.range})`);
-        console.log(`SAM: ${marketSizingResult.sam.formatted} (Range: ${marketSizingResult.sam.range})`);
-        console.log(`SOM: ${marketSizingResult.som.formatted} (Range: ${marketSizingResult.som.range})`);
-        console.log(`Confidence Score: ${marketSizingResult.confidence_score}/10`);
+    console.log(`TAM: ${marketSizingResult.tam.formatted} (Range: ${marketSizingResult.tam.range})`);
+    console.log(`SAM: ${marketSizingResult.sam.formatted} (Range: ${marketSizingResult.sam.range})`);
+    console.log(`SOM: ${marketSizingResult.som.formatted} (Range: ${marketSizingResult.som.range})`);
+    console.log(`Confidence Score: ${marketSizingResult.confidence_score}/10`);
         if (marketSizingResult.sensitivity && marketSizingResult.sensitivity.length > 0) {
-            console.log("\n🎯 TOP SENSITIVITY FACTORS:");
-            marketSizingResult.sensitivity.slice(0, 3).forEach((factor, idx) => {
-              console.log(`${idx + 1}. ${factor.name.replace(/_/g, ' ')}: +20% → ${factor.impact.toFixed(1)}% impact`);
-            });
+    console.log("\n🎯 TOP SENSITIVITY FACTORS:");
+    marketSizingResult.sensitivity.slice(0, 3).forEach((factor, idx) => {
+      console.log(`${idx + 1}. ${factor.name.replace(/_/g, ' ')}: +20% → ${factor.impact.toFixed(1)}% impact`);
+    });
         } else {
             console.log("Sensitivity analysis data not available.");
         }

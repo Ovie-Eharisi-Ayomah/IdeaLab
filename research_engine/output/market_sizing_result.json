@@ -1,0 +1,14 @@
+{
+  "status": "error",
+  "error": "Market sizing research failed: 1 validation error for BrowserSession\nbrowser_context\n  Input should be an instance of BrowserContext [type=is_instance_of, input_value=BrowserSession(browser_pr...human_current_page=None), input_type=BrowserSession]\n    For further information visit https://errors.pydantic.dev/2.10/v/is_instance_of",
+  "market_data": {
+    "sources": [],
+    "market_breakdown": {},
+    "confidence_score": 0
+  },
+  "research_method": "failed",
+  "analysis_timestamp": 1748348729.0982668,
+  "research_limitations": [
+    "Analysis failed: Market sizing research failed: 1 validation error for BrowserSession\nbrowser_context\n  Input should be an instance of BrowserContext [type=is_instance_of, input_value=BrowserSession(browser_pr...human_current_page=None), input_type=BrowserSession]\n    For further information visit https://errors.pydantic.dev/2.10/v/is_instance_of"
+  ]
+}

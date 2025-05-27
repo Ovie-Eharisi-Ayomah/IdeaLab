@@ -1,0 +1,227 @@
+{
+  "test_session": {
+    "start_time": "2025-05-27T15:29:04.197936",
+    "test_type": "enhanced_modules_comprehensive",
+    "test_case": {
+      "business_idea": "An AI-powered tool that validates business ideas by analyzing market size, competition, and demand",
+      "problem_statement": "Entrepreneurs and startup founders waste months building products without validating market demand first, leading to 90% of startups failing due to lack of market need",
+      "industry": "Business Services",
+      "product_type": "SaaS Platform"
+    },
+    "end_time": "2025-05-27T15:49:06.498980",
+    "total_execution_time_seconds": 1202.3
+  },
+  "results": {
+    "competitive_analysis": {
+      "status": "success",
+      "competitors": [],
+      "market_gaps": [],
+      "barriers_to_entry": [],
+      "market_concentration": "unknown",
+      "emerging_trends": [],
+      "sources": [],
+      "confidence_score": 0,
+      "research_limitations": [],
+      "data_quality": {
+        "total_competitors": 0,
+        "valid_sources": 0,
+        "analysis_completeness": 0.0,
+        "missing_fields": [
+          "competitors",
+          "market_gaps",
+          "barriers_to_entry",
+          "emerging_trends",
+          "sources",
+          "research_limitations"
+        ]
+      },
+      "research_method": "web_research",
+      "analysis_timestamp": 1748356815.652054,
+      "agent_steps": 30,
+      "test_metadata": {
+        "module": "competitive_analysis",
+        "execution_time_seconds": 671.4,
+        "test_timestamp": "2025-05-27T15:40:15.652705",
+        "competitors_found": 0,
+        "market_gaps_found": 0,
+        "barriers_found": 0,
+        "trends_found": 0,
+        "sources_found": 0
+      }
+    },
+    "problem_validation": {
+      "problem_validation": {
+        "exists": true,
+        "severity": 8.0,
+        "frequency": 7.0,
+        "willingness_to_pay": "25,000 to $65,000 for custom market research projects",
+        "market_size_estimate": "Significant, affecting a large number of startups",
+        "confidence_level": 9.0
+      },
+      "evidence": [
+        {
+          "source": "Exploding Topics]",
+          "url": "",
+          "type": "research_study",
+          "date": "Date not found",
+          "credibility": "High",
+          "excerpt": "High)",
+          "key_insight": "34% of startup failures are attributed to a poor product-market fit."
+        },
+        {
+          "source": "CleverX]",
+          "url": "",
+          "type": "blog_post",
+          "date": "Date not found",
+          "credibility": "Medium",
+          "excerpt": "Medium)",
+          "key_insight": "Common pitfalls during market validation include overenthusiasm leading to errors."
+        },
+        {
+          "source": "StartupTalky]",
+          "url": "",
+          "type": "blog_post",
+          "date": "Date not found",
+          "credibility": "Medium",
+          "excerpt": "Medium)",
+          "key_insight": "Big companies spend nearly 5-10% of their annual revenue on market research."
+        },
+        {
+          "source": "Attest]",
+          "url": "",
+          "type": "blog_post",
+          "date": "2025",
+          "credibility": "03-06 - Medium",
+          "excerpt": "Medium)",
+          "key_insight": "Market research is essential to ensure the viability of a business idea."
+        },
+        {
+          "source": "Reddit]",
+          "url": "",
+          "type": "forum_post",
+          "date": "Date not found",
+          "credibility": "Medium",
+          "excerpt": "Medium)",
+          "key_insight": "35% of startups fail because the product has no market."
+        }
+      ],
+      "alternative_solutions": [
+        {
+          "name": "[Mentionlytics]",
+          "approach": "Monitoring online mentions and gaining insights into market trends.",
+          "limitations": [
+            "May not provide comprehensive market analysis reports."
+          ],
+          "pricing": ""
+        },
+        {
+          "name": "[Semrush]",
+          "approach": "Offers a broad understanding of market trends and competitor analysis.",
+          "limitations": [
+            "Does not offer detailed reports."
+          ],
+          "pricing": ""
+        },
+        {
+          "name": "[BuzzSumo]",
+          "approach": "Helps monitor online mentions and track content performance.",
+          "limitations": [
+            "May require additional tools for in-depth market analysis."
+          ],
+          "pricing": ""
+        }
+      ],
+      "problem_statement_feedback": "- Accuracy: The problem statement is not explicitly defined in the provided content.\n- Specificity: The content is not specific to a single problem statement.\n- Improvements: Define a clear problem statement related to the cost of market analysis tools for entrepreneurs.",
+      "sources": [],
+      "confidence_score": 9.0,
+      "status": "success",
+      "research_limitations": [
+        "None encountered during the research process."
+      ],
+      "data_quality": {
+        "total_evidence_sources": 5,
+        "high_credibility_sources": 0,
+        "alternative_solutions_found": 3,
+        "analysis_completeness": 0.5,
+        "evidence_types": [
+          "research_study",
+          "blog_post",
+          "forum_post"
+        ]
+      },
+      "research_method": "cached",
+      "test_metadata": {
+        "module": "problem_validation",
+        "execution_time_seconds": 0.0,
+        "test_timestamp": "2025-05-27T15:40:15.697528",
+        "problem_exists": true,
+        "severity_score": 8.0,
+        "frequency_score": 7.0,
+        "evidence_count": 5,
+        "alternative_solutions_count": 3
+      }
+    },
+    "market_sizing": {
+      "status": "success",
+      "market_data": {
+        "sources": [],
+        "market_breakdown": {},
+        "confidence_score": 0,
+        "data_recency": "Unknown",
+        "data_quality": {
+          "total_sources": 0,
+          "high_quality_sources": 0,
+          "has_tam_sam": false,
+          "analysis_completeness": 0.0,
+          "data_recency": "Unknown"
+        }
+      },
+      "research_limitations": [],
+      "research_method": "web_research",
+      "analysis_timestamp": 1748357346.49843,
+      "agent_steps": 25,
+      "test_metadata": {
+        "module": "market_sizing",
+        "execution_time_seconds": 530.8,
+        "test_timestamp": "2025-05-27T15:49:06.498918",
+        "sources_found": 0,
+        "confidence_score": 0,
+        "has_market_breakdown": false,
+        "data_recency": "Unknown"
+      }
+    }
+  },
+  "summary": {
+    "all_tests_passed": true,
+    "competitive_analysis": {
+      "status": "success",
+      "confidence_score": 0,
+      "execution_time": 671.4,
+      "research_method": "web_research"
+    },
+    "problem_validation": {
+      "status": "success",
+      "confidence_score": 9.0,
+      "execution_time": 0.0,
+      "research_method": "cached"
+    },
+    "market_sizing": {
+      "status": "success",
+      "confidence_score": 0,
+      "execution_time": 530.8,
+      "research_method": "web_research"
+    },
+    "enhanced_features_verified": [
+      "5-Phase Research Methodology",
+      "Enhanced JSON Output Processing",
+      "Browser Configuration Improvements",
+      "CAPTCHA Handling",
+      "Quality Validation System",
+      "LLM-Powered Search Query Generation",
+      "Intelligent Caching",
+      "Confidence Scoring",
+      "Headless Browser Operation"
+    ]
+  },
+  "errors": []
+}
