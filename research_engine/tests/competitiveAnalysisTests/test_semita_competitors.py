@@ -8,7 +8,7 @@ from pathlib import Path
 # Add the parent directory to the Python path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
-from competitive_analysis import CompetitiveAnalysisService
+from research_modules.competitive_analysis import CompetitiveAnalysisService
 
 async def test_competitive_analysis():
     # Initialize the service

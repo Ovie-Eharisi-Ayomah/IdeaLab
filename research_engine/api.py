@@ -3,9 +3,9 @@ import os
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from dotenv import load_dotenv
-from market_sizing import MarketSizingService
-from competitive_analysis import CompetitiveAnalysisService
-from problem_validation import ProblemValidationService
+from research_modules.market_sizing import MarketSizingService
+from research_modules.competitive_analysis import CompetitiveAnalysisService
+from research_modules.problem_validation import ProblemValidationService
 
 load_dotenv()
 

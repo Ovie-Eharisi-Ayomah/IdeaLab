@@ -5,7 +5,7 @@ Individual test for Competitive Analysis module
 import asyncio
 import os
 from dotenv import load_dotenv
-from competitive_analysis import CompetitiveAnalysisService
+from research_modules.competitive_analysis import CompetitiveAnalysisService
 
 load_dotenv()
 

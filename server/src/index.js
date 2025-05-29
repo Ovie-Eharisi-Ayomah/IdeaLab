@@ -11,6 +11,7 @@ console.log('Loaded cors');
 const { generateProblemStatement, analyzeBusinessIdea } = require('./services/businessAnalyser');
 const { classifyBusinessIdea } = require('./services/classifiers/businessClassifier');
 const { identifySegmentsWithLLM } = require('./services/segmenters/llmSegmenter');
+const { generateRecommendation } = require('./services/recommendationEngine');
 const axios = require('axios');
 const { v4: uuidv4 } = require('uuid');
 const { calculateMarketSizing } = require('./services/marketSizingCalculator');
@@ -80,14 +81,16 @@ app.post('/api/analyze', async (req, res) => {
         segmentation: 'pending',
         marketSizing: 'pending',
         problemValidation: 'pending',
-        competition: 'pending'
+        competition: 'pending',
+        recommendation: 'pending'
       },
       results: {
         classification: null,
         segmentation: null,
         marketSize: null,
         problemValidation: null,
-        competition: null
+        competition: null,
+        recommendation: null
       },
       error: null
     };
@@ -379,6 +382,10 @@ async function processEverything(jobId) {
     }
     await updateJob(job);
 
+    // Step 7: Generate AI-powered recommendation
+    console.log(`[Job ${jobId}] Generating AI-powered recommendation...`);
+    await runRecommendationEngine(job);
+
     job.status = 'complete';
     console.log(`[Job ${jobId}] All analyses complete.`);
 
@@ -389,6 +396,45 @@ async function processEverything(jobId) {
     console.error(`[Job ${jobId}] Critical failure in processEverything:`, error);
   }
   await updateJob(job); // Final update
+}
+
+async function runRecommendationEngine(job) {
+  job.progress.recommendation = 'processing';
+  console.log(`[Job ${job.id}] Running AI-powered recommendation engine...`);
+  await updateJob(job);
+
+  try {
+    // Prepare analysis data for recommendation engine
+    const analysisData = {
+      businessIdea: job.input.businessIdea,
+      problemStatement: job.input.problemStatement,
+      classification: job.results.classification,
+      segmentation: job.results.segmentation,
+      marketSize: job.results.marketSize,
+      competition: job.results.competition,
+      problemValidation: job.results.problemValidation
+    };
+
+    const recommendation = await generateRecommendation(analysisData, {
+      model: 'gpt-4o' // Can be configured via environment variables
+    });
+
+    job.results.recommendation = recommendation;
+    job.progress.recommendation = 'complete';
+    console.log(`[Job ${job.id}] Recommendation complete: ${recommendation.recommendation} (Score: ${recommendation.score})`);
+
+  } catch (error) {
+    console.error(`[Job ${job.id}] Recommendation engine failed:`, error);
+    job.progress.recommendation = 'failed';
+    job.results.recommendation = { 
+      error: error.message,
+      recommendation: 'ANALYSIS_INCOMPLETE',
+      score: 0,
+      reasoning: 'Unable to generate recommendation due to system error',
+      source: 'error_fallback'
+    };
+  }
+  await updateJob(job);
 }
 
 // Helper function to update job state

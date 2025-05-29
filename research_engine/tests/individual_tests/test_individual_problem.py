@@ -5,7 +5,7 @@ Individual test for Problem Validation module
 import asyncio
 import os
 from dotenv import load_dotenv
-from problem_validation import ProblemValidationService
+from research_modules.problem_validation import ProblemValidationService
 
 load_dotenv()
 

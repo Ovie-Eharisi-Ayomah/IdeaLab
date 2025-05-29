@@ -1,24 +1,32 @@
 {
-  "name": "server",
+  "name": "semitaAI-backend",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Backend for Semita AI business validation platform",
+  "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
-    "dev": "nodemon src/index.js"
+    "dev": "nodemon src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "business-validation",
+    "ai",
+    "market-research"
+  ],
+  "author": "Semita AI Team",
+  "license": "MIT",
   "type": "commonjs",
   "dependencies": {
     "@anthropic-ai/sdk": "^0.39.0",
+    "@langchain/anthropic": "^0.2.18",
+    "@langchain/openai": "^0.2.11",
     "axios": "^1.9.0",
     "cheerio": "^1.0.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "google-trends-api": "^4.9.2",
+    "langchain": "^0.2.20",
     "node-cache": "^5.1.2",
     "openai": "^4.89.0",
     "redis": "^4.7.0",
