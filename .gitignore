@@ -36,6 +36,8 @@ __pycache__/
 env/
 venv/
 .venv/
+.venv*/
+*.venv*
 ENV/
 env.bak/
 venv.bak/
