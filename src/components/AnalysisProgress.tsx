@@ -137,9 +137,12 @@ const AnalysisProgress: React.FC<AnalysisProgressProps> = ({ job }) => {
           })}
         </div>
 
-        <p className="progress-note">
-          Your comprehensive business analysis is being generated. This typically takes 2-3 minutes.
-        </p>
+        <div className="progress-info">
+          <h3>Business Idea Analysis in Progress</h3>
+          <p>
+            Your comprehensive business analysis is being generated. This typically takes up to 10 minutes.
+          </p>
+        </div>
       </div>
     </div>
   );

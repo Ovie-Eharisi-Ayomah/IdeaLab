@@ -81,11 +81,13 @@ async function generateLLMInsights(analysisData, options) {
     // Try OpenAI first, then Anthropic fallback
     let llm;
     try {
-      llm = new ChatOpenAI({
+      const openaiOptions = {
         modelName: options.model || 'gpt-4o',
-        temperature: 0.1,
-        maxTokens: 2000
-      });
+        temperature: options.temperature || 0.7,
+        maxTokens: options.maxTokens || 1500,
+        timeout: options.timeout || 30000
+      };
+      llm = new ChatOpenAI(openaiOptions);
     } catch (error) {
       console.log('OpenAI unavailable, trying Anthropic...');
       llm = new ChatAnthropic({
@@ -467,7 +469,7 @@ function calculateRuleBasedScores(analysisData) {
     if (pv) {
       // Problem existence (10 points)
       if (pv.exists) {
-        score += 10;
+      score += 10;
         reasons.push('Problem confirmed to exist');
       } else {
         risks.push('Problem existence not validated');

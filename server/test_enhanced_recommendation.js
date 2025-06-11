@@ -163,7 +163,13 @@ async function testEnhancedRecommendationEngine() {
     console.log('\n📊 Generating Enhanced AI-Powered Recommendation');
     console.log('-'.repeat(60));
     
-    const recommendation = await generateRecommendation(enhancedMockData, {
+    const recommendation = await generateRecommendation({
+      businessIdea: enhancedMockData.businessIdea,
+      classification: enhancedMockData.classification,
+      customerSegments: enhancedMockData.segmentation.primarySegments,
+      marketSize: enhancedMockData.marketSize,
+      competitiveAnalysis: enhancedMockData.competition
+    }, {
       model: 'gpt-4o'
     });
     

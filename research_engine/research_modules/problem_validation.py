@@ -7,8 +7,7 @@ import hashlib
 from pathlib import Path
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
-from browser_use import Agent, Browser, BrowserConfig
-from browser_use.browser.context import BrowserContextConfig
+from browser_use import Agent, BrowserSession
 from browser_config_fix import get_enhanced_browser_config, get_enhanced_context_config, get_enhanced_agent_config
 
 # Load environment variables
@@ -23,7 +22,8 @@ class ProblemValidationService:
             raise ValueError("ProblemValidationService: OpenAI API key is required.")
         self.llm = ChatOpenAI(
             model="gpt-4o",
-            temperature=0.1,  # Low temperature for consistent research
+            temperature=0.1,
+            max_tokens=4000,
             api_key=self.openai_api_key,
             timeout=120  # Increased timeout for complex research tasks
         )
@@ -74,15 +74,18 @@ class ProblemValidationService:
             # Get enhanced agent configuration
             agent_config = get_enhanced_agent_config()
             
-            # Create browser with enhanced configuration (ensures headless mode)
-            browser = Browser(config=BrowserConfig(**get_enhanced_browser_config()))
+            # Create browser session with simple configuration (like our working test)
+            browser_session = BrowserSession(
+                headless=True,  # Keep headless for production
+                # disable_security=True  # Not needed in new version per working test
+            )
             
             try:
-                # Create agent with configured browser (as per docs)
+                # Create agent with configured browser session (as per new API)
                 agent = Agent(
                     task=search_task,
                     llm=self.llm,
-                    browser=browser,
+                    browser_session=browser_session,
                     use_vision=agent_config['use_vision'],
                     save_conversation_path="logs/problem_validation_research"
                 )
@@ -97,8 +100,8 @@ class ProblemValidationService:
                     raise ValueError("Agent completed but returned no final result")
                     
             finally:
-                # Clean up browser
-                await browser.close()
+                # Clean up browser session
+                await browser_session.close()
             
             # Parse and structure the result
             result = self._parse_validation_result(final_result)
@@ -881,14 +884,14 @@ class ProblemValidationService:
         return result
 
 # For simple testing
-async def test_problem_validation():
-    service = ProblemValidationService()
-    result = await service.validate_problem(
-        "An app for finding dog walkers", 
-        "difficulty finding reliable dog walkers",
-        "Pet Services"
-    )
-    print(json.dumps(result, indent=2))
+# async def test_problem_validation():
+#     service = ProblemValidationService()
+#     result = await service.validate_problem(
+#         "An app for finding dog walkers", 
+#         "difficulty finding reliable dog walkers",
+#         "Pet Services"
+#     )
+#     print(json.dumps(result, indent=2))
 
 if __name__ == "__main__":
     import asyncio

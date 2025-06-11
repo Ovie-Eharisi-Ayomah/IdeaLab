@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Target, Check, AlertTriangle, BookOpen, Link, FileText, UserCheck, DollarSign, Clock, ExternalLink, MessageCircle, Edit, Info, ChevronDown, ChevronUp, X as LucideX } from 'lucide-react'; // Renamed X to LucideX
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar } from 'recharts';
-import EmptyState from '../shared/EmptyState';
+import EmptyState from '../../../../src/components/dashboard/shared/EmptyState';
 import '../sections/ProblemSection.css'; // Assuming ProblemSection.css exists and is suitable
 
 const ProblemSectionMock: React.FC = () => {

@@ -1,10 +1,9 @@
 /**
- * Business Idea Classifier
- * 
- * A hybrid classification system that uses multiple approaches in sequence:
- * 1. OpenAI GPT-4o with few-shot learning
- * 2. Anthropic Claude as fallback
- * 3. Rule-based classification as final fallback
+ * Business Idea Classifier - Determines the industry and product type for a business idea
+ * Uses multiple classification approaches:
+ * 1. OpenAI o3-mini with few-shot learning
+ * 2. Anthropic Claude with reasoning
+ * 3. Rule-based classification as fallback
  */
 
 const { classifyWithOpenAI } = require('./openAIClassifier');

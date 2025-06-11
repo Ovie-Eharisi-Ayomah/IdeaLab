@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import DashboardNavigation from '../DashboardNavigation'; // Re-use the existing navigation
-import MarketSizingSectionMock from '../mock_sections/MarketSizingSectionMock';
-import CompetitionSectionMock from '../mock_sections/CompetitionSectionMock';
-import ProblemSectionMock from '../mock_sections/ProblemSectionMock';
-import SegmentationSectionMock from '../mock_sections/SegmentationSectionMock';
+import DashboardNavigation from '../../../../src/components/dashboard/DashboardNavigation'; // Re-use the existing navigation
+import MarketSizingSectionMock from '../../../../src/components/dashboard/mock_sections/MarketSizingSectionMock';
+import CompetitionSectionMock from '../../../../src/components/dashboard/mock_sections/CompetitionSectionMock';
+import ProblemSectionMock from '../../../../src/components/dashboard/mock_sections/ProblemSectionMock';
+import SegmentationSectionMock from '../../../../src/components/dashboard/mock_sections/SegmentationSectionMock';
 import MockSummarySection from './MockSummarySection'; // Import the new MockSummarySection
-import ScoreCircle from '../shared/ScoreCircle'; // Re-use score circle
+import ScoreCircle from '../../../../src/components/dashboard/shared/ScoreCircle'; // Re-use score circle
 import '../Dashboard.css'; // Re-use existing dashboard styles
 
 // Updated mock summary data to use the concise AI Fitness Planner description

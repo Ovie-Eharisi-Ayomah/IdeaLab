@@ -9,9 +9,9 @@ import {
   TrendingUp 
 } from 'lucide-react';
 // Adjust import paths for shared components from the new location
-import SectionCard from '../shared/SectionCard';
-import InsightItem from '../shared/InsightItem';
-import RecommendationItem from '../shared/RecommendationItem';
+import SectionCard from '../../../../src/components/dashboard/shared/SectionCard';
+import InsightItem from '../../../../src/components/dashboard/shared/InsightItem';
+import RecommendationItem from '../../../../src/components/dashboard/shared/RecommendationItem';
 import '../Components.css'; // This path should be correct if Components.css is in src/components/dashboard/
 
 // Props interface remains the same as the original SummarySectionProps

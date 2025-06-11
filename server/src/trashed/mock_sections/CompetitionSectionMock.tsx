@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, Cell, PieChart, Pie } from 'recharts';
 import { BarChart2, Shield, Zap, Target, ExternalLink, Check, X, ChevronDown, ChevronUp, Award, TrendingUp, Info, Archive } from 'lucide-react';
-import EmptyState from '../shared/EmptyState';
+import EmptyState from '../../../../src/components/dashboard/shared/EmptyState';
 import '../sections/CompetitionSection.css'; // Re-use existing styles if applicable
 
 const CompetitionSectionMock: React.FC = () => {

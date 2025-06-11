@@ -6,7 +6,7 @@ import time
 import os
 import hashlib
 from typing import Dict, List, Any, Optional
-from browser_use import Agent, Browser, BrowserConfig
+from browser_use import Agent, BrowserSession
 from browser_use.browser.context import BrowserContextConfig
 from langchain_openai import ChatOpenAI
 from pathlib import Path
@@ -26,6 +26,7 @@ class MarketSizingService:
         self.llm = ChatOpenAI(
             model="gpt-4o",
             temperature=0.1,  # Lower temperature for more consistent research
+            max_tokens=4000,
             api_key=self.openai_api_key,
             timeout=120  # Increased timeout for complex research tasks
         )
@@ -64,15 +65,18 @@ class MarketSizingService:
             # Get enhanced agent configuration
             agent_config = get_enhanced_agent_config()
             
-            # Create browser with enhanced configuration (ensures headless mode)
-            browser = Browser(config=BrowserConfig(**get_enhanced_browser_config()))
+            # Create browser session with simple configuration (like our working test)
+            browser_session = BrowserSession(
+                headless=True,  # Keep headless for production
+                # disable_security=True  # Not needed in new version per working test
+            )
             
             try:
-                # Create agent with configured browser (as per docs)
+                # Create agent with configured browser session (as per new API)
                 agent = Agent(
                     task=search_task,
                     llm=self.llm,
-                    browser=browser,
+                    browser_session=browser_session,
                     use_vision=agent_config['use_vision'],
                     save_conversation_path="logs/market_sizing_research"
                 )
@@ -87,8 +91,8 @@ class MarketSizingService:
                     raise ValueError("Agent completed but returned no final result")
                     
             finally:
-                # Clean up browser
-                await browser.close()
+                # Clean up browser session
+                await browser_session.close()
             
             # Process the result
             result = self._process_result(final_result, industry)

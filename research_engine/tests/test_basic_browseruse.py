@@ -2,7 +2,7 @@
 import asyncio
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
-from browser_use import Agent, Browser, BrowserConfig
+from browser_use import Agent, BrowserSession
 
 load_dotenv()
 
@@ -18,20 +18,17 @@ async def test_basic_browser():
         temperature=0.1  # Lower temperature for more deterministic results
     )
     
-    # Create browser configuration
-    browser_config = BrowserConfig(
+    # Create browser session with configuration
+    browser_session = BrowserSession(
         headless=False,  # Show the browser window
-        disable_security=True  # Disable security features for testing
+        # disable_security=True  # Not needed in new version
     )
     
-    # Create browser instance with our config
-    browser = Browser(config=browser_config)
-    
-    # Create agent with browser
+    # Create agent with browser session
     agent = Agent(
         task=task,
         llm=llm,
-        browser=browser,
+        browser_session=browser_session,
         save_conversation_path="logs/dev_test"  # Save logs
     )
     
@@ -62,8 +59,8 @@ async def test_basic_browser():
     except Exception as e:
         print(f"Error during browser-use test: {e}")
     finally:
-        # Make sure we close the browser
-        await browser.close()
+        # Make sure we close the browser session
+        await browser_session.close()
 
 if __name__ == "__main__":
     asyncio.run(test_basic_browser())

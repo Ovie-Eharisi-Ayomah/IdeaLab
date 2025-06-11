@@ -41,7 +41,8 @@ class ResilientLLM:
         
         return ChatOpenAI(
             model="gpt-4o",
-            temperature=0.3,
+            temperature=0.1,
+            max_tokens=4000,
             api_key=self.openai_api_key
         )
     

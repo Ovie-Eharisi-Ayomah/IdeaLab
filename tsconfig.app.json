@@ -22,5 +22,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src"]
+  "include": ["src", "server/src/trashed/mock_dashboard", "server/src/trashed/mock_sections", "server/src/trashed/mock_dashboard", "server/src/trashed/MockAnalysisResultsPage.tsx"]
 }

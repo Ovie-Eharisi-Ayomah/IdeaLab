@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, Link } from 'react-router-dom';
 import BusinessIdeaForm from './components/BusinessIdeaForm';
 import AnalysisResultsPage from './pages/AnalysisResultsPage'; // Restore original results page
-// import MockAnalysisResultsPage from './pages/MockAnalysisResultsPage'; // Comment out mock results page
 import { Waypoints, Moon, Sun } from 'lucide-react';
 import './index.css'; 
 import './App.css';
@@ -25,8 +24,25 @@ const AppLayout = ({ children, darkMode, toggleDarkMode }: { children: React.Rea
               className="theme-toggle-button"
               onClick={toggleDarkMode}
               aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
+              title={darkMode ? "Switch to light mode" : "Switch to dark mode"}
             >
-              {darkMode ? <Sun size={20} /> : <Moon size={20} />}
+              {darkMode ? (
+                <Sun 
+                  size={20} 
+                  width={20} 
+                  height={20} 
+                  strokeWidth={2} 
+                  style={{ display: 'block' }} 
+                />
+              ) : (
+                <Moon 
+                  size={20} 
+                  width={20} 
+                  height={20} 
+                  strokeWidth={2} 
+                  style={{ display: 'block' }} 
+                />
+              )}
             </button>
           </div>
         </div>
@@ -83,7 +99,7 @@ function App() {
             path="/" 
             element={
               <AppLayout darkMode={darkMode} toggleDarkMode={toggleDarkMode}>
-         <BusinessIdeaForm />
+                <BusinessIdeaForm />
               </AppLayout>
             } 
           />

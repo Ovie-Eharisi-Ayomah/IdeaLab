@@ -32,6 +32,7 @@ export interface AnalysisResult {
   competitionData: any | null;
   problemData: any | null;
   segmentationData: any | null;
+  recommendationData: any | null;
   // Add status and error from the job
   status: 'processing' | 'complete' | 'failed';
   error?: string | null;
@@ -207,7 +208,33 @@ export function transformMarketData(backendData: any): any | null {
     growthData,
     averageGrowthRate: growthRateValue,
     tamPotential: (tamData.value * Math.pow(1 + growthRateValue / 100, 5)) / 1_000_000_000,
-    calculationSource
+    calculationSource,
+    // Enhanced market_data with formatted source values
+    market_data: marketDataForUI.market_data ? {
+      ...marketDataForUI.market_data,
+      sources: (marketDataForUI.market_data.sources || []).map((source: any) => {
+        // Convert market_size to number based on unit
+        const marketSize = parseFloat(source.market_size) || 0;
+        const unit = (source.market_size_unit || "").toLowerCase();
+        let marketSizeValue = marketSize;
+        if (unit === "billion") marketSizeValue = marketSize * 1_000_000_000;
+        else if (unit === "million") marketSizeValue = marketSize * 1_000_000;
+        
+        // Convert projected_size if it exists
+        const projectedSize = parseFloat(source.projected_size) || 0;
+        const projectedUnit = (source.projected_size_unit || "").toLowerCase();
+        let projectedSizeValue = projectedSize;
+        if (projectedUnit === "billion") projectedSizeValue = projectedSize * 1_000_000_000;
+        else if (projectedUnit === "million") projectedSizeValue = projectedSize * 1_000_000;
+        
+        return {
+          ...source,
+          // Add formatted versions using the existing formatCurrency function
+          market_size_formatted: formatCurrency(marketSizeValue),
+          projected_size_formatted: projectedSize > 0 ? formatCurrency(projectedSizeValue) : null
+        };
+      })
+    } : null
   };
 }
 
@@ -411,7 +438,7 @@ export function transformJobToAnalysisResult(job: any): AnalysisResult {
       targetAudience: "N/A",
       insights: { segmentation: null, problem: null, competition: null, market: null, error: "Job data missing" },
       recommendations: [],
-      marketData: null, competitionData: null, problemData: null, segmentationData: null
+      marketData: null, competitionData: null, problemData: null, segmentationData: null, recommendationData: null
     };
   }
   
@@ -427,6 +454,9 @@ export function transformJobToAnalysisResult(job: any): AnalysisResult {
     problem_statement: job.input?.problemStatement || job.results.problemValidation?.problem_statement 
   } : null);
   const segmentationData = transformSegmentationData(job.results?.segmentation);
+  
+  // Transform recommendation data if available
+  const recommendationData = job.results?.recommendation ? convertKeysToCamelCase(job.results.recommendation) : null;
 
   // Calculate overall score - be resilient to null section data
   const marketScore = marketData?.sizingCalculation?.confidence_score;
@@ -442,7 +472,11 @@ export function transformJobToAnalysisResult(job: any): AnalysisResult {
   ].filter(s => typeof s === 'number');
   
   const averageScore = scores.length > 0 ? (scores.reduce((a, b) => a + b, 0) / scores.length) * 10 : 0;
-  const finalScore = Math.min(100, Math.max(0, Math.round(averageScore)));
+  
+  // Use recommendation score if available, otherwise fall back to calculated score
+  const finalScore = recommendationData?.score 
+    ? Math.min(100, Math.max(0, Math.round(recommendationData.score)))
+    : Math.min(100, Math.max(0, Math.round(averageScore)));
 
   // Insights - generate based on available transformed data
   const insights = {
@@ -476,6 +510,7 @@ export function transformJobToAnalysisResult(job: any): AnalysisResult {
     competitionData,
     problemData,
     segmentationData,
+    recommendationData,
     status: job.status || 'failed',
     error: job.error || insights.error
   };

@@ -1,5 +1,5 @@
 import React from 'react';
-import { FileText, Users, Target, BarChart2, TrendingUp, Waypoints } from 'lucide-react';
+import { FileText, Users, Target, BarChart2, TrendingUp, Waypoints, Award } from 'lucide-react';
 import './Navigation.css';
 
 interface DashboardNavigationProps {
@@ -16,6 +16,7 @@ const DashboardNavigation: React.FC<DashboardNavigationProps> = ({
   // Navigation items
   const navItems = [
     { id: 'summary', label: 'Summary', icon: <FileText className="sidebar-nav-icon" /> },
+    { id: 'recommendation', label: 'AI Recommendation', icon: <Award className="sidebar-nav-icon" /> },
     { id: 'segmentation', label: 'Customer Segmentation', icon: <Users className="sidebar-nav-icon" /> },
     { id: 'problem', label: 'Problem Validation', icon: <Target className="sidebar-nav-icon" /> },
     { id: 'competition', label: 'Competitive Analysis', icon: <BarChart2 className="sidebar-nav-icon" /> },
@@ -82,6 +83,7 @@ const DashboardNavigation: React.FC<DashboardNavigationProps> = ({
                 {item.id === 'segmentation' ? 'Segments' : 
                  item.id === 'competition' ? 'Competition' : 
                  item.id === 'problem' ? 'Problem' : 
+                 item.id === 'recommendation' ? 'AI Rec' :
                  item.label}
               </span>
             </button>

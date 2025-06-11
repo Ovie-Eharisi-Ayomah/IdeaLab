@@ -3,8 +3,8 @@ import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import { IdeaLabDashboard } from '../components/dashboard';
 import AnalysisProgress from '../components/AnalysisProgress';
-import './AnalysisResultsPage.css';
 import { transformJobToAnalysisResult } from '../utils/dataTransformers';
+import './AnalysisResultsPage.css';
 
 // API URL with env variable support
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5002/api';
@@ -63,29 +63,6 @@ interface JobData {
   error: string | null;
 }
 
-// Remove the local AnalysisResult interface - it's now imported via the transformer
-/*
-interface AnalysisResult {
-  businessIdea: string;
-  analysisDate: string;
-  score: number;
-  primaryIndustry: string;
-  secondaryIndustry: string;
-  productType: string;
-  targetAudience: string;
-  insights: {
-    segmentation: string;
-    problem: string;
-    competition: string;
-    market: string;
-  };
-  recommendations: Array<{
-    type: 'positive' | 'warning' | 'negative';
-    title: string;
-    description: string;
-  }>;
-}
-*/
 
 const AnalysisResultsPage: React.FC = () => {
   const { jobId } = useParams<{ jobId: string }>();
@@ -104,7 +81,7 @@ const AnalysisResultsPage: React.FC = () => {
         setLoading(true);
         const response = await fetch(`${API_BASE_URL}/jobs/${jobId}`);
         
-        if (isCancelled) return;
+        if (isCancelled) return; // Prevent state updates if unmounted
         
         if (!response.ok) {
           throw new Error(`Failed to fetch job status: ${response.statusText}`);
@@ -112,7 +89,7 @@ const AnalysisResultsPage: React.FC = () => {
         
         const data = await response.json();
 
-        if (isCancelled) return;
+        if (isCancelled) return; 
 
         // Add this line to see what's coming back
         console.log('Raw job data:', JSON.stringify(data, null, 2));
@@ -138,12 +115,12 @@ const AnalysisResultsPage: React.FC = () => {
         
         if (normalizedJobData.status === 'failed') {
           setError(normalizedJobData.error || 'Analysis failed');
-          clearInterval(intervalId);
+          clearInterval(intervalId);  // Stop polling on failure
         } else if (normalizedJobData.status === 'complete') {
           setError(null);
-          clearInterval(intervalId);
+          clearInterval(intervalId);  // Stop polling on completion
         } else {
-          setError(null);
+          setError(null);  // Clear errors for ongoing processing
         }
       } catch (err) {
         if (isCancelled) return;
@@ -226,8 +203,8 @@ const AnalysisResultsPage: React.FC = () => {
 
   if (job.status === 'complete') {
     // Transform job results using the imported transformer
-    // const transformedData = transformJobToAnalysisResult(job);
-    return <IdeaLabDashboard />;
+    const transformedData = transformJobToAnalysisResult(job);
+    return <IdeaLabDashboard analysisResult={transformedData} />;
   }
 
   return (

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend, LegendProps } from 'recharts';
 import { Users, TrendingUp, ChevronDown, ChevronUp, UserPlus, UserMinus, Activity, Brain, ShoppingBag, Users2 } from 'lucide-react'; // Added more icons for characteristics
-import EmptyState from '../shared/EmptyState';
+import EmptyState from '../../../../src/components/dashboard/shared/EmptyState';
 import '../sections/SegmentationSection.css'; // Re-use existing styles if applicable
 
 // Define interfaces for the mock data structure

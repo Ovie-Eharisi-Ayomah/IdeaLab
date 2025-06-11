@@ -62,7 +62,7 @@
 - **Improved Navigation:**
   - Section-based organization
   - Export capabilities (basic)
-  - Print-friendly layouts
+- Print-friendly layouts
 - **Error Handling:**
   - Graceful degradation for failed analyses
   - Partial results display

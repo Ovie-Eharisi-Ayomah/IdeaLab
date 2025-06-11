@@ -177,7 +177,7 @@ if __name__ == "__main__":
     print("="*60)
     asyncio.run(test_competitive_analysis())
     
-    print("\n" + "="*60)
-    print("RUNNING COMPARISON TEST")
-    print("="*60)
-    asyncio.run(test_comparison_with_without_problem_statement())
+    # print("\n" + "="*60)
+    # print("RUNNING COMPARISON TEST")
+    # print("="*60)
+    # asyncio.run(test_comparison_with_without_problem_statement())

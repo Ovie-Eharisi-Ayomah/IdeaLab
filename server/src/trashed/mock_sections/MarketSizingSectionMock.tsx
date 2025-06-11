@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { TrendingUp, DollarSign, Globe, Info, ChevronDown, ChevronUp, Archive, ExternalLink } from 'lucide-react';
-import EmptyState from '../shared/EmptyState'; // Assuming EmptyState is still relevant for consistency
+import EmptyState from '../../../../src/components/dashboard/shared/EmptyState'; // Assuming EmptyState is still relevant for consistency
 import '../sections/MarketSizingSection.css'; // Re-use existing styles if applicable
 
 // Interfaces for data structures (can be moved to a shared types file if used elsewhere)

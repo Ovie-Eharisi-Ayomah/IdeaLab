@@ -66,26 +66,16 @@ const MarketSizingSection: React.FC<MarketSizingSectionProps> = (props) => {
   // Custom tooltip for the market size chart
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
+      const data = payload[0].payload;
       return (
         <div className="custom-tooltip">
-          <p className="tooltip-title">{payload[0].payload.name}: {payload[0].payload.displayValue}</p>
-          <p className="tooltip-desc">{payload[0].payload.description}</p>
+          <p className="tooltip-title">{`${data.name}: ${data.displayValue}`}</p>
+          <p className="tooltip-desc">{data.description}</p>
         </div>
       );
     }
   
     return null;
-  };
-  
-  // Format market size with unit for display
-  const formatMarketSize = (size: number, unit: string) => {
-    if (unit === 'billion') {
-      return `$${size}B`;
-    } else if (unit === 'million') {
-      return `$${size}M`;
-    } else {
-      return `$${size}`;
-    }
   };
   
   return (
@@ -404,7 +394,7 @@ const MarketSizingSection: React.FC<MarketSizingSectionProps> = (props) => {
                         <DollarSign className="detail-icon" />
                         <span className="detail-label">Market Size: </span>
                         <span className="detail-value">
-                          {formatMarketSize(source.market_size, source.market_size_unit)} ({source.year})
+                          {source.market_size_formatted || `$${source.market_size}${source.market_size_unit ? source.market_size_unit.charAt(0).toUpperCase() : ''}`} ({source.year})
                         </span>
                       </div>
                       
@@ -422,7 +412,7 @@ const MarketSizingSection: React.FC<MarketSizingSectionProps> = (props) => {
                         <TrendingUp className="detail-icon" />
                         <span className="detail-label">Projected: </span>
                         <span className="detail-value">
-                          {formatMarketSize(source.projected_size, source.projected_size_unit)} by {source.projection_year}
+                          {source.projected_size_formatted || (source.projected_size ? `$${source.projected_size}${source.projected_size_unit ? source.projected_size_unit.charAt(0).toUpperCase() : ''}` : 'N/A')} {source.projection_year ? `by ${source.projection_year}` : ''}
                         </span>
                       </div>
                       

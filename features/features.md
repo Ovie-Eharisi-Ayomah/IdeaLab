@@ -3,8 +3,7 @@ Input & Analysis Features
 Business Idea Input Form - Users can enter their business idea in natural language, with optional fields for:
 
 Problem statement (with AI-assisted generation)
-Industry selection
-Geographic focus
+
 
 
 AI Classification Engine - Automatically categorizes business ideas by:

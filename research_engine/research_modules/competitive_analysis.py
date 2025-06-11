@@ -6,8 +6,7 @@ import re
 from pathlib import Path
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
-from browser_use import Agent, Browser, BrowserConfig
-from browser_use.browser.context import BrowserContextConfig
+from browser_use import Agent, BrowserSession
 from browser_config_fix import get_enhanced_browser_config, get_enhanced_context_config, get_enhanced_agent_config
 
 # Load environment variables
@@ -22,7 +21,8 @@ class CompetitiveAnalysisService:
             raise ValueError("CompetitiveAnalysisService: OpenAI API key is required.")
         self.llm = ChatOpenAI(
             model="gpt-4o",
-            temperature=0.1,  # Even lower temperature for more consistent research
+            temperature=0.1,
+            max_tokens=4000,
             api_key=self.openai_api_key,
             timeout=120  # Increased timeout for complex research tasks
         )
@@ -59,15 +59,18 @@ class CompetitiveAnalysisService:
             # Get enhanced agent configuration
             agent_config = get_enhanced_agent_config()
             
-            # Create browser with enhanced configuration (ensures headless mode)
-            browser = Browser(config=BrowserConfig(**get_enhanced_browser_config()))
+            # Create browser session with simple configuration (like our working test)
+            browser_session = BrowserSession(
+                headless=True,  # Keep headless for production
+                # disable_security=True  # Not needed in new version per working test
+            )
             
             try:
-                # Create agent with configured browser (as per docs)
+                # Create agent with configured browser session (as per new API)
                 agent = Agent(
                     task=search_task,
                     llm=self.llm,
-                    browser=browser,
+                    browser_session=browser_session,
                     use_vision=agent_config['use_vision'],
                     save_conversation_path="logs/competition_research"
                 )
@@ -82,8 +85,8 @@ class CompetitiveAnalysisService:
                     raise ValueError("Agent completed but returned no final result")
                     
             finally:
-                # Clean up browser
-                await browser.close()
+                # Clean up browser session
+                await browser_session.close()
             
             # Extract structured data with enhanced processing
             result = self._process_result(final_result, industry)

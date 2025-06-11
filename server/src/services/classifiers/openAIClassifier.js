@@ -103,18 +103,24 @@ Product Type: [Final product type classification]`;
     }
     
     // Make the OpenAI request with a timeout
-    const openAIPromise = openai.chat.completions.create({
-      model: 'gpt-4o',
-      messages: [
-        { role: 'system', content: systemPrompt },
-        { role: 'user', content: userPrompt }
-      ],
-      temperature: 0.1, // Lower temperature for more consistent results
-      max_tokens: 800
-    });
-    
-    // Race between the API call and the timeout
-    const response = await Promise.race([openAIPromise, timeoutPromise]);
+    const response = await Promise.race([
+      openai.chat.completions.create({
+        model: 'gpt-4o',
+        messages: [
+          {
+            role: 'system',
+            content: systemPrompt
+          },
+          {
+            role: 'user', 
+            content: userPrompt
+          }
+        ],
+        temperature: 0.1,
+        max_tokens: 1000
+      }),
+      timeoutPromise
+    ]);
     
     // Parse the response content
     const content = response.choices[0].message.content;

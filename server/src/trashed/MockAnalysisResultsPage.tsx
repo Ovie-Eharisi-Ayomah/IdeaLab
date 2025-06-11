@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'; // useParams might not be needed if we ignore jobId for mock
 import { ArrowLeft } from 'lucide-react';
-import MockIdeaLabDashboard from '../components/dashboard/mock_dashboard/MockIdeaLabDashboard';
-import MockAnalysisProgress from '../components/dashboard/mock_dashboard/MockAnalysisProgress';
+import MockIdeaLabDashboard from './mock_dashboard/MockIdeaLabDashboard';
+import MockAnalysisProgress from './mock_dashboard/MockAnalysisProgress';
 import './AnalysisResultsPage.css'; // Can reuse styles if applicable
 
 const MockAnalysisResultsPage: React.FC = () => {

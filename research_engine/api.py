@@ -3,9 +3,6 @@ import os
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from dotenv import load_dotenv
-from research_modules.market_sizing import MarketSizingService
-from research_modules.competitive_analysis import CompetitiveAnalysisService
-from research_modules.problem_validation import ProblemValidationService
 
 load_dotenv()
 
@@ -13,21 +10,46 @@ load_dotenv()
 openai_api_key = os.getenv("OPENAI_API_KEY")
 anthropic_api_key = os.getenv("ANTHROPIC_API_KEY")
 
-# Initialize services with both API keys
-market_sizing = MarketSizingService(
-    openai_api_key=openai_api_key,
-    anthropic_api_key=anthropic_api_key
-)
-competition = CompetitiveAnalysisService(
-    openai_api_key=openai_api_key,
-    anthropic_api_key=anthropic_api_key
-)
-problem = ProblemValidationService(
-    openai_api_key=openai_api_key,
-    anthropic_api_key=anthropic_api_key
-)
+# Lazy initialization - services will be created only when needed
+market_sizing = None
+competition = None
+problem = None
+
+def get_market_sizing_service():
+    global market_sizing
+    if market_sizing is None:
+        from research_modules.market_sizing import MarketSizingService
+        market_sizing = MarketSizingService(
+            openai_api_key=openai_api_key,
+            anthropic_api_key=anthropic_api_key
+        )
+    return market_sizing
+
+def get_competition_service():
+    global competition
+    if competition is None:
+        from research_modules.competitive_analysis import CompetitiveAnalysisService
+        competition = CompetitiveAnalysisService(
+            openai_api_key=openai_api_key,
+            anthropic_api_key=anthropic_api_key
+        )
+    return competition
+
+def get_problem_service():
+    global problem
+    if problem is None:
+        from research_modules.problem_validation import ProblemValidationService
+        problem = ProblemValidationService(
+            openai_api_key=openai_api_key,
+            anthropic_api_key=anthropic_api_key
+        )
+    return problem
 
 app = FastAPI()
+
+@app.get("/health")
+async def health_check():
+    return {"status": "ok", "message": "Research Engine API is running"}
 
 class BusinessRequest(BaseModel):
     description: str
@@ -43,7 +65,7 @@ class ProblemRequest(BaseModel):
 @app.post("/market-size")
 async def get_market_size(request: BusinessRequest):
     try:
-        result = await market_sizing.research_market_size(
+        result = await get_market_sizing_service().research_market_size(
             request.description,
             request.industry,
             request.product_type
@@ -63,7 +85,7 @@ async def get_market_size(request: BusinessRequest):
 @app.post("/competition")
 async def analyze_competition(request: BusinessRequest):
     try:
-        result = await competition.analyze_competition(
+        result = await get_competition_service().analyze_competition(
             request.description,
             request.industry,
             request.product_type,
@@ -84,7 +106,7 @@ async def analyze_competition(request: BusinessRequest):
 @app.post("/problem-validation")
 async def validate_problem(request: ProblemRequest):
     try:
-        result = await problem.validate_problem(
+        result = await get_problem_service().validate_problem(
             request.description,
             request.problem_statement,
             request.industry

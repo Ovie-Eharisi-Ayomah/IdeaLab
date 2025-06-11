@@ -6,14 +6,27 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
-// Initialize clients
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+// Lazy initialization - clients will be created only when needed
+let openai = null;
+let anthropic = null;
 
-const anthropic = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY,
-});
+function getOpenAIClient() {
+  if (!openai && process.env.OPENAI_API_KEY) {
+    openai = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY,
+    });
+  }
+  return openai;
+}
+
+function getAnthropicClient() {
+  if (!anthropic && process.env.ANTHROPIC_API_KEY) {
+    anthropic = new Anthropic({
+      apiKey: process.env.ANTHROPIC_API_KEY,
+    });
+  }
+  return anthropic;
+}
 
 /**
  * Main function to generate or refine a problem statement
@@ -138,14 +151,19 @@ ONLY RETURN THE REFINED PROBLEM STATEMENT TEXT. No explanations, introductions, 
  * Calls OpenAI API to generate text
  */
 async function callOpenAI(prompt, timeoutMs) {
+  const client = getOpenAIClient();
+  if (!client) {
+    throw new Error('OpenAI API key not configured');
+  }
+
   // Create a promise that rejects after the timeout
   const timeoutPromise = new Promise((_, reject) => {
     setTimeout(() => reject(new Error('OpenAI request timed out')), timeoutMs);
   });
 
   // Create the OpenAI API call promise
-  const openaiPromise = openai.chat.completions.create({
-    model: "gpt-3.5-turbo", // Cheaper model is fine for this simple task
+  const openaiPromise = client.chat.completions.create({
+    model: "gpt-3.5-turbo", // Using gpt-3.5-turbo as the original cheaper model
     messages: [{ role: "user", content: prompt }],
     temperature: 0.3, // Low temperature for consistent outputs
     max_tokens: 150 // Short responses are fine for problem statements
@@ -160,13 +178,18 @@ async function callOpenAI(prompt, timeoutMs) {
  * Calls Anthropic API as fallback
  */
 async function callAnthropic(prompt, timeoutMs) {
+  const client = getAnthropicClient();
+  if (!client) {
+    throw new Error('Anthropic API key not configured');
+  }
+
   // Create a promise that rejects after the timeout
   const timeoutPromise = new Promise((_, reject) => {
     setTimeout(() => reject(new Error('Anthropic request timed out')), timeoutMs);
   });
 
   // Create the Anthropic API call promise
-  const anthropicPromise = anthropic.messages.create({
+  const anthropicPromise = client.messages.create({
     model: "claude-instant-1.2", // Faster, cheaper model
     max_tokens: 150,
     temperature: 0.3,

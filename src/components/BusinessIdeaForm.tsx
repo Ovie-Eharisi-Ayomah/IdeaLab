@@ -8,13 +8,15 @@ import {
   AlertCircle, 
   Loader2,
   CheckCircle,
-  Sparkles
+  Sparkles,
+  Clock
 } from 'lucide-react';
 import './BusinessIdeaForm.css';
 
 // --- Constants ---
 const MIN_IDEA_LENGTH = 20;
 const MIN_WORD_COUNT = 20; // Target word count for better analysis
+const MIN_PROBLEM_LENGTH = 10; // Minimum length for problem statement
 
 // API URL with env variable support
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5002/api';
@@ -32,18 +34,6 @@ type ApiErrorResponse = {
 
 type ApiResponse = ApiSuccessResponse | ApiErrorResponse;
 
-// --- Industry and Region Options ---
-const industryOptions = [
-  "Technology", "Healthcare", "Finance", "Education", "E-commerce",
-  "Entertainment", "Food & Beverage", "Travel", "Real Estate", "Transportation",
-  "Manufacturing", "Energy", "Agriculture", "Other"
-];
-
-const geoFocusOptions = [
-  "Global", "North America", "Europe", "Asia-Pacific",
-  "Latin America", "Middle East & Africa", "Specific Country/Region", "Local"
-];
-
 // --- Helper function for word count ---
 const countWords = (text: string): number => {
   return text.trim().split(/\s+/).filter(Boolean).length;
@@ -56,14 +46,12 @@ const BusinessIdeaForm: React.FC = () => {
   // --- State ---
   const [businessIdea, setBusinessIdea] = useState<string>('');
   const [problemStatement, setProblemStatement] = useState<string>('');
-  const [industry, setIndustry] = useState<string>('');
-  const [geoFocus, setGeoFocus] = useState<string>('');
 
   const [wordCount, setWordCount] = useState<number>(0);
-  const [formErrors, setFormErrors] = useState<{ businessIdea?: string }>({});
+  const [formErrors, setFormErrors] = useState<{ businessIdea?: string; problemStatement?: string }>({});
 
   const [isTipsExpanded, setIsTipsExpanded] = useState<boolean>(false);
-  const [isAdvancedExpanded, setIsAdvancedExpanded] = useState<boolean>(false);
+  const [isDeliverablesExpanded, setIsDeliverablesExpanded] = useState<boolean>(false);
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isGeneratingProblem, setIsGeneratingProblem] = useState<boolean>(false);
@@ -87,6 +75,18 @@ const BusinessIdeaForm: React.FC = () => {
     }
   }, [businessIdea]);
 
+  // Validate problem statement on change
+  useEffect(() => {
+    if (problemStatement.length > 0 && problemStatement.length < MIN_PROBLEM_LENGTH) {
+      setFormErrors(prev => ({ ...prev, problemStatement: `Please provide more details (minimum ${MIN_PROBLEM_LENGTH} characters).` }));
+    } else {
+      setFormErrors(prev => {
+        const { problemStatement: _, ...rest } = prev; // Remove problemStatement error
+        return rest;
+      });
+    }
+  }, [problemStatement]);
+
   // --- Handlers ---
   const handleInputChange = (e: ChangeEvent<HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -97,20 +97,20 @@ const BusinessIdeaForm: React.FC = () => {
       case 'problemStatement':
         setProblemStatement(value);
         break;
-      case 'industry':
-        setIndustry(value);
-        break;
-      case 'geoFocus':
-        setGeoFocus(value);
-        break;
     }
   };
 
   const validateForm = (): boolean => {
-    const errors: { businessIdea?: string } = {};
+    const errors: { businessIdea?: string; problemStatement?: string } = {};
+    
     if (businessIdea.trim().length < MIN_IDEA_LENGTH) {
       errors.businessIdea = `Please provide more details about your idea (minimum ${MIN_IDEA_LENGTH} characters).`;
     }
+    
+    if (problemStatement.trim().length < MIN_PROBLEM_LENGTH) {
+      errors.problemStatement = `Please describe the problem your idea solves (minimum ${MIN_PROBLEM_LENGTH} characters).`;
+    }
+    
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
   };
@@ -129,9 +129,7 @@ const BusinessIdeaForm: React.FC = () => {
     // --- RESTORING REAL API CALL LOGIC ---
     const formData = {
       businessIdea,
-      problemStatement: problemStatement || undefined,
-      industry: industry || undefined, 
-      geoFocus: geoFocus || 'global' 
+      problemStatement
     };
 
     try {
@@ -162,17 +160,6 @@ const BusinessIdeaForm: React.FC = () => {
     } finally {
       setIsLoading(false);
     }
-    // --- END OF RESTORED REAL API CALL LOGIC ---
-
-    /* PREVIOUS MOCK DEMO LOGIC - NOW COMMENTED OUT
-    console.log("Mock Demo: Bypassing API call, navigating to mock results.");
-    setSubmitSuccess(true); // Show success message
-    
-    setTimeout(() => {
-      navigate(`/results/mock-demo-flow`); 
-      setIsLoading(false); 
-    }, 1000); 
-    */
   };
 
   // Generate Problem Statement from Business Idea
@@ -213,7 +200,7 @@ const BusinessIdeaForm: React.FC = () => {
   };
 
   // --- Render ---
-  const isSubmitDisabled = isLoading || businessIdea.length < MIN_IDEA_LENGTH;
+  const isSubmitDisabled = isLoading || businessIdea.length < MIN_IDEA_LENGTH || problemStatement.length < MIN_PROBLEM_LENGTH;
 
   return (
     <div className="form-container">
@@ -223,7 +210,7 @@ const BusinessIdeaForm: React.FC = () => {
             Tell us about your business idea
           </h2>
           <p className="subheading">
-            Describe your idea in detail. The more specific you are, the better our analysis will be.
+            Describe your idea and the problem it solves. The more specific you are, the better our analysis will be.
           </p>
 
           <form onSubmit={handleSubmit} noValidate>
@@ -298,130 +285,118 @@ const BusinessIdeaForm: React.FC = () => {
                 )}
               </div>
 
-              {/* Advanced Options Toggle */}
-              <div className="advanced-toggle">
-                <button
-                  type="button"
-                  className="toggle-button"
-                  onClick={() => setIsAdvancedExpanded(!isAdvancedExpanded)}
-                  aria-expanded={isAdvancedExpanded}
-                >
-                  Advanced options {isAdvancedExpanded 
-                    ? <ChevronUp className="ml-1 h-4 w-4" /> 
-                    : <ChevronDown className="ml-1 h-4 w-4" />}
-                </button>
+              {/* Problem Statement - Now Required */}
+              <div className="form-section">
+                <label htmlFor="problemStatement" className="form-label">
+                  Problem Statement <span className="form-label-required">*</span>
+                  <button
+                    type="button"
+                    className="help-icon"
+                    title="What specific problem are you trying to solve?"
+                  >
+                    <HelpCircle className="h-4 w-4" />
+                  </button>
+                </label>
+                <div className="form-input-container problem-statement-container">
+                  <textarea
+                    id="problemStatement"
+                    name="problemStatement"
+                    rows={3}
+                    required
+                    minLength={MIN_PROBLEM_LENGTH}
+                    value={problemStatement}
+                    onChange={handleInputChange}
+                    placeholder="Example: Pet owners struggle to find trustworthy, affordable pet sitters on short notice, especially for last-minute trips."
+                    className={formErrors.problemStatement ? "form-textarea form-textarea-error" : "form-textarea"}
+                    aria-required="true"
+                    aria-describedby="problem-error"
+                    aria-invalid={!!formErrors.problemStatement}
+                  />
+                  <button
+                    type="button"
+                    onClick={handleGenerateProblem}
+                    className="generate-problem-btn"
+                    disabled={isGeneratingProblem || businessIdea.length < MIN_IDEA_LENGTH}
+                    title="Generate a problem statement from your business idea"
+                  >
+                    {isGeneratingProblem ? (
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    ) : (
+                      <Sparkles className="h-4 w-4" />
+                    )}
+                    {isGeneratingProblem ? 'Generating...' : 'Generate'}
+                  </button>
+                </div>
+                {formErrors.problemStatement && (
+                  <p className="error-message">
+                    <AlertCircle size={14} className="mr-1" /> {formErrors.problemStatement}
+                  </p>
+                )}
+                {problemGenError && (
+                  <p className="error-message">
+                    <AlertCircle size={14} className="mr-1" /> {problemGenError}
+                  </p>
+                )}
               </div>
 
-              {/* Advanced Options Content */}
-              {isAdvancedExpanded && (
-                <div className="space-y">
-                  {/* Problem Statement */}
-                  <div className="form-section">
-                    <label htmlFor="problemStatement" className="form-label">
-                      Problem Statement (Optional)
-                      <button
-                        type="button"
-                        className="help-icon"
-                        title="What specific problem are you trying to solve?"
-                      >
-                        <HelpCircle className="h-4 w-4" />
-                      </button>
-                    </label>
-                    <div className="form-input-container problem-statement-container">
-                      <textarea
-                        id="problemStatement"
-                        name="problemStatement"
-                        rows={3}
-                        value={problemStatement}
-                        onChange={handleInputChange}
-                        placeholder="Example: Pet owners struggle to find trustworthy, affordable pet sitters on short notice, especially for last-minute trips."
-                        className="form-textarea"
-                      />
-                      <button
-                        type="button"
-                        onClick={handleGenerateProblem}
-                        className="generate-problem-btn"
-                        disabled={isGeneratingProblem || businessIdea.length < MIN_IDEA_LENGTH}
-                        title="Generate a problem statement from your business idea"
-                      >
-                        {isGeneratingProblem ? (
-                          <Loader2 className="h-4 w-4 animate-spin" />
-                        ) : (
-                          <Sparkles className="h-4 w-4" />
-                        )}
-                        {isGeneratingProblem ? 'Generating...' : 'Generate'}
-                      </button>
-                    </div>
-                    {problemGenError && (
-                      <p className="error-message">
-                        <AlertCircle size={14} className="mr-1" /> {problemGenError}
-                      </p>
+              {/* Deliverables and Timeline Dropdown */}
+              <div className="form-section">
+                <div className="flex items-center justify-between mb-2">
+                  <h4 className="text-lg font-medium text-gray-900">Analysis Overview</h4>
+                  <button
+                    type="button"
+                    className="toggle-button"
+                    onClick={() => setIsDeliverablesExpanded(!isDeliverablesExpanded)}
+                  >
+                    {isDeliverablesExpanded ? (
+                      <>
+                        Hide details <ChevronUp className="h-4 w-4 ml-1" />
+                      </>
+                    ) : (
+                      <>
+                        What you'll receive <ChevronDown className="h-4 w-4 ml-1" />
+                      </>
                     )}
-                  </div>
-
-                  {/* Industry Selection */}
-                  <div className="form-section">
-                    <label htmlFor="industry" className="form-label">
-                      Industry (Optional)
-                    </label>
-                    <div className="form-input-container">
-                      <select
-                        id="industry"
-                        name="industry"
-                        value={industry}
-                        onChange={handleInputChange}
-                        className="form-select"
-                      >
-                        <option value="">Select an industry (or let us detect it)</option>
-                        {industryOptions.map(opt => 
-                          <option key={opt} value={opt}>{opt}</option>
-                        )}
-                      </select>
-                    </div>
-                    <p className="helper-text">
-                      Don't worry if you're not sure - our AI can detect the industry from your description.
-                    </p>
-                  </div>
-                  
-                  {/* Geographic Focus */}
-                  <div className="form-section">
-                    <label htmlFor="geoFocus" className="form-label">
-                      Geographic Focus (Optional)
-                      <button
-                        type="button"
-                        className="help-icon"
-                        title="This dramatically improves market size accuracy and competition analysis"
-                      >
-                        <HelpCircle className="h-4 w-4" />
-                      </button>
-                    </label>
-                    <div className="form-input-container">
-                      <select
-                        id="geoFocus"
-                        name="geoFocus"
-                        value={geoFocus}
-                        onChange={handleInputChange}
-                        className="form-select"
-                      >
-                        <option value="">Select focus (default: Global)</option>
-                        {geoFocusOptions.map(opt => 
-                          <option key={opt} value={opt.toLowerCase().replace(/\s+/g, '-')}>{opt}</option>
-                        )}
-                      </select>
-                    </div>
-                    <p className="helper-text">
-                      Specifying your target region drastically improves TAM/SAM calculations and competitive analysis.
-                    </p>
-                  </div>
+                  </button>
                 </div>
-              )}
-
-              {/* Note about analysis time */}
-              <div className="alert alert-warning">
-                <AlertCircle className="h-5 w-5" />
-                <div>
-                  <p>The analysis typically takes 2-3 minutes to complete. We'll analyze market size, competitive landscape, customer segments, and problem validation.</p>
+                
+                <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 mb-2">
+                  <div className="flex items-center text-amber-800">
+                    {/* <Clock className="h-4 w-4 mr-2" /> */}
+                    <span className="font-medium">Timeline: 20-30 minutes</span>
+                  </div>
+                  <p className="text-sm text-amber-700 mt-1">
+                    Analysis runs in the background - check your dashboard for progress.
+                  </p>
                 </div>
+
+                {isDeliverablesExpanded && (
+                  <div className="tips-container">
+                    <h5 className="tips-heading">Comprehensive Analysis Deliverables</h5>
+                    
+                    <ul className="tips-list">
+                      <li>
+                        📊 <strong>Market Size Analysis:</strong> TAM, SAM, SOM calculations with growth projections and geographic breakdown
+                      </li>
+                      <li>
+                        🏆 <strong>Competitive Landscape:</strong> Competitor analysis, market gaps, barriers to entry, and positioning opportunities
+                      </li>
+                      <li>
+                        🎯 <strong>Customer Segmentation:</strong> Primary target segments with characteristics, market fit, and growth potential
+                      </li>
+                      <li>
+                        ❗ <strong>Problem Validation:</strong> Problem severity scoring, evidence analysis, and alternative solutions assessment
+                      </li>
+                      <li>
+                        🤖 <strong>AI-Powered Recommendation:</strong> Go/No-Go decision with confidence scoring, risk assessment, and strategic next steps
+                      </li>
+                    </ul>
+                    
+                    <div className="mt-3 text-sm text-blue-600 bg-blue-50 p-2 rounded border border-blue-200">
+                      <strong>💎 Professional Analysis:</strong> Each analysis is powered by AI and validated against real market data to provide actionable business insights.
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* API Error Display */}

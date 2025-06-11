@@ -3,12 +3,12 @@
 const axios = require('axios');
 
 // Test configuration
-const SERVER_URL = 'http://localhost:5003';
+const SERVER_URL = 'http://localhost:5002';
 const PYTHON_API_URL = 'http://localhost:8000';
 
 const testBusinessIdea = {
-  businessIdea: "An AI-powered tool that validates business ideas by analyzing market size, competition, and demand",
-  problemStatement: "Entrepreneurs and startup founders waste months building products without validating market demand first, leading to 90% of startups failing due to lack of market need"
+  businessIdea: "An AI-powered software that automates market research and problem validation of business ideas and opportunities and clarifies next steps for business builders",
+  problemStatement: "Business builders struggle to validate business ideas and opportunities, wasting valuable time and resources on unneeded ventures."
 };
 
 async function testFullPipeline() {
@@ -236,7 +236,7 @@ async function testFullPipeline() {
     
     if (error.code === 'ECONNREFUSED') {
       console.log('\n💡 Make sure both servers are running:');
-      console.log('   1. Node.js server: npm run dev (port 5003)');
+      console.log('   1. Node.js server: npm run dev (port 5002)');
       console.log('   2. Python API: python api.py (port 8000)');
     }
     

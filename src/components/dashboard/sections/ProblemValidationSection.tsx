@@ -6,6 +6,7 @@ interface ProblemValidationSectionProps {
   businessIdea: string;
   problemStatement: string;
   industry: string;
+  problemData?: ProblemValidationData | null;
 }
 
 interface ProblemValidationData {
@@ -28,10 +29,11 @@ interface ProblemValidationData {
 const ProblemValidationSection: React.FC<ProblemValidationSectionProps> = ({
   businessIdea,
   problemStatement,
-  industry
+  industry,
+  problemData: propsProblemData
 }) => {
-  const [data, setData] = useState<ProblemValidationData | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState<ProblemValidationData | null>(propsProblemData || null);
+  const [loading, setLoading] = useState(!propsProblemData);
   const [error, setError] = useState<string | null>(null);
   const [expandedSections, setExpandedSections] = useState({
     evidence: false,
@@ -40,38 +42,14 @@ const ProblemValidationSection: React.FC<ProblemValidationSectionProps> = ({
   });
 
   useEffect(() => {
-    const fetchProblemValidation = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch('http://localhost:8000/problem-validation', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            description: businessIdea,
-            problem_statement: problemStatement,
-            industry: industry
-          }),
-        });
-
-        if (!response.ok) {
-          throw new Error('Failed to fetch problem validation data');
-        }
-
-        const result = await response.json();
-        setData(result);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'An error occurred');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (businessIdea && problemStatement && industry) {
-      fetchProblemValidation();
+    if (propsProblemData) {
+      setData(propsProblemData);
+      setLoading(false);
+    } else {
+      setError('Problem validation data not available');
+      setLoading(false);
     }
-  }, [businessIdea, problemStatement, industry]);
+  }, [propsProblemData]);
 
   const toggleSection = (section: keyof typeof expandedSections) => {
     setExpandedSections(prev => ({

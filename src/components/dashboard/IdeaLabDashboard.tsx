@@ -1,91 +1,39 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useState } from 'react';
 import DashboardNavigation from './DashboardNavigation';
 import ProblemValidationSection from './sections/ProblemValidationSection';
 import MarketSizingSection from './sections/MarketSizingSection';
 import CompetitionSection from './sections/CompetitionSection';
 import SegmentationSection from './sections/SegmentationSection';
+import RecommendationSection from './sections/RecommendationSection';
+import SummarySection from './sections/SummarySection';
+import { AnalysisResult } from '../../utils/dataTransformers';
 import './IdeaLabDashboard.css';
 
-interface AnalysisData {
-  businessIdea: string;
-  problemStatement: string;
-  industry: string;
-  productType: string;
-  analysisDate: string;
-  score: number;
+interface IdeaLabDashboardProps {
+  analysisResult: AnalysisResult;
 }
 
-const IdeaLabDashboard: React.FC = () => {
-  const { jobId } = useParams<{ jobId: string }>();
+const IdeaLabDashboard: React.FC<IdeaLabDashboardProps> = ({ analysisResult }) => {
   const [currentSection, setCurrentSection] = useState('summary');
-  const [analysisData, setAnalysisData] = useState<AnalysisData | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchAnalysisData = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch(`http://localhost:5003/api/jobs/${jobId}`);
-        
-        if (!response.ok) {
-          throw new Error('Failed to fetch analysis data');
-        }
-
-        const data = await response.json();
-        
-        // Transform the data to match our AnalysisData interface
-        setAnalysisData({
-          businessIdea: data.input.businessIdea,
-          problemStatement: data.input.problemStatement,
-          industry: data.results.classification?.primaryIndustry || '',
-          productType: data.results.classification?.productType || '',
-          analysisDate: new Date(data.createdAt).toISOString(),
-          score: data.results.problemValidation?.problem_validation?.validation_score || 0
-        });
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'An error occurred');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (jobId) {
-      fetchAnalysisData();
-    }
-  }, [jobId]);
 
   const handleSectionChange = (section: string) => {
     setCurrentSection(section);
   };
-
-  if (loading) {
-    return <div className="loading">Loading analysis data...</div>;
-  }
-
-  if (error) {
-    return <div className="error">Error: {error}</div>;
-  }
-
-  if (!analysisData) {
-    return <div className="error">No analysis data available</div>;
-  }
 
   return (
     <div className="dashboard">
       <DashboardNavigation 
         currentSection={currentSection}
         onSectionChange={handleSectionChange}
-        analysisDate={analysisData.analysisDate}
+        analysisDate={analysisResult.analysisDate}
       />
       <div className="dashboard-content">
         <div className="dashboard-topbar">
           <div className="dashboard-topbar-content">
             <div>
-              <h2 className="dashboard-title">{analysisData.businessIdea}</h2>
+              <h2 className="dashboard-title">{analysisResult.businessIdea}</h2>
               <p className="dashboard-date">
-                Analysis completed on {new Date(analysisData.analysisDate).toLocaleDateString('en-US', {
+                Analysis completed on {new Date(analysisResult.analysisDate).toLocaleDateString('en-US', {
                   year: 'numeric',
                   month: 'long',
                   day: 'numeric'
@@ -93,38 +41,65 @@ const IdeaLabDashboard: React.FC = () => {
               </p>
             </div>
             <div className="score-circle">
-              <span className="score-value">{analysisData.score}</span>
+              <span className="score-value">{analysisResult.score}</span>
               <span className="score-label">Validation Score</span>
             </div>
           </div>
         </div>
 
         <div className="dashboard-sections">
+          {currentSection === 'summary' && (
+            <SummarySection
+              businessIdea={analysisResult.businessIdea}
+              analysisDate={analysisResult.analysisDate}
+              score={analysisResult.score}
+              primaryIndustry={analysisResult.primaryIndustry}
+              secondaryIndustry={analysisResult.secondaryIndustry}
+              productType={analysisResult.productType}
+              targetAudience={analysisResult.targetAudience}
+              insights={analysisResult.insights}
+              recommendations={analysisResult.recommendations}
+              recommendationData={analysisResult.recommendationData}
+              onNavigate={handleSectionChange}
+            />
+          )}
+          {currentSection === 'recommendation' && (
+            <RecommendationSection 
+              recommendationData={analysisResult.recommendationData}
+            />
+          )}
           {currentSection === 'problem' && (
             <ProblemValidationSection
-              businessIdea={analysisData.businessIdea}
-              problemStatement={analysisData.problemStatement}
-              industry={analysisData.industry}
+              businessIdea={analysisResult.businessIdea}
+              problemStatement={analysisResult.problemData?.problem_statement || ''}
+              industry={analysisResult.primaryIndustry}
+              problemData={analysisResult.problemData}
             />
           )}
           {currentSection === 'market' && (
             <MarketSizingSection
-              businessIdea={analysisData.businessIdea}
-              industry={analysisData.industry}
-              productType={analysisData.productType}
+              businessIdea={analysisResult.businessIdea}
+              industry={analysisResult.primaryIndustry}
+              productType={analysisResult.productType}
+              marketData={analysisResult.marketData}
+              hasError={analysisResult.marketData?.hasError}
+              errorMessage={analysisResult.marketData?.errorMessage}
+              calculationSource={analysisResult.marketData?.calculationSource}
             />
           )}
           {currentSection === 'competition' && (
             <CompetitionSection
-              businessIdea={analysisData.businessIdea}
-              industry={analysisData.industry}
-              productType={analysisData.productType}
+              businessIdea={analysisResult.businessIdea}
+              industry={analysisResult.primaryIndustry}
+              productType={analysisResult.productType}
+              competitionData={analysisResult.competitionData}
             />
           )}
           {currentSection === 'segmentation' && (
             <SegmentationSection
-              businessIdea={analysisData.businessIdea}
-              industry={analysisData.industry}
+              businessIdea={analysisResult.businessIdea}
+              industry={analysisResult.primaryIndustry}
+              segmentationData={analysisResult.segmentationData}
             />
           )}
         </div>
